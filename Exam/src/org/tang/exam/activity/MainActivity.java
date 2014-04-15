@@ -1,21 +1,11 @@
 package org.tang.exam.activity;
 
 import java.util.ArrayList;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.tang.exam.R;
 import org.tang.exam.adapter.CommonPagerAdapter;
 import org.tang.exam.base.BaseActionBarFragmentActivity;
-import org.tang.exam.common.UserCache;
-import org.tang.exam.db.DBAdapter;
-import org.tang.exam.entity.Message;
-import org.tang.exam.rest.MyStringRequest;
+import org.tang.exam.fragments.IndexFragment;
 import org.tang.exam.rest.RequestController;
-import org.tang.exam.rest.push.PushAccountReq;
-import org.tang.exam.utils.PushUtils;
-
-import android.app.Notification;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -27,12 +17,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 
-import com.android.volley.Request.Method;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.baidu.android.common.logging.Log;
-import com.baidu.android.pushservice.CustomPushNotificationBuilder;
-import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
 
 public class MainActivity extends BaseActionBarFragmentActivity implements OnPageChangeListener {
@@ -42,25 +26,18 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 	private ViewPager mViewPager;
 
 	private RelativeLayout mIndexView = null;
-	private RelativeLayout mMessageView = null;
-	private RelativeLayout mContactView = null;
-	private RelativeLayout mMoreView = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
-//		initTabWidget();
-//		initPagerView();
-//		initPushService();
-//		handleIntent(getIntent());
+		initTabWidget();
+		initPagerView();
 	}
 
 	@Override
 	protected void onNewIntent(Intent intent) {
-//		setIntent(intent);
-//		handleIntent(intent);
+		setIntent(intent);
 	}
 
 	@Override
@@ -83,7 +60,6 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
@@ -100,30 +76,14 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 
 	private void initTabWidget() {
 		mIndexView = (RelativeLayout) findViewById(R.id.bottombar_index);
-		mMessageView = (RelativeLayout) findViewById(R.id.bottombar_message);
-		mContactView = (RelativeLayout) findViewById(R.id.bottombar_contact);
-		mMoreView = (RelativeLayout) findViewById(R.id.bottombar_more);
-
 		mIndexView.setOnClickListener(new MyOnClickListener(0));
-		mMessageView.setOnClickListener(new MyOnClickListener(1));
-		mContactView.setOnClickListener(new MyOnClickListener(2));
-		mMoreView.setOnClickListener(new MyOnClickListener(3));
 	}
 
 	private void initPagerView() {
 		mViewPager = (ViewPager) findViewById(R.id.vp_container);
 		mFragmentsList = new ArrayList<Fragment>();
-
-//		Fragment indexFrag = IndexFragment.newInstance();
-//		Fragment messageFrag = MessageFragment.newInstance();
-//		Fragment contactFrag = ContactFragment.newInstance();
-//		Fragment moreFrag = MoreFragment.newInstance();
-
-//		mFragmentsList.add(indexFrag);
-//		mFragmentsList.add(messageFrag);
-//		mFragmentsList.add(contactFrag);
-//		mFragmentsList.add(moreFrag);
-
+		Fragment indexFrag = IndexFragment.newInstance();
+		mFragmentsList.add(indexFrag);
 		mAdapter = new CommonPagerAdapter(getSupportFragmentManager(), mFragmentsList);
 		mViewPager.setAdapter(mAdapter);
 		mViewPager.setOnPageChangeListener(this);
@@ -149,45 +109,14 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 		case 0:
 			selectIndex();
 			break;
-		case 1:
-			selectMessage();
-			break;
-		case 2:
-			selectContact();
-			break;
-		case 3:
-			selectMore();
-			break;
 		}
 	}
 
 	private void selectIndex() {
 		mIndexView.setSelected(true);
-		mMessageView.setSelected(false);
-		mContactView.setSelected(false);
-		mMoreView.setSelected(false);
 	}
 
-	private void selectMessage() {
-		mIndexView.setSelected(false);
-		mMessageView.setSelected(true);
-		mContactView.setSelected(false);
-		mMoreView.setSelected(false);
-	}
 
-	private void selectContact() {
-		mIndexView.setSelected(false);
-		mMessageView.setSelected(false);
-		mContactView.setSelected(true);
-		mMoreView.setSelected(false);
-	}
-
-	private void selectMore() {
-		mIndexView.setSelected(false);
-		mMessageView.setSelected(false);
-		mContactView.setSelected(false);
-		mMoreView.setSelected(true);
-	}
 
 	@Override
 	public void onPageScrollStateChanged(int arg0) {
@@ -204,103 +133,4 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 		setCurrentPage(arg0);
 	}
 
-	private void initPushService() {
-		PushManager.startWork(getApplicationContext(), PushConstants.LOGIN_TYPE_API_KEY,
-				PushUtils.getMetaValue(this, "api_key"));
-		CustomPushNotificationBuilder builder = new CustomPushNotificationBuilder(
-				R.layout.notification_custom_builder, R.id.notification_icon, R.id.notification_title,
-				R.id.notification_text);
-
-		builder.setNotificationFlags(Notification.FLAG_AUTO_CANCEL);
-		builder.setNotificationDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
-		builder.setStatusbarIcon(R.drawable.notification_icon);
-		builder.setLayoutDrawable(R.drawable.notification_icon);
-		PushManager.setNotificationBuilder(this, 1, builder);
-	}
-
-	private void handleIntent(Intent intent) {
-		String action = intent.getAction();
-
-		if (PushUtils.ACTION_RESPONSE.equals(action)) {
-			String method = intent.getStringExtra(PushUtils.RESPONSE_METHOD);
-			if (PushConstants.METHOD_BIND.equals(method)) {
-				int errorCode = intent.getIntExtra(PushUtils.RESPONSE_ERRCODE, 0);
-				if (errorCode == 0) {
-					String content = intent.getStringExtra(PushUtils.RESPONSE_CONTENT);
-					successBind(content);
-				} else {
-					Log.e(TAG, "Bind Fail, Error Code: " + errorCode);
-				}
-			}
-		} else if (PushUtils.ACTION_MESSAGE.equals(action)) {
-			String content = intent.getStringExtra(PushUtils.EXTRA_MESSAGE);
-			onMessage(content);
-		} else {
-			Log.i(TAG, "Activity normally start!");
-		}
-	}
-
-	private void successBind(String content) {
-		String pushUserId = "";
-		String pushChannelId = "";
-
-		try {
-			JSONObject jsonContent = new JSONObject(content);
-			JSONObject params = jsonContent.getJSONObject("response_params");
-			pushUserId = params.getString("user_id");
-			pushChannelId = params.getString("channel_id");
-		} catch (JSONException e) {
-			Log.e(TAG, "Parse bind json infos error: " + e);
-			return;
-		}
-
-		UserCache userCache = UserCache.getInstance();
-		PushAccountReq reqData = new PushAccountReq();
-		reqData.setUserId(userCache.getUserInfo().getUserId());
-		reqData.setSessionKey(userCache.getSessionKey());
-		reqData.setPushUserId(pushUserId);
-		reqData.setPushChannelId(pushChannelId);
-		reqData.setDeviceType(3);
-
-		MyStringRequest req = new MyStringRequest(Method.POST, reqData.getAllUrl(),
-				new Response.Listener<String>() {
-					@Override
-					public void onResponse(String response) {
-						Log.v(TAG, "Response: " + response);
-						setTags();
-					}
-				}, new Response.ErrorListener() {
-					@Override
-					public void onErrorResponse(VolleyError error) {
-						Log.e(TAG, "Failed to pushAccount request!");
-					}
-				});
-
-		RequestController.getInstance().addToRequestQueue(req, TAG);
-	}
-
-	private void setTags() {
-		UserCache userCache = UserCache.getInstance();
-		PushManager.setTags(getApplicationContext(), userCache.getTags());
-	}
-
-	private void onMessage(String content) {
-		Message message = null;
-		try {
-			message = Message.fromJson(content, 0, 0);
-		} catch (JSONException e) {
-			Log.e(TAG, "Failed to parse receive content! " + e);
-			return;
-		}
-
-		DBAdapter dbAdapter = new DBAdapter();
-		try {
-			dbAdapter.open();
-			dbAdapter.addMessage(message);
-		} catch (Exception e) {
-			Log.e(TAG, "Failed to operate database: " + e);
-		} finally {
-			dbAdapter.close();
-		}
-	}
 }

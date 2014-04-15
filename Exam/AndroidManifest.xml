@@ -66,6 +66,16 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="org.tang.exam.activity.AttendanceActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="org.tang.exam.activity.ScoreActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" >
+        </activity>
         
     </application>
 

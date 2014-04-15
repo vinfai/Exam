@@ -14,13 +14,6 @@
         android:orientation="horizontal" >
 
         <include layout="@layout/include_tab_index" />
-		<!-- 
-        <include layout="@layout/include_tab_message" />
-
-        <include layout="@layout/include_tab_contact" />
-
-        <include layout="@layout/include_tab_more" />
-         -->
     </LinearLayout>
 
     <android.support.v4.view.ViewPager
