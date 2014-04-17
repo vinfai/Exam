@@ -252,11 +252,11 @@ public class PushMessageReceiver extends FrontiaPushMessageReceiver {
         
         context.getApplicationContext().startActivity(intent);
         
-		Intent intent = new Intent(PushUtils.EXTRA_MESSAGE);
-		Bundle bundle = new Bundle();
-		bundle.putSerializable(PushUtils.MESSAGE, message);
-		intent.putExtras(bundle);
-		context.sendOrderedBroadcast(intent, null);
+//		Intent intent = new Intent(PushUtils.EXTRA_MESSAGE);
+//		Bundle bundle = new Bundle();
+//		bundle.putSerializable(PushUtils.MESSAGE, message);
+//		intent.putExtras(bundle);
+//		context.sendOrderedBroadcast(intent, null);
         
         
         
