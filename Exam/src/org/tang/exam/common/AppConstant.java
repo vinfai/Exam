@@ -1,7 +1,7 @@
 package org.tang.exam.common;
 
 public class AppConstant {
-	public static final String BASE_URL = "http://122.8.46.238:8080/springmvc/";
+	public static final String BASE_URL = "http://113.247.250.200:11111/springmvc/";
 	public static final int DEFAULT_PAGESIZE = 15;
 
 	public static final class UserType {

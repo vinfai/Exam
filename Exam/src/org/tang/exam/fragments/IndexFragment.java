@@ -46,6 +46,7 @@ public class IndexFragment extends Fragment implements OnClickListener {
 	 */
 	private void initView() {
 		layoutAttendance = (RelativeLayout) mView.findViewById(R.id.layout_attendance);
+		layoutScore = (RelativeLayout) mView.findViewById(R.id.layout_score);
 		layoutScore.setOnClickListener(this);
 		layoutAttendance.setOnClickListener(this);
 	}

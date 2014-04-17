@@ -1,9 +1,10 @@
 package org.tang.exam.base;
 
-import android.app.Application;
 import android.content.pm.PackageManager.NameNotFoundException;
 
-public class BaseApplication extends Application {
+import com.baidu.frontia.FrontiaApplication;
+
+public class BaseApplication extends  FrontiaApplication  {
     private static BaseApplication mInstance;
     private static int mAppVer = 0;
     
