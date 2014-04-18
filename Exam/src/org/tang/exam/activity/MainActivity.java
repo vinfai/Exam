@@ -68,6 +68,19 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 	protected void onNewIntent(Intent intent) {
 		setIntent(intent);
 		String action = intent.getAction();
+		if(intent!=null && intent.getExtras()!=null && intent.getExtras().getSerializable(PushUtils.EXTRA_MESSAGE)!=null){
+			Log.d(TAG, (String) intent.getExtras().getSerializable(PushUtils.EXTRA_MESSAGE));
+			String message = (String) intent.getExtras().getSerializable(PushUtils.EXTRA_MESSAGE);
+			if (mBadge != null) {
+				if (message!=null && !message.equals("")) {
+					mBadge.setText(String.valueOf(1));
+					mBadge.show();
+				} else {
+					mBadge.hide();
+				}
+			}
+		}
+		
 		if (PushUtils.ACTION_LOGIN.equals(action)) {
 			// Push: 百度账号初始化，用access token绑定
 			String accessToken = intent
@@ -88,11 +101,13 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 	@Override
 	public void onStart() {
 		super.onStart();
+		PushManager.activityStarted(this);
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
+		PushManager.activityStoped(this);
 	}
 	
 	@Override
@@ -120,10 +135,10 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 	private void initTabWidget() {
 		mIndexView = (RelativeLayout) findViewById(R.id.bottombar_index);
 		
-		mMessageItem = (TextView) findViewById(R.id.tab_item_message);
+		mMessageItem = (TextView) findViewById(R.id.tab_item_index);
 		mBadge = new BadgeView(this, mMessageItem);
 		mBadge.setBadgeMargin(0);
-		mIndexView.setOnClickListener(new MyOnClickListener(0));
+		mIndexView.setOnClickListener(new TabOnClickListener(0));
 	}
 
 	private void initPagerView() {
@@ -137,10 +152,10 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 		setCurrentPage(0);
 	}
 
-	private class MyOnClickListener implements OnClickListener {
+	final class TabOnClickListener implements OnClickListener {
 		private int mIndex = 0;
 
-		public MyOnClickListener(int index) {
+		public TabOnClickListener(int index) {
 			mIndex = index;
 		}
 
