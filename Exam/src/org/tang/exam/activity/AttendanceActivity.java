@@ -1,67 +1,56 @@
 package org.tang.exam.activity;
-
 import org.tang.exam.R;
+import org.tang.exam.adapter.TabsAdapter;
 import org.tang.exam.base.BaseActionBarActivity;
-import org.tang.exam.common.UserCache;
-import org.tang.exam.rest.RequestController;
+import org.tang.exam.fragments.AttendanceGraphFragment;
+import org.tang.exam.fragments.AttendanceRecordListFragment;
 
-import android.app.ProgressDialog;
-import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
-public class AttendanceActivity extends BaseActionBarActivity implements OnClickListener {
-	private static final String TAG = "LoginActivity";
-	private ProgressDialog prgDialog = null;
-	private TextView tvForgotPwd;
-	private EditText etUserId;
-	private EditText etPassword;
-	private Button btnLogin;
+public class AttendanceActivity extends BaseActionBarActivity  {
+	private static final String TAG = "AttendanceActivity";
+	TabsAdapter mTabsAdapter;
+	ViewPager mViewPager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_login);
-		ActionBar bar = getSupportActionBar();
-		bar.setTitle(getResources().getString(R.string.login));
-		initView();
-	}
-
-
-	private void initView() {
-		tvForgotPwd = (TextView) findViewById(R.id.tv_forgot_password);
-		tvForgotPwd.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-
-		etUserId = (EditText) findViewById(R.id.et_user_id);
-		etPassword = (EditText) findViewById(R.id.et_password);
-		//对用户信息进行判断
-		UserCache userCache = UserCache.getInstance();
-		if (userCache.getUserInfo() != null) {
-			etUserId.setText(userCache.getUserInfo().getUserId());
-		}
 		
-		btnLogin = (Button) findViewById(R.id.btn_login);
-		btnLogin.setOnClickListener(this);
+		mViewPager = new ViewPager(this);
+		mViewPager.setId(11);
+		setContentView(mViewPager);
+		
+		ActionBar bar = getSupportActionBar();
+		bar.setTitle(getResources().getString(R.string.notice));
+		bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		bar.setDisplayHomeAsUpEnabled(true);
+
+		mTabsAdapter = new TabsAdapter(this, mViewPager);
+		mTabsAdapter.addTab(bar.newTab().setText("出勤记录"), AttendanceRecordListFragment.class, null);
+		mTabsAdapter.addTab(bar.newTab().setText("出勤路线"), AttendanceGraphFragment.class, null);
 	}
 
 	@Override
-	protected void onPause() {
-		super.onPause();
-		RequestController.getInstance().cancelPendingRequests(TAG);
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.notice, menu);
+		return true;
 	}
-	
-	//点击了登录按钮
+
 	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.btn_login:
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			this.finish();
 			break;
 		}
+		return true;
 	}
+	
 
 }

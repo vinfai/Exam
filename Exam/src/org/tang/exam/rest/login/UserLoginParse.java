@@ -3,8 +3,6 @@ package org.tang.exam.rest.login;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.tang.exam.entity.UserInfo;
-import org.tang.exam.utils.JSONHelper;
-
 import com.google.gson.Gson;
 
 public class UserLoginParse {

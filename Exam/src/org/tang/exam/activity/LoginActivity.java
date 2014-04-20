@@ -64,7 +64,7 @@ public class LoginActivity extends BaseActionBarActivity implements OnClickListe
 		//对用户信息进行判断
 		UserCache userCache = UserCache.getInstance();
 		if (userCache.getUserInfo() != null) {
-			etUserId.setText(userCache.getUserInfo().getUserId());
+			etUserId.setText(userCache.getUserInfo().getUserName());
 		}
 		
 		btnLogin = (Button) findViewById(R.id.btn_login);

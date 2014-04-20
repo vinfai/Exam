@@ -3,14 +3,8 @@ package org.tang.exam.common;
 import java.util.ArrayList;
 
 import org.tang.exam.base.MyApplication;
-import org.tang.exam.entity.ClassInfo;
-import org.tang.exam.entity.Parent;
 import org.tang.exam.entity.SerializeHelper;
-import org.tang.exam.entity.Student;
-import org.tang.exam.entity.Teacher;
-import org.tang.exam.entity.TeacherRole;
 import org.tang.exam.entity.UserInfo;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -30,14 +24,11 @@ public final class UserCache {
 	private String sessionKey = "";
 	private String password = "";
 	private UserInfo userInfo = null;
-	private ClassInfo currentClass = null;
-	private Student currentChild = null;
 
 	private UserCache() {
 		mContext = MyApplication.getInstance().getApplicationContext();
 		mSettings = mContext.getSharedPreferences(DB_NAME, 0);
 		mEditor = mSettings.edit();
-
 		initUserCache();
 	}
 
@@ -52,14 +43,9 @@ public final class UserCache {
 		logon = mSettings.getBoolean("logon", false);
 		if (logon) {
 			try {
-				sessionKey = mSettings.getString("sessionKey", "STINFO01");
+				sessionKey = mSettings.getString("sessionKey", "examtang01");
 				password = mSettings.getString("password", "****");
 				userInfo = SerializeHelper.restoreUserInfo(mContext);
-				currentClass = SerializeHelper.restoreCurrentClass(mContext);
-				if (userInfo instanceof Parent) {
-					currentChild = SerializeHelper.restoreCurrentChild(mContext);
-				}
-				updateTags();
 			} catch (Exception e) {
 				Log.e(TAG, "Failed to deserialize cache file! " + e.toString());
 				logon = false;
@@ -104,53 +90,10 @@ public final class UserCache {
 	public void setUserInfo(UserInfo userInfo) {
 		this.userInfo = userInfo;
 		SerializeHelper.saveUserInfo(mContext, userInfo);
-		updateTags();
-	}
-
-	public ClassInfo getCurrentClass() {
-		return currentClass;
-	}
-
-	public void setCurrentClass(ClassInfo currentClass) {
-		this.currentClass = currentClass;
-		SerializeHelper.saveCurrentClass(mContext, currentClass);
-	}
-
-	public Student getCurrentChild() {
-		return currentChild;
-	}
-
-	public void setCurrentChild(Student currentChild) {
-		this.currentChild = currentChild;
-		SerializeHelper.saveCurrentChild(mContext, currentChild);
 	}
 
 	public ArrayList<String> getTags() {
 		return mTags;
 	}
 
-	private void updateTags() {
-		if (userInfo == null) {
-			return;
-		}
-		
-		mTags.clear();
-		if (userInfo instanceof Student) {
-			Student student = (Student) userInfo;
-			mTags.add("C" + student.getClassId() + "_1");
-			mTags.add("C" + student.getClassId() + "_4");
-		} else if (userInfo instanceof Parent) {
-			Parent parent = (Parent) userInfo;
-			for (Student student : parent.getChildList()) {
-				mTags.add("C" + student.getClassId() + "_2");
-				mTags.add("C" + student.getClassId() + "_4");
-			}
-		} else if (userInfo instanceof Teacher) {
-			Teacher teacher = (Teacher) userInfo;
-			for (TeacherRole role : teacher.getTeacherRoleList()) {
-				mTags.add("C" + role.getClassId() + "_3");
-				mTags.add("C" + role.getClassId() + "_4");
-			}
-		}
-	}
 }

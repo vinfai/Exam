@@ -17,12 +17,12 @@ import android.widget.RelativeLayout;
  * @author lenovo
  *
  */
-public class IndexFragment extends Fragment implements OnClickListener {
+public class AttendanceGraphFragment extends Fragment implements OnClickListener {
 	private RelativeLayout layoutAttendance;
 	private View mView;
 
-	public static IndexFragment newInstance() {
-		IndexFragment newFragment = new IndexFragment();
+	public static AttendanceGraphFragment newInstance() {
+		AttendanceGraphFragment newFragment = new AttendanceGraphFragment();
 		return newFragment;
 	}
 

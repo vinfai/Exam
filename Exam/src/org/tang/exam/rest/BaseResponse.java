@@ -4,18 +4,25 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class BaseResponse {
-	private int ack = 0;
+	protected int msgFlag;
+	protected String sessionKey;
+	
+    public int getMsgFlag() {
+		return msgFlag;
+	}
 
-    public int getAck() {
-        return ack;
-    }
+	public void setMsgFlag(int msgFlag) {
+		this.msgFlag = msgFlag;
+	}
 
-    public BaseResponse(String jsonStr) throws JSONException {
-    	parseResponseData(jsonStr);
-    }
+	public String getSessionKey() {
+		return sessionKey;
+	}
 
-    private void parseResponseData(String jsonStr) throws JSONException {
-    	JSONObject rootObj = new JSONObject(jsonStr);
-        this.ack = rootObj.getInt("ack");
-    }
+
+
+	public void setSessionKey(String sessionKey) {
+		this.sessionKey = sessionKey;
+	}
+
 }
