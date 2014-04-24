@@ -71,5 +71,6 @@
     <string name="custom_text_hint">掌上校园系统通知</string>
     <string name="title">标题</string>
     <string name="content">内容</string>
-
+	
+    <string name="remote_attendance">远程考勤</string>
 </resources>

@@ -1,6 +1,8 @@
 package org.tang.exam.fragments;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import org.tang.exam.R;
 import org.tang.exam.activity.AttendanceRecordDetailActivity;
@@ -14,16 +16,22 @@ import org.tang.exam.rest.RequestController;
 import org.tang.exam.rest.attendance.QueryAttendanceRecordReq;
 import org.tang.exam.rest.attendance.QueryAttendanceRecordResp;
 import org.tang.exam.utils.MessageBox;
+import org.tang.exam.utils.MyLocationManager;
+import org.tang.exam.utils.MyLocationManager.LocationCallBack;
 import org.tang.exam.view.DropDownListView;
 import org.tang.exam.view.DropDownListView.OnDropDownListener;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -181,5 +189,37 @@ public final class AttendanceRecordListFragment extends Fragment implements OnIt
             break;
 		}
 	}
+
+	
+//	@Override
+//	public void onCurrentLocation(Location location) {
+//		String address = "没有找到地址";
+//		  StringBuilder sb=new StringBuilder();
+//		 if (location != null) {  
+//			 	//处理地理编码
+//			 	  Geocoder gc=new Geocoder(getActivity(),Locale.getDefault());
+//			 	  try{
+//			 	   List<Address>add=gc.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+//			 	   StringBuilder bb=new StringBuilder();
+//			 	   if(add.size()>0)
+//			 	   {
+//			 	    Address ad=add.get(0);
+//			 	    bb.append(ad.getAddressLine(0)).append("\n");
+//			 	          bb.append(ad.getAddressLine(1)).append("\n");
+//			 	           bb.append(ad.getAddressLine(2)).append("\n");  
+//			 	           sb.append(bb);
+//			 	   }
+//			 	  }catch(Exception e){}
+//			 	  
+//			 	  address=sb.toString();
+//			 	
+//	            // 显示定位结果  
+//			 	MessageBox.showMessage(getActivity(), "当前经度：" + location.getLongitude() + "\n当前纬度："  
+//	                    + location.getLatitude()+"地址为：："+address);
+//			 	
+//				Log.d(TAG, "当前经度：" + location.getLongitude() + "\n当前纬度："  
+//	                    + location.getLatitude()+"地址为：："+address);
+//	        }  
+//	}
 
 }

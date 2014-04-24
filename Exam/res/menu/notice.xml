@@ -5,5 +5,8 @@
         android:id="@+id/action_edit"
         android:title="@string/edit"
         pushme:showAsAction="ifRoom|withText"/>
-
+	 <item
+        android:id="@+id/action_remote_attendance"
+        android:title="@string/remote_attendance"
+        pushme:showAsAction="ifRoom|withText"/>
 </menu>
