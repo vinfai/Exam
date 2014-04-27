@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/background_normal"
     android:orientation="vertical" >
+    
     <org.tang.exam.view.DropDownListView
         android:id="@+id/lv_attendance_record_list"
         style="@style/NoSelectorList"

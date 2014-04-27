@@ -27,6 +27,14 @@ public class DBAdapter {
 	private DBHelper dbHelper;
 	private String mUserId = "";
 
+	public SQLiteDatabase getDb() {
+		return db;
+	}
+
+	public void setDb(SQLiteDatabase db) {
+		this.db = db;
+	}
+
 	public DBAdapter(Context context, String userId) {
 		this.mContext = context;
 		this.mUserId = userId;
@@ -104,43 +112,4 @@ public class DBAdapter {
 		}
 	}
 
-	public ArrayList<AttendanceRecord> getAttendanceRecord() {
-		String where = String.format("userId = '%s' " , mUserId);
-		ArrayList<AttendanceRecord> list = new ArrayList<AttendanceRecord>();
-		String orderBy = "createTime DESC";
-		String limit = String.valueOf(MAX_NUMBER);
-
-		Cursor result = db.query("ATTENDANCE", new String[] {"id", "userId", "createTime", "address", "gps"},
-				where, null, null, null, orderBy, limit);
-		if (result.moveToFirst()) {
-			do {
-				list.add(fetchAttendanceRecord(result));
-			} while (result.moveToNext());
-		}
-
-		return list;
-	}
-	
-	private AttendanceRecord fetchAttendanceRecord(Cursor result) {
-		AttendanceRecord attendanceRecord = new AttendanceRecord();
-		attendanceRecord.setId(result.getString(result.getColumnIndex("id")));
-		attendanceRecord.setUserId(result.getString(result.getColumnIndex("userId")));
-		attendanceRecord.setCreateTime(result.getString(result.getColumnIndex("createTime")));
-		attendanceRecord.setAddress(result.getString(result.getColumnIndex("address")));
-		attendanceRecord.setGps(result.getString(result.getColumnIndex("gps")));
-		return attendanceRecord;
-	}
-	
-	public void addAttendanceRecord(ArrayList<AttendanceRecord> list) throws SQLException {
-		for (AttendanceRecord attendanceRecord : list) {
-			ContentValues values = new ContentValues();
-			values.put("id", attendanceRecord.getId());
-			values.put("userId", mUserId);
-			values.put("address", attendanceRecord.getAddress());
-			values.put("gps", attendanceRecord.getGps());
-			values.put("createTime", attendanceRecord.getCreateTime());
-			db.insertOrThrow("Attendance", null, values);
-		}
-	}
-	
 }

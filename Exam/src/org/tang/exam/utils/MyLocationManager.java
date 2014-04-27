@@ -10,18 +10,16 @@ public class MyLocationManager {
     private static Context mContext;  
     private LocationManager gpsLocationManager;  
     private LocationManager networkLocationManager;  
-    private static final int MINTIME = 2000;  
+    private static final int MINTIME = 200;  
     private static final int MININSTANCE = 2;  
     private static MyLocationManager instance;  
     private Location lastLocation = null;  
     private static LocationCallBack mCallback;  
   
-    public static void init(Context c, LocationCallBack callback) {  
+    public   void init(Context c, LocationCallBack callback) {  
         mContext = c;  
         mCallback = callback;  
-    }  
-  
-    private MyLocationManager() {  
+        
         // Gps 定位  
         gpsLocationManager = (LocationManager) mContext  
                 .getSystemService(Context.LOCATION_SERVICE);  
@@ -39,7 +37,9 @@ public class MyLocationManager {
                 locationListener);  
     }  
   
-    public static MyLocationManager getInstance() {  
+    public MyLocationManager() {}  
+  
+    public static  MyLocationManager getInstance() {  
         if (null == instance) {  
             instance = new MyLocationManager();  
         }  

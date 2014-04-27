@@ -113,7 +113,7 @@ public final class DBScript {
     
     
     public static final String CREATE_TABLE_ATTENDANCE = 
-    		"CREATE TABLE ATTENDANCE " + 
+    		"CREATE TABLE Attendance " + 
             "( " + 
         		"id text not null primary key , " + 
             	"userId text not null, " +
@@ -132,5 +132,5 @@ public final class DBScript {
     public static final String DROP_TABLE_TEACHER_ROSTER = "DROP TABLE IF EXISTS TeacherRoster; ";
     public static final String DROP_TABLE_MESSAGE = "DROP TABLE IF EXISTS Message; ";
     public static final String DROP_TABLE_SMS = "DROP TABLE IF EXISTS SMS; ";
-    public static final String DROP_TABLE_ATTENDANCE = "DROP TABLE IF EXISTS ATTENDANCE; ";
+    public static final String DROP_TABLE_ATTENDANCE = "DROP TABLE IF EXISTS Attendance; ";
 }
