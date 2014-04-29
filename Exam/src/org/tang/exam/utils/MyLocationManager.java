@@ -10,8 +10,8 @@ public class MyLocationManager {
     private static Context mContext;  
     private LocationManager gpsLocationManager;  
     private LocationManager networkLocationManager;  
-    private static final int MINTIME = 200;  
-    private static final int MININSTANCE = 2;  
+    private static final int MINTIME = 0;  
+    private static final int MININSTANCE = 0;  
     private static MyLocationManager instance;  
     private Location lastLocation = null;  
     private static LocationCallBack mCallback;  

@@ -1,12 +1,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:pushme="http://schemas.android.com/apk/res-auto" >
-
-    <item
-        android:id="@+id/action_edit"
-        android:title="@string/edit"
-        pushme:showAsAction="ifRoom|withText"/>
+	
 	 <item
         android:id="@+id/action_remote_attendance"
         android:title="@string/remote_attendance"
-        pushme:showAsAction="ifRoom|withText"/>
+        pushme:showAsAction="always"/>
 </menu>

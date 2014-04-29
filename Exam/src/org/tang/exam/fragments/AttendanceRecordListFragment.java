@@ -121,8 +121,8 @@ public final class AttendanceRecordListFragment extends Fragment implements OnIt
 		
 		if (mAttendanceRecordList.size() > 0) {
 			createTime = mAttendanceRecordList.get(0).getCreateTime();
-			reqData.setCreateTime(createTime);
 		}
+		reqData.setCreateTime(createTime);
 
 		MyStringRequest req = new MyStringRequest(Method.GET, reqData.getAllUrl(),
 				new Response.Listener<String>() {

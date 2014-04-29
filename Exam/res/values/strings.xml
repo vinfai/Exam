@@ -72,5 +72,7 @@
     <string name="title">标题</string>
     <string name="content">内容</string>
 	
-    <string name="remote_attendance">远程考勤</string>
+    <string name="remote_attendance">签到</string>
+    <string name="attendance_note">记事</string>
+    <string name="attendance_share">分享</string>
 </resources>

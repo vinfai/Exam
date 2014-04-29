@@ -1,10 +1,14 @@
 package org.tang.exam.activity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.tang.exam.R;
 import org.tang.exam.adapter.AttendanceRecordListAdapter;
 import org.tang.exam.adapter.TabsAdapter;
@@ -19,6 +23,7 @@ import org.tang.exam.rest.RequestController;
 import org.tang.exam.rest.attendance.SaveAttendanceRecordReq;
 import org.tang.exam.utils.DateTimeUtil;
 import org.tang.exam.utils.MessageBox;
+import org.tang.exam.utils.MobileConstant;
 import org.tang.exam.utils.MyLocationManager;
 import org.tang.exam.utils.MyLocationManager.LocationCallBack;
 import org.tang.exam.view.DropDownListView;
@@ -36,10 +41,14 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBar.OnNavigationListener;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.SimpleAdapter;
+import android.widget.SpinnerAdapter;
 
 public class AttendanceActivity extends BaseActionBarActivity {
 	private static final String TAG = "AttendanceActivity";
@@ -47,8 +56,6 @@ public class AttendanceActivity extends BaseActionBarActivity {
 	ViewPager mViewPager;
 	private ProgressDialog prgDialog = null;
 	private MyLocationManager mLocation;
-	private AttendanceRecordListAdapter mAdapter;
-	private ArrayList<AttendanceRecord> mAttendanceRecordList = new ArrayList<AttendanceRecord>();
 	private DropDownListView lvAttendanceRecordList;
 	private GpsDataChangeListener gpsDataChangeListener;
 	 // Container Activity must implement this interface  
@@ -78,9 +85,25 @@ public class AttendanceActivity extends BaseActionBarActivity {
 		setContentView(mViewPager);
 
 		ActionBar bar = getSupportActionBar();
-		bar.setTitle(getResources().getString(R.string.notice));
-		bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		bar.setDisplayHomeAsUpEnabled(true);
+//		bar.setTitle(getResources().getString(R.string.attendance));
+//		bar.setDisplayHomeAsUpEnabled(true);
+//		bar.setNavigationMode(bar.NAVIGATION_MODE_STANDARD);
+		
+		//设置actionbar的导航模式  
+		bar.setNavigationMode(bar.NAVIGATION_MODE_LIST);  
+		//生成一个spinneradaper，设置actionbar下拉菜单的菜单项  
+//		SpinnerAdapter spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.attendance_menu_item_list, android.R.layout.simple_spinner_dropdown_item);  
+		//为actionbar设置适配器跟监听器  
+//		bar.setListNavigationCallbacks(spinnerAdapter,new DropDownListener());  
+		
+		 //声明一个SimpleAdapter独享，设置数据与对应关系
+		         SimpleAdapter simpleAdapter = new SimpleAdapter(
+		                 this, getData(), R.layout.fragment_attendance_menu,
+		                 new String[] { "ivLogo", "applicationName" }, new int[] {
+		                         R.id.attendace_menu_imageview, R.id.attendace_menu_textview });
+		
+		 bar.setListNavigationCallbacks(simpleAdapter,new DropDownListener());  
+		
 
 		mTabsAdapter = new TabsAdapter(this, mViewPager);
 		mTabsAdapter.addTab(bar.newTab().setText("出勤记录"),
@@ -88,7 +111,25 @@ public class AttendanceActivity extends BaseActionBarActivity {
 		mTabsAdapter.addTab(bar.newTab().setText("出勤路线"),
 				AttendanceGraphFragment.class, null);
 	}
-
+	
+	
+    public List<Map<String, Object>> getData() {
+        //生成数据源
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+        //每个Map结构为一条数据，key与Adapter中定义的String数组中定义的一一对应。
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("ivLogo", R.drawable.abc_ic_go);
+        map.put("applicationName", getString(R.string.attendance_note));
+        list.add(map);
+        Map<String, Object> map2 = new HashMap<String, Object>();
+        map2.put("ivLogo", R.drawable.abc_ic_go);
+        map2.put("applicationName", getString(R.string.attendance_share));
+        list.add(map2);
+        return list;
+    }
+	
+	
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
@@ -148,17 +189,27 @@ public class AttendanceActivity extends BaseActionBarActivity {
 					@Override
 					public void onResponse(String response) {
 						Log.v(TAG, "添加远程考勤记录: " + response);
-						
-						if("SUCCESS".equals(response)){
-							ArrayList<AttendanceRecord> alist = new ArrayList<AttendanceRecord>();
-							alist.add(a);
-							addAttendanceRecordList(alist);
-							MessageBox.showMessage(AttendanceActivity.this, "远程考勤成功");
-							refreshAttendanceRecordList();
+						String responseTmp = response.replace("\\", "").replace("\"", "");  
+						JSONObject rootObj;
+						try {
+							rootObj = new JSONObject(responseTmp);
+							if(rootObj.getString("sessionKey")!=null && !rootObj.getString("sessionKey").equals("")){
+								if(MobileConstant.attendance_upload_success==rootObj.getInt("msgFlag")){
+									ArrayList<AttendanceRecord> alist = new ArrayList<AttendanceRecord>();
+									alist.add(a);
+									addAttendanceRecordList(alist);
+									MessageBox.showMessage(AttendanceActivity.this, "远程考勤成功");
+									refreshAttendanceRecordList();
+								}
+								else{
+									MessageBox.showMessage(AttendanceActivity.this, "服务器异常");
+								}
+								
+							}
+						} catch (JSONException e) {
+							e.printStackTrace();
 						}
-						else{
-							MessageBox.showMessage(AttendanceActivity.this, "服务器异常");
-						}
+	
 					}
 				}, new Response.ErrorListener() {
 					@Override
@@ -226,7 +277,7 @@ public class AttendanceActivity extends BaseActionBarActivity {
 							String userId = UserCache.getInstance().getUserInfo().getUserId();
 							String userName = UserCache.getInstance().getUserInfo().getUserName();
 							a.setAddress(address);
-							a.setGps(location.getLatitude() + ","
+							a.setGps(location.getLatitude() + "|"
 									+ location.getLongitude());
 							a.setId(UUID.randomUUID().toString());
 							a.setCreateTime(DateTimeUtil.getCompactTime());
@@ -248,4 +299,17 @@ public class AttendanceActivity extends BaseActionBarActivity {
 
 		}
 	}
+	
+    /**
+     * 实现 ActionBar.OnNavigationListener接口
+     */
+    class DropDownListener implements OnNavigationListener
+    {
+        /* 当选择下拉菜单项的时候，将Activity中的内容置换为对应的Fragment */
+        public boolean onNavigationItemSelected(int itemPosition, long itemId)
+        {
+        	Log.d(TAG, getData().get(itemPosition).get("applicationName").toString());
+            return true;
+        }
+    }
 }
