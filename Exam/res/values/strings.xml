@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">考试汤</string>
+    <string name="app_name">移动考勤</string>
     <string name="tips">提示</string>
     <string name="about">关于</string>
     <string name="hello_world">Hello world!</string>
