@@ -1,13 +1,15 @@
 package org.tang.exam.activity;
 
 import org.tang.exam.R;
+import org.tang.exam.base.BaseActionBarActivity;
 import org.tang.exam.utils.AMapUtil;
 import org.tang.exam.utils.ToastUtil;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
@@ -26,7 +28,7 @@ import com.amap.api.services.geocoder.RegeocodeResult;
 /**
  * 演示MapView的基本用法
  */
-public class MapActivity extends Activity  implements
+public class MapActivity extends BaseActionBarActivity  implements
 OnGeocodeSearchListener {
 	
 	final static String TAG = "MainActivity";
@@ -36,12 +38,15 @@ OnGeocodeSearchListener {
 	private AMap aMap;
 	private MapView mapView;
 	private LatLonPoint latLonPoint ;
-	private Marker geoMarker;
 	private Marker regeoMarker;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		ActionBar bar = getSupportActionBar();
+		bar.setTitle(getResources().getString(R.string.attendance_current_place));
+		bar.setNavigationMode(ActionBar.DISPLAY_HOME_AS_UP);
+		bar.setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.geocoder_activity);
 		mapView = (MapView) findViewById(R.id.map);
 		mapView.onCreate(savedInstanceState);// 此方法必须重写
@@ -49,10 +54,23 @@ OnGeocodeSearchListener {
 		Double longitude = bundle.getDouble("longitude");
 		Double latitude = bundle.getDouble("latitude");
 		latLonPoint = new LatLonPoint(latitude,longitude);
-		getAddress(latLonPoint);
 		init();
 	}
 	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		return false;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			this.finish();
+			break;
+		}
+		return true;
+	}
 	
 	/**
 	 * 初始化AMap对象
@@ -60,12 +78,12 @@ OnGeocodeSearchListener {
 	private void init() {
 		if (aMap == null) {
 			aMap = mapView.getMap();
-			geoMarker = aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f)
-					.icon(BitmapDescriptorFactory
-							.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+			aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+						AMapUtil.convertToLatLng(latLonPoint), 17));
 			regeoMarker = aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f)
 					.icon(BitmapDescriptorFactory
 							.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+			regeoMarker.setPosition(AMapUtil.convertToLatLng(latLonPoint));
 		}
 		
 		geocoderSearch = new GeocodeSearch(this);

@@ -26,6 +26,7 @@ import org.tang.exam.utils.ToastUtil;
 import org.tang.exam.view.DropDownListView;
 import org.tang.exam.view.DropDownListView.OnDropDownListener;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -34,6 +35,8 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +48,8 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
 import com.amap.api.location.LocationProviderProxy;
+import com.amap.api.maps.LocationSource;
+import com.amap.api.maps.model.Marker;
 import com.android.volley.Request.Method;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -63,8 +68,26 @@ public  class AttendanceRecordListFragment extends
 	private DropDownListView lvAttendanceRecordList;
 	private View mView;
 	private AttendanceRecord attendanceRecord;
-	
-	
+	private ProgressDialog progDialog = null;
+	/**
+	 * 显示进度条对话框
+	 */
+	public void showDialog() {
+		progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		progDialog.setIndeterminate(false);
+		progDialog.setCancelable(true);
+		progDialog.setMessage("正在获取地址");
+		progDialog.show();
+	}
+
+	/**
+	 * 隐藏进度条对话框
+	 */
+	public void dismissDialog() {
+		if (progDialog != null) {
+			progDialog.dismiss();
+		}
+	}
 
 	public static AttendanceRecordListFragment newInstance() {
 		AttendanceRecordListFragment newFragment = new AttendanceRecordListFragment();
@@ -84,6 +107,12 @@ public  class AttendanceRecordListFragment extends
 		mView = inflater.inflate(R.layout.fragment_attendance_record_list, container, false);
 		return mView;
 	}
+	
+	 @Override
+     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+         super.onCreateOptionsMenu(menu, inflater);
+         inflater.inflate(R.menu.attendance, menu);
+     }
 	
 	 @Override
      public boolean onOptionsItemSelected(MenuItem item) {
@@ -122,6 +151,7 @@ public  class AttendanceRecordListFragment extends
 	}
 
 	private void initData() {
+		progDialog = new ProgressDialog(getActivity());
 		mAttendanceRecordList.clear();
 		lvAttendanceRecordList = (DropDownListView) mView.findViewById(R.id.lv_attendance_record_list);
 		mAdapter = new AttendanceRecordListAdapter(mView.getContext(), mAttendanceRecordList);
@@ -234,11 +264,8 @@ public  class AttendanceRecordListFragment extends
 
 	
 	private void getGPSLocation(Context c){
+		showDialog();
 		GPSLocation gps = new GPSLocation(c);
-		if(attendanceRecord!=null){
-			gps.stopLocation();
-			saveAttendanceRecordToServer(attendanceRecord);
-		}
 	}
 	
 	
@@ -270,9 +297,12 @@ public  class AttendanceRecordListFragment extends
 									ArrayList<AttendanceRecord> alist = new ArrayList<AttendanceRecord>();
 									alist.add(a);
 									addAttendanceRecordList(alist);
+									mAttendanceRecordList.add(a);
 									mAdapter.notifyDataSetChanged();
 									lvAttendanceRecordList.onDropDownComplete();
 									MessageBox.showMessage(getActivity(), "远程考勤成功");
+									dismissDialog();
+									
 								}
 								else{
 									MessageBox.showMessage(getActivity(), "服务器异常");
@@ -322,7 +352,7 @@ public  class AttendanceRecordListFragment extends
 			aMapLocManager = LocationManagerProxy.getInstance(c);
 			aMapLocManager.requestLocationUpdates(
 					LocationProviderProxy.AMapNetwork, 2000, 10, this);
-			handler.postDelayed(this, 12000);// 设置超过12秒还没有定位到就停止定位
+			handler.postDelayed(this, 4000);// 设置超过4秒还没有定位到就停止定位
 		}
 		
 		
@@ -348,8 +378,11 @@ public  class AttendanceRecordListFragment extends
 
 		@Override
 		public void run() {
+			if(attendanceRecord!=null){
+				saveAttendanceRecordToServer(attendanceRecord);
+			}
+			
 			if (aMapLocation == null) {
-				ToastUtil.show(getActivity(), "12秒内还没有定位成功，停止定位");
 				stopLocation();// 销毁掉定位
 			}
 		}
@@ -370,7 +403,7 @@ public  class AttendanceRecordListFragment extends
 				}
 				String str = (
 						 location.getProvince() + location.getCity()
-						+  location.getDistrict()  + location.getAdCode());
+						+  location.getDistrict()  + location.getAdCode())+desc;
 				String userId = UserCache.getInstance().getUserInfo().getUserId();
 				attendanceRecord.setAddress(str);
 				attendanceRecord.setGps(location.getLatitude() + "|"
@@ -380,6 +413,7 @@ public  class AttendanceRecordListFragment extends
 				attendanceRecord.setId(UUID.randomUUID().toString());
 				attendanceRecord.setCreateTime(DateTimeUtil.getCompactTime());
 				attendanceRecord.setUserId(userId);
+				stopLocation();
 			}
 			
 		}

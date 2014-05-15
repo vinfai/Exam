@@ -2,7 +2,7 @@
     xmlns:pushme="http://schemas.android.com/apk/res-auto" >
 	
 	 <item
-        android:id="@+id/action_notice"
-        android:title="@string/notice"
+        android:id="@+id/action_remote_attendance"
+        android:title="@string/remote_attendance"
         pushme:showAsAction="always"/>
 </menu>
