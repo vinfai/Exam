@@ -2,14 +2,16 @@ package org.tang.exam.fragments;
 
 import org.tang.exam.R;
 import org.tang.exam.activity.AttendanceActivity;
+import org.tang.exam.activity.AttendanceGdActivity;
+import org.tang.exam.activity.MapActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 /**
@@ -19,6 +21,7 @@ import android.widget.RelativeLayout;
  */
 public class IndexFragment extends Fragment implements OnClickListener {
 	private RelativeLayout layoutAttendance;
+	private RelativeLayout layoutMap;
 	private View mView;
 
 	public static IndexFragment newInstance() {
@@ -46,7 +49,9 @@ public class IndexFragment extends Fragment implements OnClickListener {
 	 */
 	private void initView() {
 		layoutAttendance = (RelativeLayout) mView.findViewById(R.id.layout_attendance);
+		layoutMap = (RelativeLayout) mView.findViewById(R.id.layout_map);
 		layoutAttendance.setOnClickListener(this);
+		layoutMap.setOnClickListener(this);
 	}
 	
 	/**
@@ -58,18 +63,21 @@ public class IndexFragment extends Fragment implements OnClickListener {
 		case R.id.layout_attendance:
 			onAttendanceClick();
 			break;
+		case R.id.layout_map:
+			onMapClick();
+			break;
 		}
 	}
 
 
 
-	private void onScoreClick() {
-//		Intent intent = new Intent(getActivity(), ScoreActivity.class);
-//		startActivity(intent);
+	private void onMapClick() {
+		Intent intent = new Intent(getActivity(),MapActivity.class);
+		startActivity(intent);
 	}
 
 	private void onAttendanceClick() {
-		Intent intent = new Intent(getActivity(), AttendanceActivity.class);
+		Intent intent = new Intent(getActivity(), AttendanceGdActivity.class);
 		startActivity(intent);
 	}
 

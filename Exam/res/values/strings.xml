@@ -36,6 +36,7 @@
     <string name="groupsms">家校短信</string>
     <string name="select_recv_user">请选择接收用户</string>
     <string name="attendance">出勤记录</string>
+    <string name="map">出勤位置</string>
     <string name="consume">日常消费</string>
     <string name="schoolbag">电子书包</string>
     <string name="publish">发布于</string>
@@ -73,6 +74,12 @@
     <string name="content">内容</string>
 	
     <string name="remote_attendance">签到</string>
+    <string name="attendance_current_place">当前地点</string>
     <string name="attendance_note">记事</string>
     <string name="attendance_share">分享</string>
+    <string name="map_screenshot">地图截屏</string>
+    <string name="error_network">搜索失败,请检查网络连接！</string>
+    <string name="error_key">key验证无效！</string>
+    <string name="error_other">未知错误，请稍后重试!错误码为</string>
+    <string name="no_result">对不起，没有搜索到相关数据！</string>
 </resources>

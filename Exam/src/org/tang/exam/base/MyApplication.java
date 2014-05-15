@@ -17,8 +17,6 @@ public class MyApplication extends BaseApplication {
 		newsCount = 0;
 	}
 
-	
-	
 	public static synchronized MyApplication getInstance() {
 		return mInstance;
 	}
@@ -28,4 +26,6 @@ public class MyApplication extends BaseApplication {
 		super.onCreate();
 		mInstance = this;
 	}
+	
+	
 }

@@ -119,7 +119,9 @@ public final class DBScript {
             	"userId text not null, " +
                 "address text, " + 
                 "gps text not null, " +
-                "createTime text not null " +
+                "createTime text not null, " +
+                "latitude text not null, " +
+                "longitude text not null " +
             "); ";
     
     

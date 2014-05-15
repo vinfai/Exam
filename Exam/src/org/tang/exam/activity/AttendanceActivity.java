@@ -85,17 +85,9 @@ public class AttendanceActivity extends BaseActionBarActivity {
 		setContentView(mViewPager);
 
 		ActionBar bar = getSupportActionBar();
-//		bar.setTitle(getResources().getString(R.string.attendance));
-//		bar.setDisplayHomeAsUpEnabled(true);
-//		bar.setNavigationMode(bar.NAVIGATION_MODE_STANDARD);
 		
 		//设置actionbar的导航模式  
 		bar.setNavigationMode(bar.NAVIGATION_MODE_LIST);  
-		//生成一个spinneradaper，设置actionbar下拉菜单的菜单项  
-//		SpinnerAdapter spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.attendance_menu_item_list, android.R.layout.simple_spinner_dropdown_item);  
-		//为actionbar设置适配器跟监听器  
-//		bar.setListNavigationCallbacks(spinnerAdapter,new DropDownListener());  
-		
 		 //声明一个SimpleAdapter独享，设置数据与对应关系
 		         SimpleAdapter simpleAdapter = new SimpleAdapter(
 		                 this, getData(), R.layout.fragment_attendance_menu,
@@ -184,6 +176,9 @@ public class AttendanceActivity extends BaseActionBarActivity {
 		sreq.setCreateTime(a.getCreateTime());
 		sreq.setGps(a.getGps());
 		sreq.setUserId(a.getUserId());
+		sreq.setLatitude(a.getLatitude());
+		sreq.setLongitude(a.getLongitude());
+		
 		MyStringRequest req = new MyStringRequest(Method.GET, sreq.getAllUrl(),
 				new Response.Listener<String>() {
 					@Override
@@ -227,7 +222,7 @@ public class AttendanceActivity extends BaseActionBarActivity {
 	 */
 	private void refreshAttendanceRecordList() {
 		lvAttendanceRecordList = (DropDownListView) findViewById(R.id.lv_attendance_record_list);
-		gpsDataChangeListener = (AttendanceRecordListFragment)mTabsAdapter.getItem(0);
+//		gpsDataChangeListener = (AttendanceRecordListFragment)mTabsAdapter.getItem(0);
 		gpsDataChangeListener.onGpsDataChangeListener(this,lvAttendanceRecordList);
 	}
 	
@@ -279,6 +274,8 @@ public class AttendanceActivity extends BaseActionBarActivity {
 							a.setAddress(address);
 							a.setGps(location.getLatitude() + "|"
 									+ location.getLongitude());
+							a.setLatitude(String.valueOf(location.getLatitude()));
+							a.setLongitude(String.valueOf(location.getLongitude()));
 							a.setId(UUID.randomUUID().toString());
 							a.setCreateTime(DateTimeUtil.getCompactTime());
 							a.setUserId(userId);

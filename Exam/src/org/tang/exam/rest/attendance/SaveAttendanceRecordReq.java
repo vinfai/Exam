@@ -11,7 +11,10 @@ public class SaveAttendanceRecordReq extends BaseRequest {
 	private String createTime;
 	private String address;
 	private String gps;
-
+	private String latitude;
+	private String longitude;
+	
+	
 	public String getId() {
 		return id;
 	}
@@ -52,6 +55,22 @@ public class SaveAttendanceRecordReq extends BaseRequest {
 		this.gps = gps;
 	}
 
+	public String getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+
 	@Override
 	public String getPath() {
 		return AppConstant.BASE_URL + "mobile/addAttendance";
@@ -65,6 +84,8 @@ public class SaveAttendanceRecordReq extends BaseRequest {
 		paramsHashMap.put("address", this.address);
 		paramsHashMap.put("gps", this.gps);
 		paramsHashMap.put("createTime", this.createTime);
+		paramsHashMap.put("latitude", this.latitude);
+		paramsHashMap.put("longitude", this.longitude);
 		return paramsHashMap;
 	}
 
