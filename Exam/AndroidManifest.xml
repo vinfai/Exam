@@ -27,6 +27,12 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>  
+    <permission android:name="android.permission.BAIDU_LOCATION_SERVICE"/>  
+	<uses-permission android:name="android.permission.BAIDU_LOCATION_SERVICE"/>  
+	<uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"/>  
+	<uses-permission android:name="android.permission.ACCESS_GPS"/>   
+    
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
@@ -67,7 +73,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="org.tang.exam.activity.AttendanceActivity"
+            android:name="org.tang.exam.activity.AttendanceGdActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
         </activity>
@@ -76,6 +82,13 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
         </activity>
+        
+        
+        <activity android:name="org.tang.exam.activity.MapActivity"  
+          android:screenOrientation="sensor"  
+          android:configChanges="orientation|keyboardHidden">  
+		</activity>  
+        
         
         <receiver android:name="org.tang.exam.service.PushMessageReceiver">
             <intent-filter>
@@ -114,8 +127,15 @@
             android:process=":bdservice_v1" />
         <!-- push结束 -->
         
-        <!-- 在百度开发者中心查询应用的API Key -->
-        <meta-data android:name="api_key" android:value="9HCWGt0jqjxwgTaynTvOGaaU" />
+        <!-- 高德地图API Key -->
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="878939cd537861b4789257482767f3d6" />
+        
+           <!-- 在百度开发者中心查询应用的API Key -->
+          <meta-data
+            android:name="api_key"
+            android:value="9HCWGt0jqjxwgTaynTvOGaaU" />
     </application>
 
 </manifest>

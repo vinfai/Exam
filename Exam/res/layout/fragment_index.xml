@@ -49,7 +49,29 @@
                 <View
                     style="@style/ListDivider"
                     android:visibility="gone" />
+				
+                  <RelativeLayout
+                    android:id="@+id/layout_map"
+                    style="@style/ListItem"
+                    android:visibility="visible" >
 
+                    <ImageView
+                        android:id="@+id/iv_map"
+                        style="@style/ListItemIcon"
+                        android:src="@drawable/index_attendance" />
+
+                    <TextView
+                        style="@style/ListItemText"
+                        android:layout_toRightOf="@id/iv_map"
+                        android:text="@string/map" />
+
+                    <ImageView style="@style/ListItemArrow" />
+                </RelativeLayout>
+
+                <View
+                    style="@style/ListDivider"
+                    android:visibility="gone" />
+                
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="20.0dip" />

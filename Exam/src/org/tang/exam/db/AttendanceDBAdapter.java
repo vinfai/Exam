@@ -29,7 +29,8 @@ public class AttendanceDBAdapter extends DBAdapter {
 		String orderBy = "createTime DESC";
 		String limit = String.valueOf(MAX_NUMBER);
 
-		Cursor result = getDb().query("Attendance", new String[] {"id", "userId", "createTime", "address", "gps"},
+		Cursor result = getDb().query("Attendance", new String[] {"id", "userId", "createTime",
+				"address", "gps","latitude","longitude"},
 				where, null, null, null, orderBy, limit);
 		if (result.moveToFirst()) {
 			do {
@@ -47,6 +48,8 @@ public class AttendanceDBAdapter extends DBAdapter {
 		attendanceRecord.setCreateTime(result.getString(result.getColumnIndex("createTime")));
 		attendanceRecord.setAddress(result.getString(result.getColumnIndex("address")));
 		attendanceRecord.setGps(result.getString(result.getColumnIndex("gps")));
+		attendanceRecord.setLatitude(result.getString(result.getColumnIndex("latitude")));
+		attendanceRecord.setLongitude(result.getString(result.getColumnIndex("longitude")));
 		return attendanceRecord;
 	}
 	
@@ -59,6 +62,8 @@ public class AttendanceDBAdapter extends DBAdapter {
 			values.put("address", attendanceRecord.getAddress());
 			values.put("gps", attendanceRecord.getGps());
 			values.put("createTime", attendanceRecord.getCreateTime());
+			values.put("latitude", attendanceRecord.getLatitude());
+			values.put("longitude", attendanceRecord.getLongitude());
 			getDb().insertOrThrow("Attendance", null, values);
 		}
 	}

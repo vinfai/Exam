@@ -1,9 +1,13 @@
 package org.tang.exam.fragments;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.tang.exam.R;
-import org.tang.exam.activity.AttendanceActivity.GpsDataChangeListener;
+import org.tang.exam.activity.AttendanceActivity;
+import org.tang.exam.activity.MapActivity;
 import org.tang.exam.adapter.AttendanceRecordListAdapter;
 import org.tang.exam.common.AppConstant;
 import org.tang.exam.common.UserCache;
@@ -13,20 +17,34 @@ import org.tang.exam.rest.MyStringRequest;
 import org.tang.exam.rest.RequestController;
 import org.tang.exam.rest.attendance.QueryAttendanceRecordReq;
 import org.tang.exam.rest.attendance.QueryAttendanceRecordResp;
+import org.tang.exam.rest.attendance.SaveAttendanceRecordReq;
+import org.tang.exam.utils.AMapUtil;
+import org.tang.exam.utils.DateTimeUtil;
 import org.tang.exam.utils.MessageBox;
+import org.tang.exam.utils.MobileConstant;
+import org.tang.exam.utils.ToastUtil;
 import org.tang.exam.view.DropDownListView;
 import org.tang.exam.view.DropDownListView.OnDropDownListener;
 
 import android.content.Context;
+import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.TextView;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationListener;
+import com.amap.api.location.LocationManagerProxy;
+import com.amap.api.location.LocationProviderProxy;
 import com.android.volley.Request.Method;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -36,13 +54,17 @@ import com.android.volley.VolleyError;
  * @author lenovo
  *
  */
-public final class AttendanceRecordListFragment extends Fragment implements OnItemClickListener,GpsDataChangeListener  {
+public  class AttendanceRecordListFragment extends
+	Fragment implements OnItemClickListener 
+	{
 	private static final String TAG = "AttendanceRecordListFragment";
 	private ArrayList<AttendanceRecord> mAttendanceRecordList = new ArrayList<AttendanceRecord>();
 	private AttendanceRecordListAdapter mAdapter;
 	private DropDownListView lvAttendanceRecordList;
 	private View mView;
-
+	private AttendanceRecord attendanceRecord;
+	
+	
 
 	public static AttendanceRecordListFragment newInstance() {
 		AttendanceRecordListFragment newFragment = new AttendanceRecordListFragment();
@@ -54,6 +76,7 @@ public final class AttendanceRecordListFragment extends Fragment implements OnIt
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		 setHasOptionsMenu(true);
 	}
 
 	@Override
@@ -62,6 +85,21 @@ public final class AttendanceRecordListFragment extends Fragment implements OnIt
 		return mView;
 	}
 	
+	 @Override
+     public boolean onOptionsItemSelected(MenuItem item) {
+		 super.onOptionsItemSelected(item);
+         Log.d(TAG, "点击了菜单"+item.getTitle());
+ 		switch (item.getItemId()) {
+ 		case android.R.id.home:
+ 			getActivity().finish();
+ 			break;
+ 		case R.id.action_remote_attendance:
+ 			getGPSLocation(getActivity());
+ 			break;
+ 		}
+ 		return true;
+     }
+	
 	
 
 	@Override
@@ -69,7 +107,9 @@ public final class AttendanceRecordListFragment extends Fragment implements OnIt
 		super.onResume();
 		initData();
 	}
+	
 
+	
 	@Override
 	public void onPause() {
 		super.onPause();
@@ -175,39 +215,94 @@ public final class AttendanceRecordListFragment extends Fragment implements OnIt
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View v, int pos, long id) {
-//		switch (parent.getId()) {
-//		case R.id.lv_attendance_record_list:
-//			Intent intent = new Intent(getActivity(), AttendanceRecordDetailActivity.class);
-//            Bundle bundle = new Bundle();
-//            bundle.putSerializable("AttendanceRecordList", mAttendanceRecordList);
-//            bundle.putInt("index", pos);
-//            intent.putExtras(bundle);
-//            getActivity().startActivity(intent);
-//            break;
-//		}
+		switch (parent.getId()) {
+		case R.id.lv_attendance_record_list:
+			Intent intent = new Intent(getActivity(), MapActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("AttendanceRecordList", mAttendanceRecordList);
+            
+            double latitude = Double.parseDouble(mAttendanceRecordList.get(pos==0?0:pos-1).getLatitude());
+            double longitude = Double.parseDouble(mAttendanceRecordList.get(pos==0?0:pos-1).getLongitude());
+            bundle.putInt("index", pos);
+            bundle.putDouble("latitude", latitude);
+            bundle.putDouble("longitude", longitude);
+            intent.putExtra("tag",bundle);
+            getActivity().startActivity(intent);
+            break;
+		}
 	}
 
+	
+	private void getGPSLocation(Context c){
+		GPSLocation gps = new GPSLocation(c);
+		if(attendanceRecord!=null){
+			gps.stopLocation();
+			saveAttendanceRecordToServer(attendanceRecord);
+		}
+	}
+	
+	
+	/**
+	 * 向服务器提交数据
+	 * @param a
+	 */
+	private void saveAttendanceRecordToServer(final AttendanceRecord a){
+		SaveAttendanceRecordReq sreq = new SaveAttendanceRecordReq();
+		sreq.setId(a.getId());
+		sreq.setAddress(a.getAddress());
+		sreq.setCreateTime(a.getCreateTime());
+		sreq.setGps(a.getGps());
+		sreq.setUserId(a.getUserId());
+		sreq.setLatitude(a.getLatitude());
+		sreq.setLongitude(a.getLongitude());
+		
+		MyStringRequest req = new MyStringRequest(Method.GET, sreq.getAllUrl(),
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String response) {
+						Log.v(TAG, "添加远程考勤记录: " + response);
+						String responseTmp = response.replace("\\", "").replace("\"", "");  
+						JSONObject rootObj;
+						try {
+							rootObj = new JSONObject(responseTmp);
+							if(rootObj.getString("sessionKey")!=null && !rootObj.getString("sessionKey").equals("")){
+								if(MobileConstant.attendance_upload_success==rootObj.getInt("msgFlag")){
+									ArrayList<AttendanceRecord> alist = new ArrayList<AttendanceRecord>();
+									alist.add(a);
+									addAttendanceRecordList(alist);
+									mAdapter.notifyDataSetChanged();
+									lvAttendanceRecordList.onDropDownComplete();
+									MessageBox.showMessage(getActivity(), "远程考勤成功");
+								}
+								else{
+									MessageBox.showMessage(getActivity(), "服务器异常");
+								}
+								
+							}
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+	
+					}
+				}, new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						MessageBox.showMessage(getActivity(), "服务器异常");
+					}
+				});
 
-
-	@Override
-	public void onGpsDataChangeListener(Context context,DropDownListView lvAttendanceRecordList) {
-		this.lvAttendanceRecordList = lvAttendanceRecordList ;
-		mAttendanceRecordList.clear();
-		mAdapter = new AttendanceRecordListAdapter(context, mAttendanceRecordList);
+		RequestController.getInstance().addToRequestQueue(req, TAG);
+	}
+	
+	private void addAttendanceRecordList(
+			ArrayList<AttendanceRecord> attendancelist) {
 		AttendanceDBAdapter dbAdapter = new AttendanceDBAdapter();
 		try {
 			dbAdapter.open();
-			mAttendanceRecordList.addAll(dbAdapter.getAttendanceRecord());
-			lvAttendanceRecordList.setAdapter(mAdapter);
-			mAdapter.notifyDataSetChanged();
-			lvAttendanceRecordList.setOnItemClickListener(this);
-			lvAttendanceRecordList.setOnDropDownListener(new OnDropDownListener() {
-				@Override
-				public void onDropDown() {
-					Log.d(TAG, "下拉点击");
-					refreshAttendanceRecordList();
-				}});
-			lvAttendanceRecordList.onDropDownComplete();
+			if (attendancelist != null && attendancelist.size() > 0) {
+				dbAdapter.addAttendanceRecord(attendancelist);
+			}
+
 		} catch (Exception e) {
 			Log.e(TAG, "Failed to operate database: " + e);
 		} finally {
@@ -215,5 +310,91 @@ public final class AttendanceRecordListFragment extends Fragment implements OnIt
 		}
 	}
 	
+	
+	class GPSLocation  implements
+		AMapLocationListener, Runnable{
+		
+		private LocationManagerProxy aMapLocManager = null;
+		private AMapLocation aMapLocation;// 用于判断定位超时
+		private Handler handler = new Handler();
+		
+		public GPSLocation(Context c){
+			aMapLocManager = LocationManagerProxy.getInstance(c);
+			aMapLocManager.requestLocationUpdates(
+					LocationProviderProxy.AMapNetwork, 2000, 10, this);
+			handler.postDelayed(this, 12000);// 设置超过12秒还没有定位到就停止定位
+		}
+		
+		
+		@Override
+		public void onLocationChanged(Location location) {
+			
+		}
+
+		@Override
+		public void onProviderDisabled(String provider) {
+			
+		}
+
+		@Override
+		public void onProviderEnabled(String provider) {
+			
+		}
+
+		@Override
+		public void onStatusChanged(String provider, int status, Bundle extras) {
+			
+		}
+
+		@Override
+		public void run() {
+			if (aMapLocation == null) {
+				ToastUtil.show(getActivity(), "12秒内还没有定位成功，停止定位");
+				stopLocation();// 销毁掉定位
+			}
+		}
+
+		@Override
+		public void onLocationChanged(AMapLocation location) {
+			if (location != null) {
+				attendanceRecord = new AttendanceRecord();
+				this.aMapLocation = location;// 判断超时机制
+				Double geoLat = location.getLatitude();
+				Double geoLng = location.getLongitude();
+				String cityCode = "";
+				String desc = "";
+				Bundle locBundle = location.getExtras();
+				if (locBundle != null) {
+					cityCode = locBundle.getString("citycode");
+					desc = locBundle.getString("desc");
+				}
+				String str = (
+						 location.getProvince() + location.getCity()
+						+  location.getDistrict()  + location.getAdCode());
+				String userId = UserCache.getInstance().getUserInfo().getUserId();
+				attendanceRecord.setAddress(str);
+				attendanceRecord.setGps(location.getLatitude() + "|"
+						+ location.getLongitude());
+				attendanceRecord.setLatitude(String.valueOf(location.getLatitude()));
+				attendanceRecord.setLongitude(String.valueOf(location.getLongitude()));
+				attendanceRecord.setId(UUID.randomUUID().toString());
+				attendanceRecord.setCreateTime(DateTimeUtil.getCompactTime());
+				attendanceRecord.setUserId(userId);
+			}
+			
+		}
+		
+		/**
+		 * 销毁定位
+		 */
+		private void stopLocation() {
+			if (aMapLocManager != null) {
+				aMapLocManager.removeUpdates(this);
+				aMapLocManager.destory();
+			}
+			aMapLocManager = null;
+		}
+		
+	}
 
 }

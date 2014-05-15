@@ -9,5 +9,4 @@
         android:drawableTop="@drawable/ic_tab_index"
         android:gravity="center_horizontal"
         android:text="@string/title_index" />
-
 </RelativeLayout>
