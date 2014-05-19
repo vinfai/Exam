@@ -399,7 +399,7 @@ public  class AttendanceRecordListFragment extends
 				Bundle locBundle = location.getExtras();
 				if (locBundle != null) {
 					cityCode = locBundle.getString("citycode");
-					desc = locBundle.getString("desc");
+					desc = locBundle.getString("desc").trim();
 				}
 				String str = (
 						 location.getProvince() + location.getCity()

@@ -9,6 +9,7 @@ import org.tang.exam.R;
 import org.tang.exam.fragments.AttendanceGraphFragment;
 import org.tang.exam.utils.CameraPreview;
 import org.tang.exam.utils.DateTimeUtil;
+import org.tang.exam.utils.PictureUtil;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +19,7 @@ import android.widget.FrameLayout;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.hardware.Camera.AutoFocusCallback;
 import android.hardware.Camera.PictureCallback;
@@ -55,11 +57,6 @@ public class CameraActivity extends Activity {
 	                        mCamera.takePicture(null, null, mPicture);
 	                    }
 	                });         
-	                
-	                Intent intent = new Intent(CameraActivity.this, AttendanceGraphFragment.class);  
-	                intent.putExtra("photoUrl", photoUrl);  
-	                setResult(RESULT_OK, intent);  
-	                finish();  
 	            }
 	        });
 	    }
@@ -91,6 +88,9 @@ public class CameraActivity extends Activity {
 
 	        @Override
 	        public void onPictureTaken(byte[] data, Camera camera) {
+	        	
+//	        	File f = new File(PictureUtil.getSDPath()+"/org.tang.exam/attendance/");
+	        	
 	        	File f = new File("/data/data/org.tang.exam/attendance/");
 	        	
 	        	if(!f.exists()){
@@ -108,6 +108,16 @@ public class CameraActivity extends Activity {
 	                fos.close();
 	                Log.d(TAG, "图片路径"+pictureFile.getAbsolutePath());
 	                photoUrl = pictureFile.getAbsolutePath();
+	                
+	                Bitmap bm = PictureUtil.getImageThumbnail(pictureFile.getAbsolutePath(), 80, 80);
+	                
+		            PictureUtil.saveMyBitmap(pictureFile.getAbsolutePath(),bm);
+	                
+	                Intent intent = new Intent(CameraActivity.this, AttendanceGraphFragment.class);  
+	                intent.putExtra("photoUrl", photoUrl);  
+	                setResult(RESULT_OK, intent);  
+	                finish();  
+	                
 	            } catch (Exception e) {
 	                Log.d(TAG, "保存图片失败");
 	            }

@@ -125,6 +125,19 @@ public final class DBScript {
             "); ";
     
     
+    public static final String CREATE_TABLE_ATTENDANCE_GRAPH = 
+    		"CREATE TABLE AttendanceGraph " + 
+            "( " + 
+        		"id text not null primary key , " + 
+            	"userId text not null, " +
+                "address text, " + 
+                "gps text not null, " +
+                "createTime text not null, " +
+                "latitude text not null, " +
+                "longitude text not null, " +
+                "photoUrl text not null " +
+            "); ";
+    
     
     public static final String DROP_TABLE_NOTICE = "DROP TABLE IF EXISTS Notice; ";
     public static final String DROP_TABLE_HOMEWORK = "DROP TABLE IF EXISTS Homework; ";
@@ -135,4 +148,5 @@ public final class DBScript {
     public static final String DROP_TABLE_MESSAGE = "DROP TABLE IF EXISTS Message; ";
     public static final String DROP_TABLE_SMS = "DROP TABLE IF EXISTS SMS; ";
     public static final String DROP_TABLE_ATTENDANCE = "DROP TABLE IF EXISTS Attendance; ";
+    public static final String DROP_TABLE_ATTENDANCE_GRAPH = "DROP TABLE IF EXISTS AttendanceGraph; ";
 }

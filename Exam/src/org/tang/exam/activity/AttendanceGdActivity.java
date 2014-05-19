@@ -38,7 +38,7 @@ public class AttendanceGdActivity extends BaseActionBarActivity {
 		mTabsAdapter = new TabsAdapter(this, mViewPager);
 		mTabsAdapter.addTab(bar.newTab().setText("出勤记录"),
 				AttendanceRecordListFragment.class, null);
-		mTabsAdapter.addTab(bar.newTab().setText("出勤路线"),
+		mTabsAdapter.addTab(bar.newTab().setText("出勤场所"),
 				AttendanceGraphFragment.class, null);
 	}
 	

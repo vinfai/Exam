@@ -91,7 +91,7 @@ public class DBAdapter {
 			db.execSQL(DBScript.CREATE_TABLE_MESSAGE);
 			db.execSQL(DBScript.CREATE_TABLE_SMS);
 			db.execSQL(DBScript.CREATE_TABLE_ATTENDANCE);
-			
+			db.execSQL(DBScript.CREATE_TABLE_ATTENDANCE_GRAPH);
 		}
 
 		@Override
@@ -108,6 +108,7 @@ public class DBAdapter {
 			db.execSQL(DBScript.DROP_TABLE_MESSAGE);
 			db.execSQL(DBScript.DROP_TABLE_SMS);
 			db.execSQL(DBScript.DROP_TABLE_ATTENDANCE);
+			db.execSQL(DBScript.DROP_TABLE_ATTENDANCE_GRAPH);
 			onCreate(db);
 		}
 	}

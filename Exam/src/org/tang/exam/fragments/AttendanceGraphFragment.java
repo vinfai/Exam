@@ -3,6 +3,7 @@ package org.tang.exam.fragments;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.json.JSONException;
@@ -10,8 +11,12 @@ import org.json.JSONObject;
 import org.tang.exam.R;
 import org.tang.exam.activity.AttendanceActivity;
 import org.tang.exam.activity.CameraActivity;
+import org.tang.exam.adapter.AttendanceRecordGraphListAdapter;
+import org.tang.exam.adapter.AttendanceRecordListAdapter;
 import org.tang.exam.common.AppConstant;
 import org.tang.exam.common.UserCache;
+import org.tang.exam.db.AttendanceDBAdapter;
+import org.tang.exam.db.AttendanceGraphDBAdapter;
 import org.tang.exam.entity.AttendanceRecord;
 import org.tang.exam.entity.AttendanceRecordGraph;
 import org.tang.exam.fragments.AttendanceRecordListFragment.GPSLocation;
@@ -22,6 +27,7 @@ import org.tang.exam.utils.DateTimeUtil;
 import org.tang.exam.utils.MessageBox;
 import org.tang.exam.utils.MobileConstant;
 import org.tang.exam.view.DropDownListView;
+import org.tang.exam.view.DropDownListView.OnDropDownListener;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
@@ -68,6 +74,7 @@ public class AttendanceGraphFragment extends Fragment  implements OnItemClickLis
 	private AttendanceRecordGraph attendanceRecordGraph;
 	private ProgressDialog progDialog = null;
 	private String photoUrl;
+	private AttendanceRecordGraphListAdapter mAdapter;
 	/**
 	 * 显示进度条对话框
 	 */
@@ -132,7 +139,56 @@ public class AttendanceGraphFragment extends Fragment  implements OnItemClickLis
  		return true;
      }
 	
-	
+	 
+		@Override
+		public void onResume() {
+			super.onResume();
+			initData();
+		}
+		
+
+		
+		@Override
+		public void onPause() {
+			super.onPause();
+		}
+
+		@Override
+		public void onDestroy() {
+			super.onDestroy();
+		}
+
+		private void initData() {
+			progDialog = new ProgressDialog(getActivity());
+			mAttendanceRecordGraphList.clear();
+			lvAttendanceRecordList = (DropDownListView) mView.findViewById(R.id.lv_attendance_record_list);
+			mAdapter = new AttendanceRecordGraphListAdapter(mView.getContext(), mAttendanceRecordGraphList);
+			lvAttendanceRecordList.setAdapter(mAdapter);
+			lvAttendanceRecordList.setOnItemClickListener(this);
+			lvAttendanceRecordList.setOnDropDownListener(new OnDropDownListener() {
+				@Override
+				public void onDropDown() {
+					Log.d(TAG, "下拉点击");
+				}});
+			
+			initAttendanceRecordList();
+		}
+
+	private void initAttendanceRecordList() {
+		AttendanceGraphDBAdapter dbAdapter = new AttendanceGraphDBAdapter();
+		try {
+			dbAdapter.open();
+			mAttendanceRecordGraphList.addAll(dbAdapter.getAttendanceRecord());
+			mAdapter.notifyDataSetChanged();
+			lvAttendanceRecordList.setSecondPositionVisible();
+			lvAttendanceRecordList.onDropDownComplete();
+		} catch (Exception e) {
+			Log.e(TAG, "Failed to operate database: " + e);
+		} finally {
+			dbAdapter.close();
+		}
+	}
+	 
 	 public void makeCamera(){
 		 Intent intent = new Intent(getActivity(),CameraActivity.class);
 		 startActivityForResult(intent, 0);  
@@ -142,6 +198,9 @@ public class AttendanceGraphFragment extends Fragment  implements OnItemClickLis
 	 @Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data)  
 	    {  
+		 
+		 	showDialog();
+		 
 	        switch (requestCode)  
 	        {  
 	        case 0:  
@@ -160,6 +219,27 @@ public class AttendanceGraphFragment extends Fragment  implements OnItemClickLis
 	}
 	
 	
+	private void saveAttendanceGraphLocal(ArrayList<AttendanceRecordGraph>  alist){
+		AttendanceGraphDBAdapter dbAdapter = new AttendanceGraphDBAdapter();
+		mAttendanceRecordGraphList.clear();
+		try {
+			dbAdapter.open();
+			dbAdapter.addAttendanceRecordGraph(alist);
+			mAttendanceRecordGraphList.addAll(dbAdapter.getAttendanceRecord());
+			mAdapter.notifyDataSetChanged();
+			lvAttendanceRecordList.setSecondPositionVisible();
+			lvAttendanceRecordList.onDropDownComplete();
+			dismissDialog() ;
+		} catch (Exception e) {
+			Log.e(TAG, "Failed to operate database: " + e);
+		} finally {
+			dbAdapter.close();
+		}
+	}
+	
+	
+	
+	
 	
 	/**
 	 * 向服务器提交数据
@@ -167,35 +247,47 @@ public class AttendanceGraphFragment extends Fragment  implements OnItemClickLis
 	 * @throws FileNotFoundException 
 	 */
 	private void saveAttendanceRecordToServer(final AttendanceRecordGraph a) throws FileNotFoundException{
-		RequestParams params = new RequestParams();
 		
-		params.put("id", a.getId());
-		params.put("userId", a.getUserId());
-		params.put("createTime", a.getCreateTime());
-		params.put("address", a.getAddress());
-		params.put("gps", a.getGps());
-		params.put("latitude", a.getLatitude());
-		params.put("longitude", a.getLongitude());
-		params.put("photo", new File(photoUrl));
-		
-		AsyncHttpClient client = new AsyncHttpClient();
-		
-		client.post(AppConstant.BASE_URL + "mobile/addAttendanceGraph", params, new AsyncHttpResponseHandler(){
-		    
-		    @Override
-		    public void onFailure(Throwable error, String content) {
-		        super.onFailure(error, content);
-		        Toast.makeText(getActivity(), "上传失败！"+content, Toast.LENGTH_LONG).show();
-		    }
-		    
-		    @Override
-		    public void onSuccess(int statusCode, String content) {
-		        super.onSuccess(statusCode, content);
-		        Toast.makeText(getActivity(), "上传成功！"+content, Toast.LENGTH_LONG).show();
-		    }
-		    
-		    
-		});
+		if(photoUrl==null || ("").equals(photoUrl)){
+			  Toast.makeText(getActivity(), "照片路径为空", Toast.LENGTH_LONG).show();
+		}
+		else{
+			RequestParams params = new RequestParams();
+			params.put("id", a.getId());
+			params.put("userId", a.getUserId());
+			params.put("createTime", a.getCreateTime());
+			params.put("address", a.getAddress());
+			params.put("gps", a.getGps());
+			params.put("latitude", a.getLatitude());
+			params.put("longitude", a.getLongitude());
+			params.put("photo", new File(photoUrl));
+			
+			AsyncHttpClient client = new AsyncHttpClient();
+			
+			client.post(AppConstant.BASE_URL + "mobile/addAttendanceGraph", 
+					params, new AsyncHttpResponseHandler(){
+			    
+			    @Override
+			    public void onFailure(Throwable error, String content) {
+			        super.onFailure(error, content);
+			        Toast.makeText(getActivity(), "上传失败！"+content, Toast.LENGTH_LONG).show();
+			        dismissDialog() ;
+			    }
+			    
+			    @Override
+			    public void onSuccess(int statusCode, String content) {
+			        super.onSuccess(statusCode, content);
+			        Toast.makeText(getActivity(), "上传成功！"+content, Toast.LENGTH_LONG).show();
+			        
+			        ArrayList list =  new ArrayList();
+			        a.setPhotoUrl(photoUrl);
+			        list.add(a);
+			        saveAttendanceGraphLocal(list);
+			    }
+			    
+			    
+			});
+		}
 		
 	}
 	
@@ -275,11 +367,15 @@ public class AttendanceGraphFragment extends Fragment  implements OnItemClickLis
 					cityCode = locBundle.getString("citycode");
 					desc = locBundle.getString("desc");
 				}
-				String str = (
-						 location.getProvince() + location.getCity()
-						+  location.getDistrict()  + location.getAdCode())+desc;
+//				String str = (
+//						 location.getProvince() + location.getCity()
+//						+  location.getDistrict()  + location.getAdCode())+desc;
+				
+				String str = desc;
+				
+				
 				String userId = UserCache.getInstance().getUserInfo().getUserId();
-				attendanceRecordGraph.setAddress(str);
+				attendanceRecordGraph.setAddress(str.trim());
 				attendanceRecordGraph.setGps(location.getLatitude() + "|"
 						+ location.getLongitude());
 				attendanceRecordGraph.setLatitude(String.valueOf(location.getLatitude()));
