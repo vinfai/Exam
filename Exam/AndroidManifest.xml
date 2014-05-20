@@ -109,7 +109,7 @@
             </intent-filter>
         </receiver>
         
-        <!-- push必须的receviver和service声明 -->
+         <!-- push必须的receviver和service声明 -->
         <receiver android:name="com.baidu.android.pushservice.PushServiceReceiver"
             android:process=":bdservice_v1">
             <intent-filter>
@@ -133,7 +133,11 @@
         <service
             android:name="com.baidu.android.pushservice.PushService"
             android:exported="true"
-            android:process=":bdservice_v1" />
+            android:process=":bdservice_v1"  >
+            <intent-filter>
+                <action android:name="com.baidu.android.pushservice.action.PUSH_SERVICE" />
+            </intent-filter>
+        </service>
         <!-- push结束 -->
         
         <!-- 高德地图API Key -->

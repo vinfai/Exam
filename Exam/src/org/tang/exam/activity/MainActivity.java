@@ -1,11 +1,15 @@
 package org.tang.exam.activity;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import org.tang.exam.R;
 import org.tang.exam.adapter.CommonPagerAdapter;
 import org.tang.exam.base.BaseActionBarFragmentActivity;
+import org.tang.exam.base.MyApplication;
+import org.tang.exam.common.AppConstant;
+import org.tang.exam.common.UserCache;
 import org.tang.exam.fragments.IndexFragment;
 import org.tang.exam.rest.RequestController;
 import org.tang.exam.utils.PushUtils;
@@ -25,9 +29,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 public class MainActivity extends BaseActionBarFragmentActivity implements OnPageChangeListener {
 	private static final String TAG = "MainActivity";
@@ -37,7 +45,10 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 	private BadgeView mBadge = null;
 	private TextView mMessageItem = null;
 	private RelativeLayout mIndexView = null;
-
+	private String pushUserId;
+	private String pushChannelId;
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,6 +56,7 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 		initTabWidget();
 		initPagerView();
 		initPushService();
+		handleIntent(getIntent());
 	}
 
 	private void initPushService() {
@@ -71,6 +83,11 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 		if(intent!=null && intent.getExtras()!=null && intent.getExtras().getSerializable(PushUtils.EXTRA_MESSAGE)!=null){
 			Log.d(TAG, (String) intent.getExtras().getSerializable(PushUtils.EXTRA_MESSAGE));
 			String message = (String) intent.getExtras().getSerializable(PushUtils.EXTRA_MESSAGE);
+			
+			 pushUserId = (String)intent.getExtras().getSerializable("pushUserId"); 
+			 pushChannelId = intent.getStringExtra("pushChannelId");
+			 handleIntent(intent);
+			 
 			if (mBadge != null) {
 				if (message!=null && !message.equals("")) {
 					mBadge.setText(String.valueOf(1));
@@ -88,10 +105,53 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 			PushManager.startWork(getApplicationContext(),
 					PushConstants.LOGIN_TYPE_ACCESS_TOKEN, accessToken);
 		}
-			
 		
 	}
+	
+	
+	private void handleIntent(Intent intent) {
+		String action = intent.getAction();
+		UserCache userCache = UserCache.getInstance();
+		if (!pushUserId.equals("")&&pushUserId!=null) {
+			onBindSuccess(pushUserId, pushChannelId);
+		} else if (PushUtils.ACTION_NOTIFICATION_ENTRY.equals(action)) {
+			// 重置通知栏新消息数
+			MyApplication.getInstance().clearNewsCount();
+		}
+	}
 
+	
+	private void onBindSuccess(String pushUserId, String pushChannelId) {
+		Log.d(TAG, "[onBindSuccess] pushUserId: " + pushUserId);
+		Log.d(TAG, "[onBindSuccess] pushChannelId: " + pushChannelId);
+		
+		RequestParams params = new RequestParams();
+		params.put("userId", UserCache.getInstance().getUserInfo().getUserId());
+		params.put("pushUserId", pushUserId);
+		params.put("pushChannelId", pushChannelId);
+		params.put("deviceType", "android");
+		AsyncHttpClient client = new AsyncHttpClient();
+		
+		client.post(AppConstant.BASE_URL + "mobile/addPushInfo", 
+				params, new AsyncHttpResponseHandler(){
+		    
+		    @Override
+		    public void onFailure(Throwable error, String content) {
+		        super.onFailure(error, content);
+		        Toast.makeText(MainActivity.this, "上传推送信息失败！"+content, Toast.LENGTH_LONG).show();
+		    }
+		    
+		    @Override
+		    public void onSuccess(int statusCode, String content) {
+		        super.onSuccess(statusCode, content);
+		    }
+		});
+		
+		
+	}
+	
+	
+	
 	@Override
 	public void onPause() {
 		super.onPause();
@@ -206,7 +266,8 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 			
 			if (mBadge != null) {
 				if (unreadCount!="") {
-					mBadge.setText(String.valueOf(unreadCount));
+					Log.d(TAG, unreadCount);
+					mBadge.setText(String.valueOf(1));
 					mBadge.show();
 				} else {
 					mBadge.hide();

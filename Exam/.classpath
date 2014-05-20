@@ -10,10 +10,10 @@
 	<classpathentry kind="lib" path="libs/gson.jar"/>
 	<classpathentry kind="lib" path="libs/pinyin4j-2.5.0.jar"/>
 	<classpathentry kind="lib" path="libs/volley.jar"/>
-	<classpathentry kind="lib" path="libs/pushservice-3.2.0.jar"/>
 	<classpathentry kind="lib" path="libs/Android_Location_V1.1.1.jar"/>
 	<classpathentry kind="lib" path="libs/Android_Map_2.2.0.jar"/>
 	<classpathentry kind="lib" path="libs/Android_Services_2.2.0.jar"/>
 	<classpathentry kind="lib" path="libs/android-async-http-1.4.4.jar"/>
+	<classpathentry kind="lib" path="libs/pushservice-4.0.0.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
