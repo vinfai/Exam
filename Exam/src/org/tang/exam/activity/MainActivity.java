@@ -1,15 +1,14 @@
 package org.tang.exam.activity;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
-
 import org.tang.exam.R;
 import org.tang.exam.adapter.CommonPagerAdapter;
 import org.tang.exam.base.BaseActionBarFragmentActivity;
 import org.tang.exam.base.MyApplication;
 import org.tang.exam.common.AppConstant;
 import org.tang.exam.common.UserCache;
+import org.tang.exam.fragments.ContactFragment;
 import org.tang.exam.fragments.IndexFragment;
 import org.tang.exam.rest.RequestController;
 import org.tang.exam.utils.PushUtils;
@@ -45,6 +44,7 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 	private BadgeView mBadge = null;
 	private TextView mMessageItem = null;
 	private RelativeLayout mIndexView = null;
+	private RelativeLayout mContactView = null;
 	private String pushUserId;
 	private String pushChannelId;
 	
@@ -194,18 +194,23 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 
 	private void initTabWidget() {
 		mIndexView = (RelativeLayout) findViewById(R.id.bottombar_index);
+		mContactView = (RelativeLayout) findViewById(R.id.bottombar_contact);
 		
 		mMessageItem = (TextView) findViewById(R.id.tab_item_index);
 		mBadge = new BadgeView(this, mMessageItem);
 		mBadge.setBadgeMargin(0);
 		mIndexView.setOnClickListener(new TabOnClickListener(0));
+		mContactView.setOnClickListener(new TabOnClickListener(1));
 	}
 
 	private void initPagerView() {
 		mViewPager = (ViewPager) findViewById(R.id.vp_container);
 		mFragmentsList = new ArrayList<Fragment>();
 		Fragment indexFrag = IndexFragment.newInstance();
+		Fragment contactFrag = ContactFragment.newInstance();
+		
 		mFragmentsList.add(indexFrag);
+		mFragmentsList.add(contactFrag);
 		mAdapter = new CommonPagerAdapter(getSupportFragmentManager(), mFragmentsList);
 		mViewPager.setAdapter(mAdapter);
 		mViewPager.setOnPageChangeListener(this);
@@ -231,11 +236,18 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 		case 0:
 			selectIndex();
 			break;
+		case 1:
+			selectContact();
+			break;
 		}
 	}
 
 	private void selectIndex() {
 		mIndexView.setSelected(true);
+	}
+	
+	private void selectContact() {
+		mContactView.setSelected(true);
 	}
 
 

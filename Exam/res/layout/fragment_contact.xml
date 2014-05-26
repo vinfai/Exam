@@ -14,7 +14,7 @@
         android:orientation="horizontal" >
         
         <RadioButton
-            android:id="@+id/rb_teacher"
+            android:id="@+id/rb_orgpeople"
             android:layout_width="0.0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
@@ -23,40 +23,12 @@
             android:checked="true"
             android:gravity="center"
             android:padding="10.0dip"
-            android:text="@string/teacher"
+            android:text="@string/contact_org_people"
             android:textColor="@color/group_tab_text_color"
             android:textSize="@dimen/group_tab_item_text"
             android:textStyle="bold" />
 
-        <RadioButton
-            android:id="@+id/rb_student"
-            android:layout_width="0.0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.0"
-            android:background="@drawable/group_tab_indicator"
-            android:button="@null"
-            android:checked="false"
-            android:gravity="center"
-            android:padding="10.0dip"
-            android:text="@string/student"
-            android:textColor="@color/group_tab_text_color"
-            android:textSize="@dimen/group_tab_item_text"
-            android:textStyle="bold" />
-
-        <RadioButton
-            android:id="@+id/rb_parent"
-            android:layout_width="0.0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.0"
-            android:background="@drawable/group_tab_indicator"
-            android:button="@null"
-            android:checked="false"
-            android:gravity="center"
-            android:padding="10.0dip"
-            android:text="@string/parent"
-            android:textColor="@color/group_tab_text_color"
-            android:textSize="@dimen/group_tab_item_text"
-            android:textStyle="bold" />
+        
         
         <RadioButton
             android:id="@+id/rb_group"

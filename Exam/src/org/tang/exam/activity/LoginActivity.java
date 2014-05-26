@@ -3,6 +3,7 @@ package org.tang.exam.activity;
 import org.tang.exam.R;
 import org.tang.exam.base.BaseActionBarActivity;
 import org.tang.exam.common.AppConstant;
+import org.tang.exam.common.SyncRoster;
 import org.tang.exam.common.UserCache;
 import org.tang.exam.entity.UserInfo;
 import org.tang.exam.rest.MyStringRequest;
@@ -10,6 +11,7 @@ import org.tang.exam.rest.RequestController;
 import org.tang.exam.rest.login.UserLoginParse;
 import org.tang.exam.rest.login.UserLoginReq;
 import org.tang.exam.utils.MessageBox;
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -146,10 +148,30 @@ public class LoginActivity extends BaseActionBarActivity implements OnClickListe
 		userCache.setPassword(etPassword.getText().toString());
 		userCache.setUserInfo(userInfo);
 		
-		closeProgressDialog();
-		Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-		LoginActivity.this.startActivity(intent);
-		LoginActivity.this.finish();
+		/**
+		 * 花名册同步成功后才会进去主界面
+		 */
+		SyncRoster syncRoster = new SyncRoster(new SyncRoster.OnTaskListener() {
+
+			@Override
+			public void onSuccess() {
+				closeProgressDialog();
+				UserCache userCache = UserCache.getInstance();
+				userCache.setLogon(true);
+				
+				Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+				LoginActivity.this.startActivity(intent);
+				LoginActivity.this.finish();
+			}
+
+			@Override
+			public void onFailure() {
+				closeProgressDialog();
+				MessageBox.showLongMessage(LoginActivity.this, "同步通讯录失败!");
+			}
+		});
+		syncRoster.execSync();
 
 	}
 

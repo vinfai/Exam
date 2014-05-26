@@ -1,14 +1,10 @@
 package org.tang.exam.db;
 
-import java.util.ArrayList;
 import org.tang.exam.base.MyApplication;
 import org.tang.exam.common.UserCache;
-import org.tang.exam.entity.AttendanceRecord;
 import org.tang.exam.entity.Message;
-
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
@@ -92,6 +88,9 @@ public class DBAdapter {
 			db.execSQL(DBScript.CREATE_TABLE_SMS);
 			db.execSQL(DBScript.CREATE_TABLE_ATTENDANCE);
 			db.execSQL(DBScript.CREATE_TABLE_ATTENDANCE_GRAPH);
+			
+			db.execSQL(DBScript.CREATE_TABLE_USERINFO);
+			
 		}
 
 		@Override
@@ -109,6 +108,7 @@ public class DBAdapter {
 			db.execSQL(DBScript.DROP_TABLE_SMS);
 			db.execSQL(DBScript.DROP_TABLE_ATTENDANCE);
 			db.execSQL(DBScript.DROP_TABLE_ATTENDANCE_GRAPH);
+			db.execSQL(DBScript.DROP_TABLE_USERINFO);
 			onCreate(db);
 		}
 	}

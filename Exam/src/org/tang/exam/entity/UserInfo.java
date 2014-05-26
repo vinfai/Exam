@@ -19,6 +19,8 @@ public  class UserInfo implements Serializable {
 	private String pinYin = "";
 	private String initial = "0";
 	private String userType;
+	private String orgId;
+	private String departId;
 	
 	public UserInfo(){}
 	
@@ -85,6 +87,26 @@ public  class UserInfo implements Serializable {
 
 	public void setUserType(String userType) {
 		this.userType = userType;
+	}
+
+
+	public String getOrgId() {
+		return orgId;
+	}
+
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
+	}
+
+
+	public String getDepartId() {
+		return departId;
+	}
+
+
+	public void setDepartId(String departId) {
+		this.departId = departId;
 	}
 	
 }

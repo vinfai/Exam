@@ -139,6 +139,25 @@ public final class DBScript {
             "); ";
     
     
+
+    public static final String CREATE_TABLE_USERINFO = 
+    		"CREATE TABLE userinfo " + 
+            "( " + 
+        		"userId text not null primary key , " + 
+            	"userName text not null, " +
+                "sex integer, " + 
+                "phone text not null, " +
+                "picUrl text not null, " +
+                "pinYin text not null, " +
+                "initial text not null, " +
+                "userType text not null, " +
+                "orgId text not null, " +
+                "departId text not null " +
+            "); ";
+    
+    
+    
+    
     public static final String DROP_TABLE_NOTICE = "DROP TABLE IF EXISTS Notice; ";
     public static final String DROP_TABLE_HOMEWORK = "DROP TABLE IF EXISTS Homework; ";
     public static final String DROP_TABLE_DAILY = "DROP TABLE IF EXISTS Daily; ";
@@ -149,4 +168,5 @@ public final class DBScript {
     public static final String DROP_TABLE_SMS = "DROP TABLE IF EXISTS SMS; ";
     public static final String DROP_TABLE_ATTENDANCE = "DROP TABLE IF EXISTS Attendance; ";
     public static final String DROP_TABLE_ATTENDANCE_GRAPH = "DROP TABLE IF EXISTS AttendanceGraph; ";
+    public static final String DROP_TABLE_USERINFO = "DROP TABLE IF EXISTS userinfo; ";
 }

@@ -83,4 +83,12 @@
     <string name="error_key">key验证无效！</string>
     <string name="error_other">未知错误，请稍后重试!错误码为</string>
     <string name="no_result">对不起，没有搜索到相关数据！</string>
+    
+    <!-- contact -->
+    <string name="contact_org_people">组织人员</string>
+    
+    
+    
+    
+    
 </resources>
