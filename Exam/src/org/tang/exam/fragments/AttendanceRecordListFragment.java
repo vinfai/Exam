@@ -41,6 +41,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 
@@ -199,8 +200,7 @@ public  class AttendanceRecordListFragment extends
 					@Override
 					public void onResponse(String response) {
 						Log.v(TAG, "Response: " + response);
-						String responseTmp = response.replace("\\", "").replace("\"", "");  
-						checkResponse(responseTmp);
+						checkResponse(response);
 						lvAttendanceRecordList.onDropDownComplete();
 					}
 				}, new Response.ErrorListener() {
@@ -221,7 +221,7 @@ public  class AttendanceRecordListFragment extends
 				doSuccess(respData);
 			} 
 			else{
-				MessageBox.showAckError(mView.getContext(), respData.getMsgFlag());
+				Toast.makeText(getActivity(), "解析错误", Toast.LENGTH_LONG).show();
 			}
 		} catch (Exception e) {
 			MessageBox.showParserError(mView.getContext());
@@ -230,15 +230,15 @@ public  class AttendanceRecordListFragment extends
 	}
 	
 	private void doSuccess(QueryAttendanceRecordResp respData) {
-		mAttendanceRecordList.addAll(0, respData.getAttendanceRecordList());
-		mAdapter.notifyDataSetChanged();
+		mAttendanceRecordList.addAll(0, respData.getResponse());
 		AttendanceDBAdapter dbAdapter = new AttendanceDBAdapter();
 		try {
 			dbAdapter.open();
-			dbAdapter.addAttendanceRecord(respData.getAttendanceRecordList());
+			dbAdapter.addAttendanceRecord(respData.getResponse());
 		} catch (Exception e) {
 			Log.e(TAG, "Failed to operate database: " + e);
 		} finally {
+			mAdapter.notifyDataSetChanged();
 			dbAdapter.close();
 		}
 	}

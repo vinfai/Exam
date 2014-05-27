@@ -144,15 +144,15 @@ public final class DBScript {
     		"CREATE TABLE userinfo " + 
             "( " + 
         		"userId text not null primary key , " + 
-            	"userName text not null, " +
+            	"userName text , " +
                 "sex integer, " + 
-                "phone text not null, " +
-                "picUrl text not null, " +
-                "pinYin text not null, " +
-                "initial text not null, " +
-                "userType text not null, " +
-                "orgId text not null, " +
-                "departId text not null " +
+                "phone text , " +
+                "picUrl text , " +
+                "pinYin text , " +
+                "initial text , " +
+                "userType text , " +
+                "orgId text , " +
+                "departId text  " +
             "); ";
     
     

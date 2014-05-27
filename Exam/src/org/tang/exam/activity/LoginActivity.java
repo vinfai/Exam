@@ -142,7 +142,6 @@ public class LoginActivity extends BaseActionBarActivity implements OnClickListe
 		UserInfo userInfo = respData.getUserInfo();
 		UserCache userCache = UserCache.getInstance();
 
-		userCache.setLogon(true);
 		userCache.setSessionKey(respData.getSessionKey());
 		// TBD: Encrypt password with MD5 or DES
 		userCache.setPassword(etPassword.getText().toString());

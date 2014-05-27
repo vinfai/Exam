@@ -1,6 +1,7 @@
 package org.tang.exam.common;
 
 import java.util.ArrayList;
+
 import org.tang.exam.common.AppConstant.Ack;
 import org.tang.exam.db.UserInfoDBAdapter;
 import org.tang.exam.entity.UserInfo;
@@ -8,10 +9,14 @@ import org.tang.exam.rest.MyStringRequest;
 import org.tang.exam.rest.RequestController;
 import org.tang.exam.rest.userInfo.ContactUserInfoReq;
 import org.tang.exam.rest.userInfo.ContactUserInfoResp;
+
 import android.util.Log;
+
 import com.android.volley.Request.Method;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * 同步花名册--根据用户信息来判断是否是同步学生还是家长还是老师
@@ -51,7 +56,7 @@ public class SyncRoster {
 	private void syncUserInfo_OrgPeople() {
 		UserCache userCache = UserCache.getInstance();
 		ContactUserInfoReq reqData = new ContactUserInfoReq();
-		reqData.setUserId(userCache.getUserInfo().getUserId());
+		reqData.setOrgId(userCache.getUserInfo().getOrgId());
 
 		MyStringRequest req = new MyStringRequest(Method.GET, reqData.getAllUrl(),
 				new Response.Listener<String>() {
@@ -60,14 +65,17 @@ public class SyncRoster {
 						Log.d(TAG, "Response: " + response);
 						try {
 							UserCache userCache = UserCache.getInstance();
-							ContactUserInfoResp resp = new ContactUserInfoResp(response);
-							if ((resp.getAck() != Ack.SUCCESS) && resp.getAck() != Ack.NOT_FOUND) {
+							 Gson gson = new Gson();  
+							 ContactUserInfoResp d =  gson.fromJson(response, ContactUserInfoResp.class);
+							
+							if (d.getMsgFlag()==AppConstant.contact_query_fail) {
 								taskListener.onFailure();
 								return;
 							}
 
-							if (resp.getAck() == Ack.SUCCESS) {
-								updateUserInfo(resp.getUserInfoList());
+							if (d.getMsgFlag() == AppConstant.contact_query_success) {
+								 ArrayList<UserInfo> ulist  = gson.fromJson(gson.toJson(d.getResponse()),  new TypeToken<ArrayList<UserInfo>>(){}.getType());
+								updateUserInfo(ulist);
 							}
 							taskListener.onSuccess();
 						} catch (Exception e) {
@@ -96,7 +104,11 @@ public class SyncRoster {
 		try {
 			dbAdapter.open();
 			dbAdapter.addUserInfo(list);
-		} finally {
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally {
 			dbAdapter.close();
 		}
 	}

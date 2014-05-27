@@ -17,7 +17,7 @@
         android:paddingBottom="8.0dip"
         android:paddingTop="8.0dip" >
 
-        <com.stinfo.pushme.view.RoundedImageView
+        <org.tang.exam.view.RoundedImageView
             android:id="@+id/iv_user_avatar"
             android:layout_width="@dimen/normal_avatar_size"
             android:layout_height="@dimen/normal_avatar_size"

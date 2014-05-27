@@ -6,14 +6,14 @@ import org.tang.exam.rest.BaseRequest;
 
 public class ContactUserInfoReq extends BaseRequest{
 
-	private String userId;
+	private String orgId;
 
-	public String getUserId() {
-		return userId;
+	public String getOrgId() {
+		return orgId;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
 	}
 
 	@Override
@@ -24,7 +24,7 @@ public class ContactUserInfoReq extends BaseRequest{
 	@Override
 	public HashMap<String, String> toParamsMap() {
 		HashMap<String, String> paramsHashMap = new HashMap<String, String>();
-		paramsHashMap.put("userId", this.userId);
+		paramsHashMap.put("orgId", this.orgId);
 		return paramsHashMap;
 	}
 

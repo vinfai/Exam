@@ -71,9 +71,14 @@ public class AppConstant {
 	
 	public static final int login_success = 1001; 
 	
+	public static final int login_fail = 8001; 
+	
 	public static final int attendance_success = 1002; 
 	
+	public static final int attendance_fail = 8002; 
 	
+	public static final int contact_query_success = 1004; 
 	
+	public static final int contact_query_fail = 8004; 
 	
 }

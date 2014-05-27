@@ -45,8 +45,8 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 	private TextView mMessageItem = null;
 	private RelativeLayout mIndexView = null;
 	private RelativeLayout mContactView = null;
-	private String pushUserId;
-	private String pushChannelId;
+	private String pushUserId="";
+	private String pushChannelId="";
 	
 	
 	@Override
@@ -112,7 +112,7 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 	private void handleIntent(Intent intent) {
 		String action = intent.getAction();
 		UserCache userCache = UserCache.getInstance();
-		if (!pushUserId.equals("")&&pushUserId!=null) {
+		if (pushUserId!=null&&!pushUserId.equals("")) {
 			onBindSuccess(pushUserId, pushChannelId);
 		} else if (PushUtils.ACTION_NOTIFICATION_ENTRY.equals(action)) {
 			// 重置通知栏新消息数
@@ -143,6 +143,7 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 		    
 		    @Override
 		    public void onSuccess(int statusCode, String content) {
+		    	Log.d(TAG, content);
 		        super.onSuccess(statusCode, content);
 		    }
 		});
@@ -244,9 +245,11 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 
 	private void selectIndex() {
 		mIndexView.setSelected(true);
+		mContactView.setSelected(false);
 	}
 	
 	private void selectContact() {
+		mIndexView.setSelected(false);
 		mContactView.setSelected(true);
 	}
 
