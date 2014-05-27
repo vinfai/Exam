@@ -20,9 +20,11 @@ import org.tang.exam.db.AttendanceGraphDBAdapter;
 import org.tang.exam.entity.AttendanceRecord;
 import org.tang.exam.entity.AttendanceRecordGraph;
 import org.tang.exam.fragments.AttendanceRecordListFragment.GPSLocation;
+import org.tang.exam.rest.BaseResponse;
 import org.tang.exam.rest.MyStringRequest;
 import org.tang.exam.rest.RequestController;
 import org.tang.exam.rest.attendance.SaveAttendanceRecordReq;
+import org.tang.exam.rest.userInfo.ContactUserInfoResp;
 import org.tang.exam.utils.DateTimeUtil;
 import org.tang.exam.utils.MessageBox;
 import org.tang.exam.utils.MobileConstant;
@@ -36,6 +38,7 @@ import com.amap.api.location.LocationProviderProxy;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.Request.Method;
+import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -46,6 +49,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -75,14 +79,24 @@ public class AttendanceGraphFragment extends Fragment  implements OnItemClickLis
 	private ProgressDialog progDialog = null;
 	private String photoUrl;
 	private AttendanceRecordGraphListAdapter mAdapter;
+	
+	public ProgressDialog getProgDialog() {
+		return progDialog;
+	}
+
+	public void setProgDialog(ProgressDialog progDialog) {
+		this.progDialog = progDialog;
+	}
+
 	/**
 	 * 显示进度条对话框
 	 */
 	public void showDialog() {
 		progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		progDialog.setTitle("title");
 		progDialog.setIndeterminate(false);
 		progDialog.setCancelable(true);
-		progDialog.setMessage("正在获取地址");
+		progDialog.setMessage("请稍等...");
 		progDialog.show();
 	}
 
@@ -91,6 +105,7 @@ public class AttendanceGraphFragment extends Fragment  implements OnItemClickLis
 	 */
 	public void dismissDialog() {
 		if (progDialog != null) {
+			progDialog.cancel();
 			progDialog.dismiss();
 		}
 	}
@@ -146,16 +161,22 @@ public class AttendanceGraphFragment extends Fragment  implements OnItemClickLis
 			initData();
 		}
 		
-
+	      @Override
+		public void onStop() {
+              super.onStop();
+              progDialog.dismiss();
+          }
 		
 		@Override
 		public void onPause() {
 			super.onPause();
+			progDialog.dismiss();
 		}
 
 		@Override
 		public void onDestroy() {
 			super.onDestroy();
+			progDialog.dismiss();
 		}
 
 		private void initData() {
@@ -198,15 +219,12 @@ public class AttendanceGraphFragment extends Fragment  implements OnItemClickLis
 	 @Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data)  
 	    {  
-		 
-		 	showDialog();
-		 
 	        switch (requestCode)  
 	        {  
 	        case 0:  
 	            Bundle MarsBuddle = data.getExtras();  
 	            photoUrl = MarsBuddle.getString("photoUrl");  
-	            getGPSLocation(getActivity());
+            	getGPSLocation(getActivity());
 	            break;  
 	        }  
 	    }  
@@ -229,7 +247,6 @@ public class AttendanceGraphFragment extends Fragment  implements OnItemClickLis
 			mAdapter.notifyDataSetChanged();
 			lvAttendanceRecordList.setSecondPositionVisible();
 			lvAttendanceRecordList.onDropDownComplete();
-			dismissDialog() ;
 		} catch (Exception e) {
 			Log.e(TAG, "Failed to operate database: " + e);
 		} finally {
@@ -247,7 +264,7 @@ public class AttendanceGraphFragment extends Fragment  implements OnItemClickLis
 	 * @throws FileNotFoundException 
 	 */
 	private void saveAttendanceRecordToServer(final AttendanceRecordGraph a) throws FileNotFoundException{
-		
+		progDialog=ProgressDialog.show(getActivity(), "请稍等", "正在上传..",true);
 		if(photoUrl==null || ("").equals(photoUrl)){
 			  Toast.makeText(getActivity(), "照片路径为空", Toast.LENGTH_LONG).show();
 		}
@@ -269,24 +286,30 @@ public class AttendanceGraphFragment extends Fragment  implements OnItemClickLis
 			    
 			    @Override
 			    public void onFailure(Throwable error, String content) {
-			        super.onFailure(error, content);
 			        Toast.makeText(getActivity(), "上传失败！"+content, Toast.LENGTH_LONG).show();
-			        dismissDialog() ;
 			    }
 			    
 			    @Override
 			    public void onSuccess(int statusCode, String content) {
-			        super.onSuccess(statusCode, content);
-			        Toast.makeText(getActivity(), "上传成功！"+content, Toast.LENGTH_LONG).show();
 			        
+			        Gson gson = new Gson();  
+			        
+			        BaseResponse d =  gson.fromJson(content, BaseResponse.class);
+			        if(d.getMsgFlag()==AppConstant.attendance_upload_success){
+			        	 Toast.makeText(getActivity(), "上传成功！", Toast.LENGTH_LONG).show();
+			        	 progDialog.cancel();
+			        }
+			        else{
+			        	 Toast.makeText(getActivity(), "上传失败！", Toast.LENGTH_LONG).show();
+			        }
 			        ArrayList list =  new ArrayList();
 			        a.setPhotoUrl(photoUrl);
 			        list.add(a);
 			        saveAttendanceGraphLocal(list);
 			    }
 			    
-			    
 			});
+			
 		}
 		
 	}
@@ -308,8 +331,8 @@ public class AttendanceGraphFragment extends Fragment  implements OnItemClickLis
 	
 		private LocationManagerProxy aMapLocManager = null;
 		private AMapLocation aMapLocation;// 用于判断定位超时
-		private Handler handler = new Handler();
 		
+		Handler handler = new Handler();
 		public GPSLocation(Context c){
 			aMapLocManager = LocationManagerProxy.getInstance(c);
 			aMapLocManager.requestLocationUpdates(

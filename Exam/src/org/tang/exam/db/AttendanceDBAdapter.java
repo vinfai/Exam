@@ -1,20 +1,12 @@
 package org.tang.exam.db;
 
 import java.util.ArrayList;
-
-import org.tang.exam.base.MyApplication;
+import java.util.List;
 import org.tang.exam.common.UserCache;
 import org.tang.exam.entity.AttendanceRecord;
-import org.tang.exam.entity.Message;
-
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
-import android.database.sqlite.SQLiteException;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 public class AttendanceDBAdapter extends DBAdapter {
@@ -41,6 +33,35 @@ public class AttendanceDBAdapter extends DBAdapter {
 		return list;
 	}
 	
+	
+	private List<AttendanceRecord> getAttendanceRecordExist(String userId,String gps,String createTime) {
+		String where = String.format(" userId = '%s' and gps = '%s'  and createTime =  '%s' ", 
+				userId,gps,createTime);
+		return getAttendanceRecordByWhere(where);
+	}
+	
+	
+	private ArrayList<AttendanceRecord> getAttendanceRecordByWhere(String where) {
+		ArrayList<AttendanceRecord> list = new ArrayList<AttendanceRecord>();
+
+		String orderBy = "createTime DESC";
+		String limit = String.valueOf(MAX_NUMBER);
+
+		Cursor result = getDb().query("Attendance", new String[] {"id", "userId", "createTime",
+				"address", "gps","latitude","longitude"},
+				where, null, null, null, orderBy, limit);
+		if (result.moveToFirst()) {
+			do {
+				list.add(fetchAttendanceRecord(result));
+			} while (result.moveToNext());
+		}
+		return list;
+	}
+	
+	
+	
+	
+	
 	private AttendanceRecord fetchAttendanceRecord(Cursor result) {
 		AttendanceRecord attendanceRecord = new AttendanceRecord();
 		attendanceRecord.setId(result.getString(result.getColumnIndex("id")));
@@ -64,7 +85,15 @@ public class AttendanceDBAdapter extends DBAdapter {
 			values.put("createTime", attendanceRecord.getCreateTime());
 			values.put("latitude", attendanceRecord.getLatitude());
 			values.put("longitude", attendanceRecord.getLongitude());
-			getDb().insertOrThrow("Attendance", null, values);
+			
+			try {
+				List<AttendanceRecord> lh = this.getAttendanceRecordExist(attendanceRecord.getUserId(),attendanceRecord.getGps(),attendanceRecord.getCreateTime());
+				if(lh.size()==0){
+					getDb().insertOrThrow("Attendance", null, values);
+				}
+			} catch (Exception e) {
+				Log.e(TAG, "插入错误"+e);
+			}
 		}
 	}
 }
