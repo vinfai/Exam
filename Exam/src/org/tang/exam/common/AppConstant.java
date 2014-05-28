@@ -2,8 +2,8 @@ package org.tang.exam.common;
 
 public class AppConstant {
 //	public static final String BASE_URL = "http://113.247.250.200:11111/springmvc/";
-	public static final String BASE_URL = "http://192.168.2.116:11111/springmvc/";
-//	public static final String BASE_URL = "http://192.168.1.104:8080/springmvc/";
+//	public static final String BASE_URL = "http://192.168.2.116:11111/springmvc/";
+	public static final String BASE_URL = "http://192.168.1.104:8080/springmvc/";
 	public static final int DEFAULT_PAGESIZE = 15;
 
 	public static final class UserType {
@@ -84,5 +84,13 @@ public class AppConstant {
 	public static final int contact_query_success = 1004; 
 	
 	public static final int contact_query_fail = 8004; 
+	
+	public static final int pushInfo_upload_success = 1005; 
+	
+	public static final int pushInfo_upload_fail = 8005; 
+	
+	public static final int chat_msg_send_success = 1006; 
+	
+	public static final int chat_msg_send_fail = 8006; 
 	
 }

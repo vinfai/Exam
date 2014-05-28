@@ -86,14 +86,20 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
         </activity>
-        
+        <activity
+            android:name="org.tang.exam.activity.ChatActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" >
+        </activity>
         
         <activity android:name="org.tang.exam.activity.MapActivity"  
+          android:launchMode="singleTask"
           android:screenOrientation="sensor"  
           android:configChanges="orientation|keyboardHidden">  
 		</activity>  
 		
         <activity android:name="org.tang.exam.activity.CameraActivity"  
+          android:launchMode="singleTask"
           android:screenOrientation="sensor"  
           android:configChanges="orientation|keyboardHidden">  
 		</activity> 

@@ -258,6 +258,7 @@ public  class AttendanceRecordListFragment extends
             bundle.putDouble("longitude", longitude);
             intent.putExtra("tag",bundle);
             getActivity().startActivity(intent);
+            getActivity().finish();
             break;
 		}
 	}

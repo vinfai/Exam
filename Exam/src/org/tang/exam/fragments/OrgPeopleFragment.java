@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import org.tang.exam.R;
+import org.tang.exam.activity.ChatActivity;
+import org.tang.exam.activity.MapActivity;
 import org.tang.exam.adapter.UserListAdapter;
 import org.tang.exam.adapter.UserListAdapter.ViewHolder;
 import org.tang.exam.common.UserCache;
@@ -12,6 +14,7 @@ import org.tang.exam.entity.UserComparator;
 import org.tang.exam.entity.UserInfo;
 import org.tang.exam.view.IndexableListView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -73,6 +76,13 @@ public class OrgPeopleFragment  extends Fragment implements OnItemClickListener{
 		switch (parent.getId()) {
 			case R.id.lv_user_list:
 				Log.d(TAG, "点击了"+mUserList.get(pos).getUserName());
+				Intent intent = new Intent(getActivity(), ChatActivity.class);
+	            Bundle bundle = new Bundle();
+	            bundle.putString("toUserId", mUserList.get(pos).getUserId());
+	            bundle.putString("toUserName", mUserList.get(pos).getUserName());
+	            bundle.putString("toUserPicUrl", mUserList.get(pos).getPicUrl());
+	            intent.putExtra("tag",bundle);
+	            getActivity().startActivity(intent);
 			break;
 		}
 	}
