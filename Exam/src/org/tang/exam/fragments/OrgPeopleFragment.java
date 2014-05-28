@@ -2,13 +2,16 @@ package org.tang.exam.fragments;
 
 import java.util.ArrayList;
 import java.util.Collections;
+
 import org.tang.exam.R;
 import org.tang.exam.adapter.UserListAdapter;
+import org.tang.exam.adapter.UserListAdapter.ViewHolder;
 import org.tang.exam.common.UserCache;
 import org.tang.exam.db.UserInfoDBAdapter;
 import org.tang.exam.entity.UserComparator;
 import org.tang.exam.entity.UserInfo;
 import org.tang.exam.view.IndexableListView;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -65,9 +68,13 @@ public class OrgPeopleFragment  extends Fragment implements OnItemClickListener{
 	
 	
 	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		// TODO Auto-generated method stub
-		
+	public void onItemClick(AdapterView<?> parent, View v, int pos, long arg3) {
+		Log.d(TAG, "点击了"+pos+"View:::::"+v.getId());
+		switch (parent.getId()) {
+			case R.id.lv_user_list:
+				Log.d(TAG, "点击了"+mUserList.get(pos).getUserName());
+			break;
+		}
 	}
 
 	public static OrgPeopleFragment newInstance() {
