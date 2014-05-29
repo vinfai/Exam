@@ -156,6 +156,17 @@ public final class DBScript {
             "); ";
     
     
+    public static final String CREATE_TABLE_CHATMSG = 
+    		"CREATE TABLE ChatMsg " + 
+            "( " + 
+        		"id text not null primary key , " + 
+            	"fromUserId text , " +
+            	"toUserId text , " +
+                "fromUserName text, " + 
+                "toUserName text , " +
+                "createTime text , " +
+                "msgtext text  " +
+            "); ";
     
     
     public static final String DROP_TABLE_NOTICE = "DROP TABLE IF EXISTS Notice; ";
@@ -169,4 +180,5 @@ public final class DBScript {
     public static final String DROP_TABLE_ATTENDANCE = "DROP TABLE IF EXISTS Attendance; ";
     public static final String DROP_TABLE_ATTENDANCE_GRAPH = "DROP TABLE IF EXISTS AttendanceGraph; ";
     public static final String DROP_TABLE_USERINFO = "DROP TABLE IF EXISTS userinfo; ";
+    public static final String DROP_TABLE_CHATMSG  = "DROP TABLE IF EXISTS ChatMsg; ";
 }

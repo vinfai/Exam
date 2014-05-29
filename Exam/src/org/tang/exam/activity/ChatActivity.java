@@ -9,9 +9,11 @@ import org.tang.exam.R;
 import org.tang.exam.adapter.ChatMsgViewAdapter;
 import org.tang.exam.common.AppConstant;
 import org.tang.exam.common.UserCache;
+import org.tang.exam.db.ChatMsgDBAdapter;
 import org.tang.exam.entity.ChatMsgEntity;
 import org.tang.exam.entity.UserInfo;
 import org.tang.exam.rest.BaseResponse;
+import org.tang.exam.utils.DateTimeUtil;
 import org.tang.exam.utils.SoundMeter;
 
 import com.google.gson.Gson;
@@ -144,29 +146,18 @@ public class ChatActivity extends Activity implements OnClickListener {
 		});
 	}
 
-	private String[] msgArray = new String[] { "有人就有恩怨","有恩怨就有江湖","人就是江湖","你怎么退出？ ","生命中充满了巧合","两条平行线也会有相交的一天。"};
-
-	private String[] dataArray = new String[] { "2012-10-31 18:00",
-			"2012-10-31 18:10", "2012-10-31 18:11", "2012-10-31 18:20",
-			"2012-10-31 18:30", "2012-10-31 18:35"};
-	private final static int COUNT = 6;
-
 	public void initData() {
-		for (int i = 0; i < COUNT; i++) {
-			ChatMsgEntity entity = new ChatMsgEntity();
-			entity.setDate(dataArray[i]);
-			if (i % 2 == 0) {
-				entity.setToUserName("白富美");
-				entity.setMsgType(true);
-			} else {
-				entity.setFromUserName("高富帅");
-				entity.setMsgType(false);
-			}
-
-			entity.setText(msgArray[i]);
-			mDataArrays.add(entity);
+		ChatMsgDBAdapter cDBAdapter = new ChatMsgDBAdapter();
+		try {
+			cDBAdapter.open();
+			mDataArrays = cDBAdapter.getChatMsgEntity(fromUserId, toUserId);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-
+		finally{
+			cDBAdapter.close();
+		}
+		
 		mAdapter = new ChatMsgViewAdapter(this, mDataArrays);
 		mListView.setAdapter(mAdapter);
 
@@ -187,11 +178,13 @@ public class ChatActivity extends Activity implements OnClickListener {
 	private void send() {
 		String contString = mEditTextContent.getText().toString();
 		if (contString.length() > 0) {
-			ChatMsgEntity entity = new ChatMsgEntity();
-			entity.setDate(getDate());
+			final ChatMsgDBAdapter cDBAdapter = new ChatMsgDBAdapter();
+			final ChatMsgEntity entity = new ChatMsgEntity();
+			entity.setCreateTime(DateTimeUtil.getCompactTime());
 			entity.setFromUserName(fromUserName);
+			entity.setToUserName(toUserName);
 			entity.setMsgType(false);
-			entity.setText(contString);
+			entity.setMsgText(contString);
 			entity.setFromUserId(fromUserId);
 			entity.setToUserId(toUserId);
 			
@@ -205,7 +198,7 @@ public class ChatActivity extends Activity implements OnClickListener {
 			RequestParams params = new RequestParams();
 			params.put("fromUserId", entity.getFromUserId());
 			params.put("toUserId", entity.getToUserId());
-			params.put("content", entity.getText());
+			params.put("content", entity.getMsgText());
 			
 			AsyncHttpClient client = new AsyncHttpClient();
 			client.post(AppConstant.BASE_URL + "mobile/addChatMsg", 
@@ -221,7 +214,20 @@ public class ChatActivity extends Activity implements OnClickListener {
 			        Gson gson = new Gson();  
 			        BaseResponse d =  gson.fromJson(content, BaseResponse.class);
 			        if(d.getMsgFlag()==AppConstant.chat_msg_send_success){
-			        	 Toast.makeText(ChatActivity.this, "上传成功！", Toast.LENGTH_LONG).show();
+			        	
+			        	ArrayList<ChatMsgEntity> list = new  ArrayList<ChatMsgEntity>();
+			        	list.add(entity);
+			        	
+			    		try {
+			    			cDBAdapter.open();
+			    			cDBAdapter.addChatMsgEntity(list);
+			    		} catch (Exception e) {
+			    			e.printStackTrace();
+			    		}
+			    		finally{
+			    			cDBAdapter.close();
+			    		}
+			        	
 			        }
 			        else{
 			        	 Toast.makeText(ChatActivity.this, "上传失败！", Toast.LENGTH_LONG).show();
@@ -233,21 +239,6 @@ public class ChatActivity extends Activity implements OnClickListener {
 		}
 	}
 
-	private String getDate() {
-		Calendar c = Calendar.getInstance();
-
-		String year = String.valueOf(c.get(Calendar.YEAR));
-		String month = String.valueOf(c.get(Calendar.MONTH));
-		String day = String.valueOf(c.get(Calendar.DAY_OF_MONTH) + 1);
-		String hour = String.valueOf(c.get(Calendar.HOUR_OF_DAY));
-		String mins = String.valueOf(c.get(Calendar.MINUTE));
-
-		StringBuffer sbBuffer = new StringBuffer();
-		sbBuffer.append(year + "" + month + "" + day + "" + hour + ""
-				+ mins);
-
-		return sbBuffer.toString();
-	}
 
 	//按下语音录制按钮时
 	@Override
@@ -337,11 +328,11 @@ public class ChatActivity extends Activity implements OnClickListener {
 						return false;
 					}
 					ChatMsgEntity entity = new ChatMsgEntity();
-					entity.setDate(getDate());
-					entity.setFromUserName("高富帅");
+					entity.setCreateTime(DateTimeUtil.getCompactTime());
+					entity.setFromUserName(fromUserName);
+					entity.setToUserName(toUserName);
 					entity.setMsgType(false);
-					entity.setTime(time+"\"");
-					entity.setText(voiceName);
+					entity.setMsgText(voiceName);
 					mDataArrays.add(entity);
 					mAdapter.notifyDataSetChanged();
 					mListView.setSelection(mListView.getCount() - 1);

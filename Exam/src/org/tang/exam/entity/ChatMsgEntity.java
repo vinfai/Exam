@@ -3,55 +3,45 @@ package org.tang.exam.entity;
 
 public class ChatMsgEntity {
     private static final String TAG = ChatMsgEntity.class.getSimpleName();
-    
+    private String id;
     private String fromUserId;
-    
     private String fromUserName;
-    
     private String toUserName;
-
-    private String date;
-
-    private String text;
-    
-    private String time;
-    
+    private String createTime;
+    private String msgText;
     private String toUserId;
-    
-
-    public String getTime() {
-		return time;
+	private boolean msgType = true;
+	
+    public String getId() {
+		return id;
 	}
 
-	public void setTime(String time) {
-		this.time = time;
+	public void setId(String id) {
+		this.id = id;
 	}
 
-	private boolean isComMeg = true;
+	public String getCreateTime() {
+		return createTime;
+	}
 
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
+	}
+	
+    public String getMsgText() {
+		return msgText;
+	}
 
-    public String getDate() {
-        return date;
+	public void setMsgText(String msgText) {
+		this.msgText = msgText;
+	}
+
+	public boolean getMsgType() {
+        return msgType;
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public boolean getMsgType() {
-        return isComMeg;
-    }
-
-    public void setMsgType(boolean isComMsg) {
-    	isComMeg = isComMsg;
+    public void setMsgType(boolean msgType) {
+    	this.msgType = msgType;
     }
 
     public ChatMsgEntity() {

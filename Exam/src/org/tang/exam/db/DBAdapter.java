@@ -90,6 +90,7 @@ public class DBAdapter {
 			db.execSQL(DBScript.CREATE_TABLE_ATTENDANCE_GRAPH);
 			
 			db.execSQL(DBScript.CREATE_TABLE_USERINFO);
+			db.execSQL(DBScript.CREATE_TABLE_CHATMSG);
 			
 		}
 
@@ -109,6 +110,7 @@ public class DBAdapter {
 			db.execSQL(DBScript.DROP_TABLE_ATTENDANCE);
 			db.execSQL(DBScript.DROP_TABLE_ATTENDANCE_GRAPH);
 			db.execSQL(DBScript.DROP_TABLE_USERINFO);
+			db.execSQL(DBScript.DROP_TABLE_CHATMSG);
 			onCreate(db);
 		}
 	}

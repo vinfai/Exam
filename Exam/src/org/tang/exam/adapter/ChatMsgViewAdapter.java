@@ -3,7 +3,9 @@ package org.tang.exam.adapter;
 import java.util.List;
 
 import org.tang.exam.R;
+import org.tang.exam.common.UserCache;
 import org.tang.exam.entity.ChatMsgEntity;
+import org.tang.exam.entity.UserInfo;
 
 import android.content.Context;
 import android.media.MediaPlayer;
@@ -73,7 +75,8 @@ public class ChatMsgViewAdapter extends BaseAdapter {
 
 		ViewHolder viewHolder = null;
 		if (convertView == null) {
-			if (isComMsg) {
+			UserInfo userInfo = UserCache.getInstance().getUserInfo();
+			if (entity.getFromUserId().equals(userInfo.getUserId())) {
 				convertView = mInflater.inflate(
 						R.layout.chatting_item_msg_text_left, null);
 			} else {
@@ -97,22 +100,22 @@ public class ChatMsgViewAdapter extends BaseAdapter {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		viewHolder.tvSendTime.setText(entity.getDate());
+		viewHolder.tvSendTime.setText(entity.getCreateTime());
 		
-		if (entity.getText().contains(".amr")) {
+		if (entity.getMsgText().contains(".amr")) {
 			viewHolder.tvContent.setText("");
 			viewHolder.tvContent.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.chatto_voice_playing, 0);
-			viewHolder.tvTime.setText(entity.getTime());
+			viewHolder.tvTime.setText(entity.getCreateTime());
 		} else {
-			viewHolder.tvContent.setText(entity.getText());			
+			viewHolder.tvContent.setText(entity.getMsgText());			
 			viewHolder.tvContent.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
 			viewHolder.tvTime.setText("");
 		}
 		viewHolder.tvContent.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
-				if (entity.getText().contains(".amr")) {
-					playMusic(android.os.Environment.getExternalStorageDirectory()+"/"+entity.getText()) ;
+				if (entity.getMsgText().contains(".amr")) {
+					playMusic(android.os.Environment.getExternalStorageDirectory()+"/"+entity.getMsgText()) ;
 				}
 			}
 		});
