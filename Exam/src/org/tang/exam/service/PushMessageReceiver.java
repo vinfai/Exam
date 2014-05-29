@@ -6,7 +6,10 @@ import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.tang.exam.activity.ChatActivity;
 import org.tang.exam.activity.MainActivity;
+import org.tang.exam.entity.AttendanceRecord;
+import org.tang.exam.rest.push.ChatMsgDTO;
 import org.tang.exam.utils.PushUtils;
 
 import android.content.Context;
@@ -15,6 +18,8 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.baidu.frontia.api.FrontiaPushMessageReceiver;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 
 /**
@@ -113,27 +118,28 @@ public class PushMessageReceiver extends FrontiaPushMessageReceiver {
     @Override
     public void onMessage(Context context, String message,
             String customContentString) {
+    
         String messageString = "透传消息 message=\"" + message
                 + "\" customContentString=" + customContentString;
         Log.d(TAG, messageString);
-
+//    	Gson gson = new Gson();
+//        ChatMsgDTO c = gson.fromJson(message, new TypeToken<ChatMsgDTO>() {}.getType());
+        
         // 自定义内容获取方式，mykey和myvalue对应透传消息推送时自定义内容中设置的键和值
-        if (!TextUtils.isEmpty(customContentString)) {
-            JSONObject customJson = null;
-            try {
-                customJson = new JSONObject(customContentString);
-                String myvalue = null;
-                if (customJson.isNull("mykey")) {
-                    myvalue = customJson.getString("mykey");
-                }
-            } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
+//        if (!TextUtils.isEmpty(customContentString)) {
+//            JSONObject customJson = null;
+//            try {
+//                customJson = new JSONObject(customContentString);
+//                String myvalue = null;
+//                if (customJson.isNull("mykey")) {
+//                    myvalue = customJson.getString("mykey");
+//                }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
-        // Demo更新界面展示代码，应用请在这里加入自己的处理逻辑
-        updateContent(context, messageString);
+        receivePushContent(context, message);
     }
 
     /**
@@ -295,5 +301,16 @@ public class PushMessageReceiver extends FrontiaPushMessageReceiver {
         intent.putExtra("pushChannelId", pushChannelId);
         context.getApplicationContext().startActivity(intent);
     }
-
+    
+    
+    private void receivePushContent(Context context, String content) {
+        Intent intent = new Intent();
+        intent.setClass(context.getApplicationContext(), ChatActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(PushUtils.EXTRA_MESSAGE, content);
+        context.getApplicationContext().startActivity(intent);
+    }
+    
+    
+    
 }

@@ -2,7 +2,6 @@ package org.tang.exam.activity;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import org.tang.exam.R;
@@ -13,15 +12,13 @@ import org.tang.exam.db.ChatMsgDBAdapter;
 import org.tang.exam.entity.ChatMsgEntity;
 import org.tang.exam.entity.UserInfo;
 import org.tang.exam.rest.BaseResponse;
+import org.tang.exam.rest.push.ChatMsgDTO;
 import org.tang.exam.utils.DateTimeUtil;
+import org.tang.exam.utils.PushUtils;
 import org.tang.exam.utils.SoundMeter;
 
-import com.google.gson.Gson;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -41,6 +38,12 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 public class ChatActivity extends Activity implements OnClickListener {
 	private Button mBtnSend;
@@ -162,6 +165,49 @@ public class ChatActivity extends Activity implements OnClickListener {
 		mListView.setAdapter(mAdapter);
 
 	}
+	
+	
+	
+	@Override
+	protected void onNewIntent(Intent intent) {
+		setIntent(intent);
+		String action = intent.getAction();
+		if(intent!=null && intent.getExtras()!=null && intent.getExtras().getSerializable(PushUtils.EXTRA_MESSAGE)!=null){
+			String message = (String) intent.getExtras().getSerializable(PushUtils.EXTRA_MESSAGE);
+			
+	    	Gson gson = new Gson();
+	        ChatMsgDTO c = gson.fromJson(message, new TypeToken<ChatMsgDTO>() {}.getType());
+			
+		    ChatMsgEntity entity = new ChatMsgEntity();
+			entity.setCreateTime(DateTimeUtil.getCompactTime());
+			entity.setFromUserName(c.getFromUserName());
+			entity.setToUserName(c.getToUserName());
+			entity.setMsgType(false);
+			entity.setMsgText(c.getContent());
+			entity.setFromUserId(c.getFromUserId());
+			entity.setToUserId(c.getToUserId());
+	        
+			mDataArrays.add(entity);
+			mAdapter.notifyDataSetChanged();
+			mListView.setSelection(mListView.getCount() - 1);
+	        
+			
+			ArrayList<ChatMsgEntity> list = new  ArrayList<ChatMsgEntity>();
+        	list.add(entity);
+        	ChatMsgDBAdapter cDBAdapter = new ChatMsgDBAdapter();
+    		try {
+    			cDBAdapter.open();
+    			cDBAdapter.addChatMsgEntity(list);
+    		} catch (Exception e) {
+    			e.printStackTrace();
+    		}
+    		finally{
+    			cDBAdapter.close();
+    		}
+		}
+		
+	}
+	
 
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
