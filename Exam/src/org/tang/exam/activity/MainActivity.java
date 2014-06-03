@@ -45,8 +45,8 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 	private TextView mMessageItem = null;
 	private RelativeLayout mIndexView = null;
 	private RelativeLayout mContactView = null;
-	private String pushUserId="";
-	private String pushChannelId="";
+	private static String pushUserId="";
+	private static String pushChannelId="";
 	
 	
 	@Override
@@ -64,7 +64,6 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 		// 这里把apikey存放于manifest文件中，只是一种存放方式，
 		// 您可以用自定义常量等其它方式实现，来替换参数中的Utils.getMetaValue(PushDemoActivity.this, "api_key")
 		// 通过share preference实现的绑定标志开关，如果已经成功绑定，就取消这次绑定
-		if (!PushUtils.hasBind(getApplicationContext())) {
 			Log.d("YYY", "before start work at " + Calendar.getInstance().getTimeInMillis());
 			PushManager.startWork(getApplicationContext(),
 					PushConstants.LOGIN_TYPE_API_KEY, 
@@ -73,7 +72,6 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 			// Push: 如果想基于地理位置推送，可以打开支持地理位置的推送的开关
 //			PushManager.enableLbs(getApplicationContext());
 //			Log.d("YYY", "after enableLbs at " + Calendar.getInstance().getTimeInMillis());
-		}
 	}
 
 	@Override
@@ -114,7 +112,13 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 		UserCache userCache = UserCache.getInstance();
 		if (pushUserId!=null&&!pushUserId.equals("")) {
 			onBindSuccess(pushUserId, pushChannelId);
-		} else if (PushUtils.ACTION_NOTIFICATION_ENTRY.equals(action)) {
+		}
+		else if(pushUserId==null||pushUserId.equals("")){
+			PushManager.startWork(getApplicationContext(),
+					PushConstants.LOGIN_TYPE_API_KEY, 
+					PushUtils.getMetaValue(MainActivity.this, "api_key"));
+		}
+		else if (PushUtils.ACTION_NOTIFICATION_ENTRY.equals(action)) {
 			// 重置通知栏新消息数
 			MyApplication.getInstance().clearNewsCount();
 		}

@@ -10,7 +10,7 @@ public class ChatMsgEntity {
     private String createTime;
     private String msgText;
     private String toUserId;
-	private boolean msgType = true;
+	private String msgType ;
 	
     public String getId() {
 		return id;
@@ -36,15 +36,16 @@ public class ChatMsgEntity {
 		this.msgText = msgText;
 	}
 
-	public boolean getMsgType() {
-        return msgType;
-    }
+	
+    public String getMsgType() {
+		return msgType;
+	}
 
-    public void setMsgType(boolean msgType) {
-    	this.msgType = msgType;
-    }
+	public void setMsgType(String msgType) {
+		this.msgType = msgType;
+	}
 
-    public ChatMsgEntity() {
+	public ChatMsgEntity() {
     }
 
 

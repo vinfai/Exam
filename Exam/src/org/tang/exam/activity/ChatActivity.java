@@ -2,6 +2,7 @@ package org.tang.exam.activity;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.tang.exam.R;
@@ -13,6 +14,8 @@ import org.tang.exam.entity.ChatMsgEntity;
 import org.tang.exam.entity.UserInfo;
 import org.tang.exam.rest.BaseResponse;
 import org.tang.exam.rest.push.ChatMsgDTO;
+import org.tang.exam.service.PushMessageReceiver;
+import org.tang.exam.utils.Comparators;
 import org.tang.exam.utils.DateTimeUtil;
 import org.tang.exam.utils.PushUtils;
 import org.tang.exam.utils.SoundMeter;
@@ -23,6 +26,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -40,12 +44,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 public class ChatActivity extends Activity implements OnClickListener {
+	
+	   public static final String TAG = ChatActivity.class
+	            .getSimpleName();
+	
 	private Button mBtnSend;
 	private TextView mBtnRcd;
 	private Button mBtnBack;
@@ -81,19 +90,54 @@ public class ChatActivity extends Activity implements OnClickListener {
 		// 启动activity时不自动弹出软键盘
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-		
-		Bundle bundle = getIntent().getBundleExtra("tag");  
-		 toUserId  = bundle.getString("toUserId");
-		 toUserName  = bundle.getString("toUserName");
-		 toUserPicUrl  = bundle.getString("toUserPicUrl");
-		UserInfo userInfo = UserCache.getInstance().getUserInfo();
-		 fromUserId = userInfo.getUserId();
-		 fromUserName = userInfo.getUserName();
-		 fromUserPicUrl = userInfo.getPicUrl();
-		 
 		initView();
-
-		initData();
+		Bundle bundle = getIntent().getBundleExtra("tag");  
+		
+		if(bundle!=null){
+			 toUserId  = bundle.getString("toUserId");
+			 toUserName  = bundle.getString("toUserName");
+			 toUserPicUrl  = bundle.getString("toUserPicUrl");
+			UserInfo userInfo = UserCache.getInstance().getUserInfo();
+			 fromUserId = userInfo.getUserId();
+			 fromUserName = userInfo.getUserName();
+			 fromUserPicUrl = userInfo.getPicUrl();
+			 initData();
+		}
+		else if(getIntent()!=null && getIntent().getExtras()!=null && getIntent().getExtras().getSerializable(PushUtils.EXTRA_MESSAGE)!=null){
+				String message = (String) getIntent().getExtras().getSerializable(PushUtils.EXTRA_MESSAGE);
+				
+		    	Gson gson = new Gson();
+		        ChatMsgDTO c = gson.fromJson(message, new TypeToken<ChatMsgDTO>() {}.getType());
+				
+			    ChatMsgEntity entity = new ChatMsgEntity();
+				entity.setCreateTime(c.getCreateTime());
+				entity.setFromUserName(c.getFromUserName());
+				entity.setToUserName(c.getToUserName());
+				entity.setMsgText(c.getContent());
+				entity.setFromUserId(c.getFromUserId());
+				entity.setToUserId(c.getToUserId());
+				entity.setMsgType(c.getMsgType());
+				
+				fromUserId = c.getToUserId();
+				toUserId = 	c.getFromUserId();	
+				
+				ArrayList<ChatMsgEntity> list = new  ArrayList<ChatMsgEntity>();
+	        	list.add(entity);
+	        	ChatMsgDBAdapter cDBAdapter = new ChatMsgDBAdapter();
+	    		try {
+	    			cDBAdapter.open();
+	    			cDBAdapter.addChatMsgEntity(list);
+	    		} catch (Exception e) {
+	    			e.printStackTrace();
+	    		}
+	    		finally{
+	    			cDBAdapter.close();
+	    		}
+	    		
+	    		initData();
+	    		mListView.setSelection(mListView.getCount() - 1);
+		}
+		
 	}
 
 	public void initView() {
@@ -150,10 +194,27 @@ public class ChatActivity extends Activity implements OnClickListener {
 	}
 
 	public void initData() {
+		mAdapter = new ChatMsgViewAdapter(this, mDataArrays);
+		mDataArrays.clear();
+		Log.d(TAG, "fromUserId++"+fromUserId+":::toUserId+++"+toUserId);
 		ChatMsgDBAdapter cDBAdapter = new ChatMsgDBAdapter();
 		try {
 			cDBAdapter.open();
-			mDataArrays = cDBAdapter.getChatMsgEntity(fromUserId, toUserId);
+			
+			List<ChatMsgEntity> mDataArrays1 = new ArrayList<ChatMsgEntity>();
+			List<ChatMsgEntity> mDataArrays2 = new ArrayList<ChatMsgEntity>();
+			
+			
+			mDataArrays1 = cDBAdapter.getChatMsgEntity(fromUserId, toUserId);
+			mDataArrays2 =  cDBAdapter.getChatMsgEntity(toUserId,fromUserId );
+			
+			mDataArrays.addAll(mDataArrays1);
+			mDataArrays.addAll(mDataArrays2);
+			
+			if(mDataArrays!=null && mDataArrays.size() > 0){
+				Collections.sort(mDataArrays, new Comparators());
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -161,8 +222,8 @@ public class ChatActivity extends Activity implements OnClickListener {
 			cDBAdapter.close();
 		}
 		
-		mAdapter = new ChatMsgViewAdapter(this, mDataArrays);
 		mListView.setAdapter(mAdapter);
+		mAdapter.notifyDataSetChanged();
 
 	}
 	
@@ -179,18 +240,16 @@ public class ChatActivity extends Activity implements OnClickListener {
 	        ChatMsgDTO c = gson.fromJson(message, new TypeToken<ChatMsgDTO>() {}.getType());
 			
 		    ChatMsgEntity entity = new ChatMsgEntity();
-			entity.setCreateTime(DateTimeUtil.getCompactTime());
+			entity.setCreateTime(c.getCreateTime());
 			entity.setFromUserName(c.getFromUserName());
 			entity.setToUserName(c.getToUserName());
-			entity.setMsgType(false);
 			entity.setMsgText(c.getContent());
 			entity.setFromUserId(c.getFromUserId());
 			entity.setToUserId(c.getToUserId());
+			entity.setMsgType(c.getMsgType());
 	        
-			mDataArrays.add(entity);
-			mAdapter.notifyDataSetChanged();
-			mListView.setSelection(mListView.getCount() - 1);
-	        
+//			mDataArrays.add(entity);
+//			mAdapter.notifyDataSetChanged();
 			
 			ArrayList<ChatMsgEntity> list = new  ArrayList<ChatMsgEntity>();
         	list.add(entity);
@@ -204,6 +263,9 @@ public class ChatActivity extends Activity implements OnClickListener {
     		finally{
     			cDBAdapter.close();
     		}
+    		
+    		initData();
+    		mListView.setSelection(mListView.getCount() - 1);
 		}
 		
 	}
@@ -229,7 +291,7 @@ public class ChatActivity extends Activity implements OnClickListener {
 			entity.setCreateTime(DateTimeUtil.getCompactTime());
 			entity.setFromUserName(fromUserName);
 			entity.setToUserName(toUserName);
-			entity.setMsgType(false);
+			entity.setMsgType("1");
 			entity.setMsgText(contString);
 			entity.setFromUserId(fromUserId);
 			entity.setToUserId(toUserId);
@@ -245,6 +307,9 @@ public class ChatActivity extends Activity implements OnClickListener {
 			params.put("fromUserId", entity.getFromUserId());
 			params.put("toUserId", entity.getToUserId());
 			params.put("content", entity.getMsgText());
+			params.put("fromUserName", entity.getFromUserName());
+			params.put("toUserName", entity.getToUserName());
+			params.put("msgType", entity.getMsgType());
 			
 			AsyncHttpClient client = new AsyncHttpClient();
 			client.post(AppConstant.BASE_URL + "mobile/addChatMsg", 
@@ -257,27 +322,36 @@ public class ChatActivity extends Activity implements OnClickListener {
 			    
 			    @Override
 			    public void onSuccess(int statusCode, String content) {
+			    	
 			        Gson gson = new Gson();  
-			        BaseResponse d =  gson.fromJson(content, BaseResponse.class);
-			        if(d.getMsgFlag()==AppConstant.chat_msg_send_success){
-			        	
-			        	ArrayList<ChatMsgEntity> list = new  ArrayList<ChatMsgEntity>();
-			        	list.add(entity);
-			        	
-			    		try {
-			    			cDBAdapter.open();
-			    			cDBAdapter.addChatMsgEntity(list);
-			    		} catch (Exception e) {
-			    			e.printStackTrace();
-			    		}
-			    		finally{
-			    			cDBAdapter.close();
-			    		}
-			        	
-			        }
-			        else{
-			        	 Toast.makeText(ChatActivity.this, "上传失败！", Toast.LENGTH_LONG).show();
-			        }
+			        try {
+						BaseResponse d =  gson.fromJson(content, BaseResponse.class);
+						if(d.getMsgFlag()==AppConstant.chat_msg_send_success){
+							
+							ArrayList<ChatMsgEntity> list = new  ArrayList<ChatMsgEntity>();
+							list.add(entity);
+							
+							try {
+								cDBAdapter.open();
+								cDBAdapter.addChatMsgEntity(list);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+							finally{
+								cDBAdapter.close();
+							}
+							
+						}
+						else{
+							 Toast.makeText(ChatActivity.this, "上传失败！", Toast.LENGTH_LONG).show();
+						}
+					} catch (JsonSyntaxException e) {
+						 e.printStackTrace();
+						 Log.e(TAG, "服务器异常！"+e);
+						 Toast.makeText(ChatActivity.this, "服务器异常！", Toast.LENGTH_LONG).show();
+					}
+			        
+			        
 			    }
 			    
 			});
@@ -377,7 +451,7 @@ public class ChatActivity extends Activity implements OnClickListener {
 					entity.setCreateTime(DateTimeUtil.getCompactTime());
 					entity.setFromUserName(fromUserName);
 					entity.setToUserName(toUserName);
-					entity.setMsgType(false);
+					entity.setMsgType("1");
 					entity.setMsgText(voiceName);
 					mDataArrays.add(entity);
 					mAdapter.notifyDataSetChanged();

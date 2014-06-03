@@ -6,6 +6,7 @@ import org.tang.exam.R;
 import org.tang.exam.common.UserCache;
 import org.tang.exam.entity.ChatMsgEntity;
 import org.tang.exam.entity.UserInfo;
+import org.tang.exam.utils.DateTimeUtil;
 
 import android.content.Context;
 import android.media.MediaPlayer;
@@ -54,8 +55,8 @@ public class ChatMsgViewAdapter extends BaseAdapter {
 	public int getItemViewType(int position) {
 		// TODO Auto-generated method stub
 		ChatMsgEntity entity = coll.get(position);
-
-		if (entity.getMsgType()) {
+		UserInfo userInfo = UserCache.getInstance().getUserInfo();
+		if (entity.getFromUserId().equals(userInfo.getUserId())) {
 			return IMsgViewType.IMVT_COM_MSG;
 		} else {
 			return IMsgViewType.IMVT_TO_MSG;
@@ -71,7 +72,7 @@ public class ChatMsgViewAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 
 		final ChatMsgEntity entity = coll.get(position);
-		boolean isComMsg = entity.getMsgType();
+		boolean isComMsg = ("1").equals(entity.getMsgType());
 
 		ViewHolder viewHolder = null;
 		if (convertView == null) {
@@ -100,7 +101,7 @@ public class ChatMsgViewAdapter extends BaseAdapter {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		viewHolder.tvSendTime.setText(entity.getCreateTime());
+		viewHolder.tvSendTime.setText(DateTimeUtil.toStandardTime(entity.getCreateTime()));
 		
 		if (entity.getMsgText().contains(".amr")) {
 			viewHolder.tvContent.setText("");

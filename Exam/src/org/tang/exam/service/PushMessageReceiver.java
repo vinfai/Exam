@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.tang.exam.activity.ChatActivity;
 import org.tang.exam.activity.MainActivity;
+import org.tang.exam.common.AppConfig;
 import org.tang.exam.entity.AttendanceRecord;
 import org.tang.exam.rest.push.ChatMsgDTO;
 import org.tang.exam.utils.PushUtils;
@@ -305,7 +306,17 @@ public class PushMessageReceiver extends FrontiaPushMessageReceiver {
     
     private void receivePushContent(Context context, String content) {
         Intent intent = new Intent();
-        intent.setClass(context.getApplicationContext(), ChatActivity.class);
+        
+        if(AppConfig.isTopActivity(context,ChatActivity.class.getSimpleName())){
+        	 intent.setClass(context.getApplicationContext(), ChatActivity.class);
+        }
+        else if{
+        	
+        }
+        else {
+        	
+        }
+       
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(PushUtils.EXTRA_MESSAGE, content);
         context.getApplicationContext().startActivity(intent);

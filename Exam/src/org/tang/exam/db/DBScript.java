@@ -165,7 +165,8 @@ public final class DBScript {
                 "fromUserName text, " + 
                 "toUserName text , " +
                 "createTime text , " +
-                "msgtext text  " +
+                "msgtext text,  " +
+                "msgType text  " +
             "); ";
     
     

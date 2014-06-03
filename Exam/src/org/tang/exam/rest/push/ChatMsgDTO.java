@@ -18,6 +18,7 @@ public class ChatMsgDTO {
     private String deviceType;
     private String fromUserName;
     private String toUserName;
+    private String msgType;
     
 	public java.lang.String getId() {
 		return this.id;
@@ -107,6 +108,14 @@ public class ChatMsgDTO {
 
 	public void setToUserName(String toUserName) {
 		this.toUserName = toUserName;
+	}
+
+	public String getMsgType() {
+		return msgType;
+	}
+
+	public void setMsgType(String msgType) {
+		this.msgType = msgType;
 	}
 
 }

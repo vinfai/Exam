@@ -19,10 +19,10 @@ public class ChatMsgDBAdapter extends DBAdapter {
 	public ArrayList<ChatMsgEntity> getChatMsgEntity(String fromUserId,String toUserId) {
 		String where = String.format("fromUserId = '%s'  and  toUserId ='%s' " , fromUserId,toUserId);
 		ArrayList<ChatMsgEntity> list = new ArrayList<ChatMsgEntity>();
-		String orderBy = "createTime DESC";
+		String orderBy = "createTime asc";
 		String limit = String.valueOf(MAX_NUMBER);
 
-		Cursor result = getDb().query("ChatMsg", new String[] {"id", "fromUserId", "createTime","fromUserName","toUserName","msgtext", "toUserId"},where, null, null, null, orderBy, limit);
+		Cursor result = getDb().query("ChatMsg", new String[] {"id", "fromUserId", "createTime","fromUserName","toUserName","msgtext", "toUserId", "msgType"},where, null, null, null, orderBy, limit);
 		
 		if(result!=null){
 			if (result.moveToFirst()) {
@@ -49,7 +49,7 @@ public class ChatMsgDBAdapter extends DBAdapter {
 		String limit = String.valueOf(MAX_NUMBER);
 
 		Cursor result = getDb().query("ChatMsg", new String[] {"id", "fromUserId", "createTime","fromUserName","toUserName",
-				"msgtext", "toUserId"},
+				"msgtext", "toUserId","msgType"},
 				where, null, null, null, orderBy, limit);
 		if (result.moveToFirst()) {
 			do {
@@ -84,6 +84,7 @@ public class ChatMsgDBAdapter extends DBAdapter {
 			values.put("createTime", attendanceRecord.getCreateTime());
 			values.put("fromUserName", attendanceRecord.getFromUserName());
 			values.put("toUserName", attendanceRecord.getToUserName());
+			values.put("msgType", attendanceRecord.getMsgType());
 			
 			try {
 				List<ChatMsgEntity> lh = this.getChatMsgEntityExist(attendanceRecord.getFromUserId(),attendanceRecord.getToUserId(),attendanceRecord.getCreateTime());
