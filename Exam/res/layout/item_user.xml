@@ -8,7 +8,7 @@
     android:paddingRight="@dimen/normal_padding" >
 
     <LinearLayout
-        android:id="@+id/layout_user_item"
+        android:id="@+id/layout_contact_user_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/list_item_selector"
@@ -16,9 +16,20 @@
         android:orientation="horizontal"
         android:paddingBottom="8.0dip"
         android:paddingTop="8.0dip" >
-
+        
+          <TextView
+              android:id="@+id/tv_contact_unread"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginRight="20dp"
+               android:layout_marginLeft="20dp"
+              android:gravity="right"
+              android:textColor="@color/orange"
+              android:textSize="@dimen/big_text"
+               />
+        
         <org.tang.exam.view.RoundedImageView
-            android:id="@+id/iv_user_avatar"
+            android:id="@+id/iv_contact_user_avatar"
             android:layout_width="@dimen/normal_avatar_size"
             android:layout_height="@dimen/normal_avatar_size"
             android:scaleType="fitXY"
@@ -26,7 +37,7 @@
             app:border_width="0.0dip"
             app:corner_radius="0.0dip"
             app:is_oval="false" />
-
+        
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -35,7 +46,7 @@
             android:paddingLeft="10.0dip" >
 
             <TextView
-                android:id="@+id/tv_user_name"
+                android:id="@+id/tv_contact_user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
@@ -43,7 +54,7 @@
                 android:textSize="@dimen/medium_text" />
 
             <TextView
-                android:id="@+id/tv_remark"
+                android:id="@+id/tv_contact_remark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4.0dip"
@@ -51,6 +62,8 @@
                 android:textColor="@color/tips_text"
                 android:textSize="@dimen/small_text" />
         </LinearLayout>
+        
+
     </LinearLayout>
 
     <View style="@style/ListDivider" />

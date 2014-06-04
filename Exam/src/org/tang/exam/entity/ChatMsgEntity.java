@@ -11,6 +11,7 @@ public class ChatMsgEntity {
     private String msgText;
     private String toUserId;
 	private String msgType ;
+	private String msgState;
 	
     public String getId() {
 		return id;
@@ -79,6 +80,14 @@ public class ChatMsgEntity {
 
 	public void setToUserName(String toUserName) {
 		this.toUserName = toUserName;
+	}
+
+	public String getMsgState() {
+		return msgState;
+	}
+
+	public void setMsgState(String msgState) {
+		this.msgState = msgState;
 	}
 	
 }

@@ -2,6 +2,7 @@ package org.tang.exam.activity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+
 import org.tang.exam.R;
 import org.tang.exam.adapter.CommonPagerAdapter;
 import org.tang.exam.base.BaseActionBarFragmentActivity;
@@ -17,6 +18,7 @@ import org.tang.exam.view.BadgeView;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -47,7 +49,7 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 	private RelativeLayout mContactView = null;
 	private static String pushUserId="";
 	private static String pushChannelId="";
-	
+	private RefreshUnreadReceiver mReceiver = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,7 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 		initPagerView();
 		initPushService();
 		handleIntent(getIntent());
+		registerMyReceiver();
 	}
 
 	private void initPushService() {
@@ -80,20 +83,11 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 		String action = intent.getAction();
 		if(intent!=null && intent.getExtras()!=null && intent.getExtras().getSerializable(PushUtils.EXTRA_MESSAGE)!=null){
 			Log.d(TAG, (String) intent.getExtras().getSerializable(PushUtils.EXTRA_MESSAGE));
-			String message = (String) intent.getExtras().getSerializable(PushUtils.EXTRA_MESSAGE);
+//			String message = (String) intent.getExtras().getSerializable(PushUtils.EXTRA_MESSAGE);
 			
 			 pushUserId = (String)intent.getExtras().getSerializable("pushUserId"); 
 			 pushChannelId = intent.getStringExtra("pushChannelId");
 			 handleIntent(intent);
-			 
-			if (mBadge != null) {
-				if (message!=null && !message.equals("")) {
-					mBadge.setText(String.valueOf(1));
-					mBadge.show();
-				} else {
-					mBadge.hide();
-				}
-			}
 		}
 		
 		if (PushUtils.ACTION_LOGIN.equals(action)) {
@@ -123,7 +117,16 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 			MyApplication.getInstance().clearNewsCount();
 		}
 	}
-
+	
+	
+	private void registerMyReceiver() {
+		if (mReceiver == null) {
+			mReceiver = new RefreshUnreadReceiver();
+			IntentFilter intentFilter = new IntentFilter();
+			intentFilter.addAction(PushUtils.ACTION_UNREAD_COUNT);
+			registerReceiver(mReceiver, intentFilter);
+		}
+	}
 	
 	private void onBindSuccess(String pushUserId, String pushChannelId) {
 		Log.d(TAG, "[onBindSuccess] pushUserId: " + pushUserId);
@@ -179,6 +182,9 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 	public void onDestroy() {
 		PushUtils.setLogText(getApplicationContext(), PushUtils.logStringCache);
 		super.onDestroy();
+		if (mReceiver != null) {
+			unregisterReceiver(mReceiver);
+		}
 	}
 	
 	@Override
@@ -201,7 +207,7 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 		mIndexView = (RelativeLayout) findViewById(R.id.bottombar_index);
 		mContactView = (RelativeLayout) findViewById(R.id.bottombar_contact);
 		
-		mMessageItem = (TextView) findViewById(R.id.tab_item_index);
+		mMessageItem = (TextView) findViewById(R.id.tab_item_contact);
 		mBadge = new BadgeView(this, mMessageItem);
 		mBadge.setBadgeMargin(0);
 		mIndexView.setOnClickListener(new TabOnClickListener(0));
@@ -280,18 +286,21 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			Log.d(TAG, "[RefreshUnreadReceiver] Receive intent: \r\n" + intent);
-//			int unreadCount = intent.getIntExtra(PushUtils.EXTRA_MESSAGE, 0);
-			String unreadCount = intent.getStringExtra(PushUtils.EXTRA_MESSAGE);
 			
-			if (mBadge != null) {
-				if (unreadCount!="") {
-					Log.d(TAG, unreadCount);
-					mBadge.setText(String.valueOf(1));
-					mBadge.show();
-				} else {
-					mBadge.hide();
+			if(PushUtils.ACTION_UNREAD_COUNT.equals(intent.getAction())){
+				Long unreadCount = intent.getLongExtra(PushUtils.UNREAD_COUNT, 0);
+				
+				if (mBadge != null) {
+					if (unreadCount > 0) {
+						Log.d(TAG, "未读消息数量：："+unreadCount);
+						mBadge.setText(String.valueOf(unreadCount));
+						mBadge.show();
+					} else {
+						mBadge.hide();
+					}
 				}
 			}
+
 		}
 	}
 

@@ -1,6 +1,7 @@
 package org.tang.exam.service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -9,12 +10,16 @@ import org.json.JSONObject;
 import org.tang.exam.activity.ChatActivity;
 import org.tang.exam.activity.MainActivity;
 import org.tang.exam.common.AppConfig;
-import org.tang.exam.entity.AttendanceRecord;
+import org.tang.exam.db.ChatMsgDBAdapter;
+import org.tang.exam.entity.ChatMsgEntity;
 import org.tang.exam.rest.push.ChatMsgDTO;
 import org.tang.exam.utils.PushUtils;
 
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningTaskInfo;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -306,20 +311,53 @@ public class PushMessageReceiver extends FrontiaPushMessageReceiver {
     
     private void receivePushContent(Context context, String content) {
         Intent intent = new Intent();
-        
-        if(AppConfig.isTopActivity(context,ChatActivity.class.getSimpleName())){
+        Long unReadCount = 0L;
+        if(AppConfig.isTopActivity(context,ChatActivity.class.getName())){
+        	 Log.d(TAG, "ChatActivity.class.getName()包名-----------"+ChatActivity.class.getName());
         	 intent.setClass(context.getApplicationContext(), ChatActivity.class);
+             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+             intent.putExtra(PushUtils.EXTRA_MESSAGE, content);
+             context.getApplicationContext().startActivity(intent);
         }
-        else if{
-        	
-        }
-        else {
-        	
+        else{
+	    	Gson gson = new Gson();
+	        ChatMsgDTO c = gson.fromJson(content, new TypeToken<ChatMsgDTO>() {}.getType());
+			
+		    ChatMsgEntity entity = new ChatMsgEntity();
+			entity.setCreateTime(c.getCreateTime());
+			entity.setFromUserName(c.getFromUserName());
+			entity.setToUserName(c.getToUserName());
+			entity.setMsgText(c.getContent());
+			entity.setFromUserId(c.getFromUserId());
+			entity.setToUserId(c.getToUserId());
+			entity.setMsgType(c.getMsgType());
+			
+			ArrayList<ChatMsgEntity> list = new  ArrayList<ChatMsgEntity>();
+        	list.add(entity);
+        	ChatMsgDBAdapter cDBAdapter = new ChatMsgDBAdapter();
+    		try {
+    			cDBAdapter.open();
+    			cDBAdapter.addChatMsgEntity(list);
+    			
+    			unReadCount = cDBAdapter.getChatMsgUnReadCount();
+    			
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra(PushUtils.EXTRA_MESSAGE, content);
+    		} catch (Exception e) {
+    			e.printStackTrace();
+    		}
+    		finally{
+    			cDBAdapter.close();
+    		}
+    		
+    		if(AppConfig.isTopActivity(context,MainActivity.class.getName())){
+    			 intent.putExtra(PushUtils.UNREAD_COUNT, unReadCount);
+    			 intent.setAction(PushUtils.ACTION_UNREAD_COUNT);
+    			 context.sendOrderedBroadcast(intent, null);
+    		}
+    		
         }
        
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(PushUtils.EXTRA_MESSAGE, content);
-        context.getApplicationContext().startActivity(intent);
     }
     
     

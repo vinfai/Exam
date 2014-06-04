@@ -166,7 +166,8 @@ public final class DBScript {
                 "toUserName text , " +
                 "createTime text , " +
                 "msgtext text,  " +
-                "msgType text  " +
+                "msgType text,  " +
+                "msgState text  " +
             "); ";
     
     

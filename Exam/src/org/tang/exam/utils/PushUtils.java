@@ -34,7 +34,10 @@ public class PushUtils {
 	    public static final String ACTION_SHOW_MESSAGE = "bccsclient.action.SHOW_MESSAGE";
 	    public static final String EXTRA_ACCESS_TOKEN = "access_token";
 	    public static final String EXTRA_MESSAGE = "message";
-
+	    public static final String UNREAD_COUNT = "unreadCount"; 
+	    public static final String ACTION_UNREAD_COUNT = "org.tang.exam.service.PushMessageReceiver.unreadCount"; 
+	    
+	    
 	    public static String logStringCache = "";
 
 	    // 获取ApiKey

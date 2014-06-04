@@ -104,38 +104,39 @@ public class ChatActivity extends Activity implements OnClickListener {
 			 initData();
 		}
 		else if(getIntent()!=null && getIntent().getExtras()!=null && getIntent().getExtras().getSerializable(PushUtils.EXTRA_MESSAGE)!=null){
-				String message = (String) getIntent().getExtras().getSerializable(PushUtils.EXTRA_MESSAGE);
-				
-		    	Gson gson = new Gson();
-		        ChatMsgDTO c = gson.fromJson(message, new TypeToken<ChatMsgDTO>() {}.getType());
-				
-			    ChatMsgEntity entity = new ChatMsgEntity();
-				entity.setCreateTime(c.getCreateTime());
-				entity.setFromUserName(c.getFromUserName());
-				entity.setToUserName(c.getToUserName());
-				entity.setMsgText(c.getContent());
-				entity.setFromUserId(c.getFromUserId());
-				entity.setToUserId(c.getToUserId());
-				entity.setMsgType(c.getMsgType());
-				
-				fromUserId = c.getToUserId();
-				toUserId = 	c.getFromUserId();	
-				
-				ArrayList<ChatMsgEntity> list = new  ArrayList<ChatMsgEntity>();
-	        	list.add(entity);
-	        	ChatMsgDBAdapter cDBAdapter = new ChatMsgDBAdapter();
-	    		try {
-	    			cDBAdapter.open();
-	    			cDBAdapter.addChatMsgEntity(list);
-	    		} catch (Exception e) {
-	    			e.printStackTrace();
-	    		}
-	    		finally{
-	    			cDBAdapter.close();
-	    		}
-	    		
-	    		initData();
-	    		mListView.setSelection(mListView.getCount() - 1);
+//				String message = (String) getIntent().getExtras().getSerializable(PushUtils.EXTRA_MESSAGE);
+//				
+//		    	Gson gson = new Gson();
+//		        ChatMsgDTO c = gson.fromJson(message, new TypeToken<ChatMsgDTO>() {}.getType());
+//				
+//			    ChatMsgEntity entity = new ChatMsgEntity();
+//				entity.setCreateTime(c.getCreateTime());
+//				entity.setFromUserName(c.getFromUserName());
+//				entity.setToUserName(c.getToUserName());
+//				entity.setMsgText(c.getContent());
+//				entity.setFromUserId(c.getFromUserId());
+//				entity.setToUserId(c.getToUserId());
+//				entity.setMsgType(c.getMsgType());
+//				
+//				fromUserId = c.getToUserId();
+//				toUserId = 	c.getFromUserId();	
+//				
+//				ArrayList<ChatMsgEntity> list = new  ArrayList<ChatMsgEntity>();
+//	        	list.add(entity);
+//	        	ChatMsgDBAdapter cDBAdapter = new ChatMsgDBAdapter();
+//	    		try {
+//	    			cDBAdapter.open();
+//	    			cDBAdapter.addChatMsgEntity(list);
+//	    		} catch (Exception e) {
+//	    			e.printStackTrace();
+//	    		}
+//	    		finally{
+//	    			cDBAdapter.close();
+//	    		}
+//	    		
+//	    		initData();
+//	    		mListView.setSelection(mListView.getCount() - 1);
+			this.handleMsgData(getIntent());
 		}
 		
 	}
@@ -229,8 +230,7 @@ public class ChatActivity extends Activity implements OnClickListener {
 	
 	
 	
-	@Override
-	protected void onNewIntent(Intent intent) {
+	private void handleMsgData(Intent intent){
 		setIntent(intent);
 		String action = intent.getAction();
 		if(intent!=null && intent.getExtras()!=null && intent.getExtras().getSerializable(PushUtils.EXTRA_MESSAGE)!=null){
@@ -248,9 +248,6 @@ public class ChatActivity extends Activity implements OnClickListener {
 			entity.setToUserId(c.getToUserId());
 			entity.setMsgType(c.getMsgType());
 	        
-//			mDataArrays.add(entity);
-//			mAdapter.notifyDataSetChanged();
-			
 			ArrayList<ChatMsgEntity> list = new  ArrayList<ChatMsgEntity>();
         	list.add(entity);
         	ChatMsgDBAdapter cDBAdapter = new ChatMsgDBAdapter();
@@ -267,7 +264,45 @@ public class ChatActivity extends Activity implements OnClickListener {
     		initData();
     		mListView.setSelection(mListView.getCount() - 1);
 		}
-		
+	}
+	
+	
+	@Override
+	protected void onNewIntent(Intent intent) {
+//		setIntent(intent);
+//		String action = intent.getAction();
+//		if(intent!=null && intent.getExtras()!=null && intent.getExtras().getSerializable(PushUtils.EXTRA_MESSAGE)!=null){
+//			String message = (String) intent.getExtras().getSerializable(PushUtils.EXTRA_MESSAGE);
+//			
+//	    	Gson gson = new Gson();
+//	        ChatMsgDTO c = gson.fromJson(message, new TypeToken<ChatMsgDTO>() {}.getType());
+//			
+//		    ChatMsgEntity entity = new ChatMsgEntity();
+//			entity.setCreateTime(c.getCreateTime());
+//			entity.setFromUserName(c.getFromUserName());
+//			entity.setToUserName(c.getToUserName());
+//			entity.setMsgText(c.getContent());
+//			entity.setFromUserId(c.getFromUserId());
+//			entity.setToUserId(c.getToUserId());
+//			entity.setMsgType(c.getMsgType());
+//	        
+//			ArrayList<ChatMsgEntity> list = new  ArrayList<ChatMsgEntity>();
+//        	list.add(entity);
+//        	ChatMsgDBAdapter cDBAdapter = new ChatMsgDBAdapter();
+//    		try {
+//    			cDBAdapter.open();
+//    			cDBAdapter.addChatMsgEntity(list);
+//    		} catch (Exception e) {
+//    			e.printStackTrace();
+//    		}
+//    		finally{
+//    			cDBAdapter.close();
+//    		}
+//    		
+//    		initData();
+//    		mListView.setSelection(mListView.getCount() - 1);
+//		}
+		handleMsgData(intent);
 	}
 	
 

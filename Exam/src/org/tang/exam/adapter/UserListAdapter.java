@@ -11,8 +11,10 @@ import org.tang.exam.entity.UserInfo;
 import org.tang.exam.rest.ImageCacheManager;
 import org.tang.exam.utils.StringMatcher;
 import org.tang.exam.utils.URLChecker;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,7 +58,7 @@ public class UserListAdapter extends MyBaseAdatper implements Filterable, Sectio
 	private ArrayList<UserInfo> mOriginalList;
 	private UserFilter mUserFilter = null;
 	private int mMode;
-	
+	private Bundle bundle;
 	
 	public UserListAdapter(Context context, ArrayList<UserInfo> list) {
 		super();
@@ -68,6 +70,12 @@ public class UserListAdapter extends MyBaseAdatper implements Filterable, Sectio
 	public UserListAdapter(Context context, ArrayList<UserInfo> list, int mode) {
 		this(context, list);
 		mMode = mode;
+	}
+	
+	
+	public UserListAdapter(Context context, ArrayList<UserInfo> list, Bundle bundle, int mode) {
+		this(context, list,mode);
+		this.bundle = bundle;
 	}
 
 	public void updateListData(ArrayList<UserInfo> list) {
@@ -120,10 +128,11 @@ public class UserListAdapter extends MyBaseAdatper implements Filterable, Sectio
 			convertView = mInflater.inflate(R.layout.item_user, null);
 
 			holder = new ViewHolder();
-			holder.ivUserAvatar = (ImageView) convertView.findViewById(R.id.iv_user_avatar);
-			holder.tvUserName = (TextView) convertView.findViewById(R.id.tv_user_name);
-			holder.tvRemark = (TextView) convertView.findViewById(R.id.tv_remark);
+			holder.ivUserAvatar = (ImageView) convertView.findViewById(R.id.iv_contact_user_avatar);
+			holder.tvUserName = (TextView) convertView.findViewById(R.id.tv_contact_user_name);
+			holder.tvRemark = (TextView) convertView.findViewById(R.id.tv_contact_remark);
 //			holder.cbSelect = (CheckBox) convertView.findViewById(R.id.cb_select);
+			holder.tvUnReadCount = (TextView) convertView.findViewById(R.id.tv_contact_unread);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -152,14 +161,9 @@ public class UserListAdapter extends MyBaseAdatper implements Filterable, Sectio
 				Log.e(TAG, "Failed to loadImage: " + userInfo.getPicUrl());
 			}
 			
-			
 			holder.tvUserName.setText(userInfo.getUserName());
-			if (userInfo instanceof StudentRoster) {
-				holder.tvRemark.setVisibility(View.GONE);
-			} else {
-				holder.tvRemark.setText(UserHelper.getRemark(userInfo));
-			}
-			
+			holder.tvRemark.setText(UserHelper.getRemark(userInfo));
+			holder.tvUnReadCount.setText(bundle.getString(userInfo.getUserId()));
 		}
 		
 		return convertView;
@@ -189,7 +193,7 @@ public class UserListAdapter extends MyBaseAdatper implements Filterable, Sectio
 		ImageView ivUserAvatar;
 		TextView tvUserName;
 		TextView tvRemark;
-//		CheckBox cbSelect;
+		TextView tvUnReadCount;
 		
 		public ImageView getIvUserAvatar() {
 			return ivUserAvatar;
@@ -209,12 +213,12 @@ public class UserListAdapter extends MyBaseAdatper implements Filterable, Sectio
 		public void setTvRemark(TextView tvRemark) {
 			this.tvRemark = tvRemark;
 		}
-//		public CheckBox getCbSelect() {
-//			return cbSelect;
-//		}
-//		public void setCbSelect(CheckBox cbSelect) {
-//			this.cbSelect = cbSelect;
-//		}
+		public TextView getTvUnReadCount() {
+			return tvUnReadCount;
+		}
+		public void setTvUnReadCount(TextView tvUnReadCount) {
+			this.tvUnReadCount = tvUnReadCount;
+		}
 		
 	}
 
