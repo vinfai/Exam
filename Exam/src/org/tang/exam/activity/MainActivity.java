@@ -123,6 +123,7 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 		if (mReceiver == null) {
 			mReceiver = new RefreshUnreadReceiver();
 			IntentFilter intentFilter = new IntentFilter();
+			intentFilter.setPriority(500);
 			intentFilter.addAction(PushUtils.ACTION_UNREAD_COUNT);
 			registerReceiver(mReceiver, intentFilter);
 		}
@@ -181,10 +182,10 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 	@Override
 	public void onDestroy() {
 		PushUtils.setLogText(getApplicationContext(), PushUtils.logStringCache);
-		super.onDestroy();
 		if (mReceiver != null) {
 			unregisterReceiver(mReceiver);
 		}
+		super.onDestroy();
 	}
 	
 	@Override
@@ -195,12 +196,15 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.action_exit:
-			this.finish();
-			break;
-		}
-		return true;
+//		switch (item.getItemId()) {
+//		case R.id.action_exit:
+//			if (mReceiver != null) {
+//				unregisterReceiver(mReceiver);
+//			}
+//			this.finish();
+//			break;
+//		}
+		return false;
 	}
 
 	private void initTabWidget() {
@@ -261,6 +265,7 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 	private void selectContact() {
 		mIndexView.setSelected(false);
 		mContactView.setSelected(true);
+		mBadge.hide();
 	}
 
 
@@ -294,6 +299,21 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 					if (unreadCount > 0) {
 						Log.d(TAG, "未读消息数量：："+unreadCount);
 						mBadge.setText(String.valueOf(unreadCount));
+						mBadge.show();
+					} else {
+						mBadge.hide();
+					}
+				}
+			}
+			else if(PushUtils.ACTION_READ_COUNT.equals(intent.getAction())){
+				Long readCount = intent.getLongExtra(PushUtils.READ_COUNT, 0);
+				
+				if (mBadge != null) {
+					if (readCount > 0) {
+						Log.d(TAG, "已读消息数量：："+readCount);
+						Long unread = Long.valueOf(mBadge.getText().toString());
+						String unreadT = String.valueOf(unread - readCount);
+						mBadge.setText(unreadT);
 						mBadge.show();
 					} else {
 						mBadge.hide();

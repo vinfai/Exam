@@ -89,7 +89,7 @@ public class UserInfoDBAdapter extends DBAdapter {
 			values.put("userType", userInfo.getUserType());
 			values.put("orgId", userInfo.getOrgId());
 			values.put("departId", userInfo.getDepartId());
-			
+			values.put("picUrl", userInfo.getPicUrl());
 			values.put("pinYin", userInfo.getPinYin());
 			values.put("initial", userInfo.getInitial());
 			

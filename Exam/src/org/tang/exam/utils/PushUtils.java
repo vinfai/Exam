@@ -35,7 +35,10 @@ public class PushUtils {
 	    public static final String EXTRA_ACCESS_TOKEN = "access_token";
 	    public static final String EXTRA_MESSAGE = "message";
 	    public static final String UNREAD_COUNT = "unreadCount"; 
+	    public static final String READ_COUNT = "readCount"; 
+	    public static final String ACTION_READ_COUNT = "org.tang.exam.service.PushMessageReceiver.readCount"; 
 	    public static final String ACTION_UNREAD_COUNT = "org.tang.exam.service.PushMessageReceiver.unreadCount"; 
+	    public static final String ACTION_UPDATE_COUNT = "org.tang.exam.service.PushMessageReceiver.updateCount"; 
 	    
 	    
 	    public static String logStringCache = "";

@@ -14,6 +14,7 @@ import org.tang.exam.utils.URLChecker;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -151,12 +152,12 @@ public class UserListAdapter extends MyBaseAdatper implements Filterable, Sectio
 		UserInfo userInfo = mFilterList.get(pos);
 		if (userInfo != null) {
 			try {
-				if (URLChecker.isUrl(userInfo.getPicUrl())) {
 					Log.d(TAG, "loadImage: " + userInfo.getPicUrl());
 					ImageListener listener = ImageLoader.getImageListener(holder.ivUserAvatar,
 							R.drawable.avatar_default_normal, R.drawable.avatar_default_normal);
-					ImageCacheManager.getInstance().getImageLoader().get(userInfo.getPicUrl(), listener);
-				}
+					Bitmap bm = ImageCacheManager.getInstance().getImageLoader().get(userInfo.getPicUrl(), listener).getBitmap();
+					holder.ivUserAvatar.setImageBitmap(bm);
+				
 			} catch (Exception e) {
 				Log.e(TAG, "Failed to loadImage: " + userInfo.getPicUrl());
 			}

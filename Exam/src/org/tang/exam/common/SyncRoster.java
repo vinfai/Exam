@@ -98,6 +98,7 @@ public class SyncRoster {
 		Log.d("[SyncRoster] updateUserInfo: ", String.valueOf(list.size()));
 		for (UserInfo roster : list) {
 			Log.d("[user: ]", roster.getUserName());
+			Log.d("[user: ]", roster.getPicUrl());
 		}
 
 		UserInfoDBAdapter dbAdapter = new UserInfoDBAdapter();

@@ -32,7 +32,7 @@ public class ChatMsgViewAdapter extends BaseAdapter {
 	private Context ctx;
 
 	private LayoutInflater mInflater;
-	private MediaPlayer mMediaPlayer = new MediaPlayer();
+//	private MediaPlayer mMediaPlayer = new MediaPlayer();
 
 	public ChatMsgViewAdapter(Context context, List<ChatMsgEntity> coll) {
 		ctx = context;
@@ -65,7 +65,6 @@ public class ChatMsgViewAdapter extends BaseAdapter {
 	}
 
 	public int getViewTypeCount() {
-		// TODO Auto-generated method stub
 		return 2;
 	}
 
@@ -102,24 +101,27 @@ public class ChatMsgViewAdapter extends BaseAdapter {
 		}
 
 		viewHolder.tvSendTime.setText(DateTimeUtil.toStandardTime(entity.getCreateTime()));
+		viewHolder.tvContent.setText(entity.getMsgText());			
+		viewHolder.tvContent.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+		viewHolder.tvTime.setText("");
 		
-		if (entity.getMsgText().contains(".amr")) {
-			viewHolder.tvContent.setText("");
-			viewHolder.tvContent.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.chatto_voice_playing, 0);
-			viewHolder.tvTime.setText(entity.getCreateTime());
-		} else {
-			viewHolder.tvContent.setText(entity.getMsgText());			
-			viewHolder.tvContent.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-			viewHolder.tvTime.setText("");
-		}
-		viewHolder.tvContent.setOnClickListener(new OnClickListener() {
-			
-			public void onClick(View v) {
-				if (entity.getMsgText().contains(".amr")) {
-					playMusic(android.os.Environment.getExternalStorageDirectory()+"/"+entity.getMsgText()) ;
-				}
-			}
-		});
+//		if (entity.getMsgText().contains(".amr")) {
+//			viewHolder.tvContent.setText("");
+//			viewHolder.tvContent.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.chatto_voice_playing, 0);
+//			viewHolder.tvTime.setText(entity.getCreateTime());
+//		} else {
+//			viewHolder.tvContent.setText(entity.getMsgText());			
+//			viewHolder.tvContent.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+//			viewHolder.tvTime.setText("");
+//		}
+//		viewHolder.tvContent.setOnClickListener(new OnClickListener() {
+//			
+//			public void onClick(View v) {
+//				if (entity.getMsgText().contains(".amr")) {
+//					playMusic(android.os.Environment.getExternalStorageDirectory()+"/"+entity.getMsgText()) ;
+//				}
+//			}
+//		});
 		viewHolder.tvUserName.setText(entity.getFromUserName());
 		
 		return convertView;
@@ -137,26 +139,26 @@ public class ChatMsgViewAdapter extends BaseAdapter {
 	 * @Description
 	 * @param name
 	 */
-	private void playMusic(String name) {
-		try {
-			if (mMediaPlayer.isPlaying()) {
-				mMediaPlayer.stop();
-			}
-			mMediaPlayer.reset();
-			mMediaPlayer.setDataSource(name);
-			mMediaPlayer.prepare();
-			mMediaPlayer.start();
-			mMediaPlayer.setOnCompletionListener(new OnCompletionListener() {
-				public void onCompletion(MediaPlayer mp) {
-
-				}
-			});
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
+//	private void playMusic(String name) {
+//		try {
+//			if (mMediaPlayer.isPlaying()) {
+//				mMediaPlayer.stop();
+//			}
+//			mMediaPlayer.reset();
+//			mMediaPlayer.setDataSource(name);
+//			mMediaPlayer.prepare();
+//			mMediaPlayer.start();
+//			mMediaPlayer.setOnCompletionListener(new OnCompletionListener() {
+//				public void onCompletion(MediaPlayer mp) {
+//
+//				}
+//			});
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//
+//	}
 
 	private void stop() {
 

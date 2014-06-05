@@ -34,7 +34,14 @@ public class ContactFragment extends Fragment implements SearchView.OnQueryTextL
 		setHasOptionsMenu(true);
 		super.onCreate(savedInstanceState);
 	}
-
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		 super.onOptionsItemSelected(item);
+		return false;
+	}
+	
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mView = inflater.inflate(R.layout.fragment_contact, container, false);

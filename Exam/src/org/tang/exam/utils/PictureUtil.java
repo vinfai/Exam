@@ -4,12 +4,44 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
 import android.os.Environment;
+import android.util.Log;
 public class PictureUtil {
+	private static final String TAG = "PictureUtil";
+	//图片Url保存为位图并进行缩放操作  
+	//通过传入图片url获取位图方法  
+	public Bitmap returnBitMap(String url) {  
+	        URL myFileUrl = null;  
+	        Bitmap bitmap = null;  
+	        try {  
+	            myFileUrl = new URL(url);  
+	        } catch (MalformedURLException e) {  
+	            e.printStackTrace();  
+	        }  
+	        try {  
+	            HttpURLConnection conn = (HttpURLConnection) myFileUrl  
+	                    .openConnection();  
+	            conn.setDoInput(true);  
+	            conn.connect();  
+	            InputStream is = conn.getInputStream();  
+	            bitmap = BitmapFactory.decodeStream(is);  
+	            is.close();  
+	        } catch (IOException e) {  
+	            e.printStackTrace();  
+	        }  
+	        Log.v(TAG, bitmap.toString());  
+	  
+	        return bitmap;  
+	    }  
+	
 	/**
 	 * 根据指定的图像路径和大小来获取缩略图 此方法有两点好处： 1.
 	 * 使用较小的内存空间，第一次获取的bitmap实际上为null，只是为了读取宽度和高度，

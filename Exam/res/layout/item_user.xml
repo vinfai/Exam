@@ -27,7 +27,6 @@
               android:textColor="@color/orange"
               android:textSize="@dimen/big_text"
                />
-        
         <org.tang.exam.view.RoundedImageView
             android:id="@+id/iv_contact_user_avatar"
             android:layout_width="@dimen/normal_avatar_size"

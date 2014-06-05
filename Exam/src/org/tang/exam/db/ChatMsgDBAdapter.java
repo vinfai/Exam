@@ -23,7 +23,7 @@ public class ChatMsgDBAdapter extends DBAdapter {
 	public ArrayList<ChatMsgEntity> getChatMsgEntity(String fromUserId,String toUserId) {
 		String where = String.format("fromUserId = '%s'  and  toUserId ='%s' " , fromUserId,toUserId);
 		ArrayList<ChatMsgEntity> list = new ArrayList<ChatMsgEntity>();
-		String orderBy = "createTime asc";
+		String orderBy = "createTime desc";
 		String limit = String.valueOf(MAX_NUMBER);
 
 		Cursor result = getDb().query("ChatMsg", new String[] {"id", "fromUserId", "createTime","fromUserName","toUserName","msgtext", "toUserId", "msgType","msgState"},where, null, null, null, orderBy, limit);
