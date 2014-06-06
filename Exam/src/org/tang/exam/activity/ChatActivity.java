@@ -152,7 +152,7 @@ public class ChatActivity extends Activity implements OnClickListener {
 	}
 
 	public void initData() {
-		mAdapter = new ChatMsgViewAdapter(this, mDataArrays);
+		mAdapter = new ChatMsgViewAdapter(this, mDataArrays,toUserPicUrl,fromUserPicUrl);
 		mDataArrays.clear();
 		ChatMsgDBAdapter cDBAdapter = new ChatMsgDBAdapter();
 		try {
@@ -184,9 +184,6 @@ public class ChatActivity extends Activity implements OnClickListener {
 		
 		if(toUserId!=null&&!("").equals(toUserId)){
 			updateUnReadMsgCount(toUserId,fromUserId);
-			Intent intent = new Intent();
-			intent.setAction(PushUtils.ACTION_UPDATE_COUNT);
-			sendOrderedBroadcast(intent, null);
 		}
 	
 	}
@@ -259,6 +256,7 @@ public class ChatActivity extends Activity implements OnClickListener {
 			break;
 		case R.id.btn_back:
 			finish();
+			
 			break;
 		}
 	}

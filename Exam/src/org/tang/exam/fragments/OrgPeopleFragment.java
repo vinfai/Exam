@@ -2,6 +2,7 @@ package org.tang.exam.fragments;
 
 import java.util.ArrayList;
 import java.util.Collections;
+
 import org.tang.exam.R;
 import org.tang.exam.activity.ChatActivity;
 import org.tang.exam.adapter.UserListAdapter;
@@ -97,6 +98,7 @@ public class OrgPeopleFragment  extends Fragment implements OnItemClickListener{
 			IntentFilter intentFilter = new IntentFilter();
 			intentFilter.setPriority(1000);
 			intentFilter.addAction(PushUtils.ACTION_UNREAD_COUNT);
+			intentFilter.addAction(PushUtils.ACTION_READ_COUNT);
 			getActivity().registerReceiver(mReceiver, intentFilter);
 		}
 	}
@@ -171,24 +173,24 @@ public class OrgPeopleFragment  extends Fragment implements OnItemClickListener{
 		UserCache userCache = UserCache.getInstance();
 		switch (parent.getId()) {
 			case R.id.lv_user_list:
-				ViewHolder vh = (ViewHolder) v.getTag();
-				Log.d(TAG, "点击了"+mUserList.get(pos).getUserName());
-				Intent intent = new Intent(getActivity(), ChatActivity.class);
-	            Bundle bundle = new Bundle();
-	            bundle.putString("toUserId", mUserList.get(pos).getUserId());
-	            bundle.putString("toUserName", mUserList.get(pos).getUserName());
-	            bundle.putString("toUserPicUrl", mUserList.get(pos).getPicUrl());
-	            intent.putExtra("tag",bundle);
+				final ViewHolder vh = (ViewHolder) v.getTag();
+				final String unreadcount =vh.getTvUnReadCount().getText().toString();
+				
+					Intent intent = new Intent(getActivity(), ChatActivity.class);
+		            Bundle bundle = new Bundle();
+		            bundle.putString("toUserId", mUserList.get(pos).getUserId());
+		            bundle.putString("toUserName", mUserList.get(pos).getUserName());
+		            bundle.putString("toUserPicUrl", mUserList.get(pos).getPicUrl());
+		            intent.putExtra("tag",bundle);
 	            
-	            Intent intent2 = new Intent();
-	            intent.putExtra(PushUtils.READ_COUNT, vh.getTvUnReadCount().toString());
-   			 	intent.setAction(PushUtils.ACTION_READ_COUNT);
-   			 	getActivity().sendOrderedBroadcast(intent2, null);
-	            
-	            updateUnReadMsgCount(mUserList.get(pos).getUserId(),userCache.getUserInfo().getUserId());
-	            getActivity().startActivity(intent);
-	            
-	            
+				 	Intent intent2 = new Intent();
+		            intent2.putExtra(PushUtils.READ_COUNT, unreadcount);
+	   			 	intent2.setAction(PushUtils.ACTION_READ_COUNT);
+	   			 	intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	   			 	getActivity().sendOrderedBroadcast(intent2, null);
+   			 	
+		            updateUnReadMsgCount(mUserList.get(pos).getUserId(),userCache.getUserInfo().getUserId());
+		            getActivity().startActivity(intent);
 	            
 			break;
 		}

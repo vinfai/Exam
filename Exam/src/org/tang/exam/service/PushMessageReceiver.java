@@ -338,9 +338,7 @@ public class PushMessageReceiver extends FrontiaPushMessageReceiver {
     		try {
     			cDBAdapter.open();
     			cDBAdapter.addChatMsgEntity(list);
-    			
     			unReadCount = cDBAdapter.getChatMsgUnReadCount();
-    			
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra(PushUtils.EXTRA_MESSAGE, content);
     		} catch (Exception e) {

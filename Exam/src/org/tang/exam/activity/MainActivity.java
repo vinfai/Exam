@@ -125,6 +125,7 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 			IntentFilter intentFilter = new IntentFilter();
 			intentFilter.setPriority(500);
 			intentFilter.addAction(PushUtils.ACTION_UNREAD_COUNT);
+			intentFilter.addAction(PushUtils.ACTION_READ_COUNT);
 			registerReceiver(mReceiver, intentFilter);
 		}
 	}
@@ -306,19 +307,30 @@ public class MainActivity extends BaseActionBarFragmentActivity implements OnPag
 				}
 			}
 			else if(PushUtils.ACTION_READ_COUNT.equals(intent.getAction())){
-				Long readCount = intent.getLongExtra(PushUtils.READ_COUNT, 0);
+				String readCount = intent.getStringExtra(PushUtils.READ_COUNT);
+				if(readCount==null || ("").equals(readCount)){
+					readCount = "0";
+				}
 				
+				Long readCountTemp = Long.valueOf(readCount);
 				if (mBadge != null) {
-					if (readCount > 0) {
+					if (readCountTemp > 0) {
 						Log.d(TAG, "已读消息数量：："+readCount);
 						Long unread = Long.valueOf(mBadge.getText().toString());
-						String unreadT = String.valueOf(unread - readCount);
-						mBadge.setText(unreadT);
-						mBadge.show();
+						Long unreadTemp = unread - readCountTemp;
+						String unreadT = String.valueOf(unreadTemp);
+						if(unreadTemp==0L){
+							mBadge.hide();
+						}
+						else{
+							mBadge.setText(unreadT);
+							mBadge.show();
+						}
 					} else {
 						mBadge.hide();
 					}
 				}
+				abortBroadcast();//关闭广播
 			}
 
 		}

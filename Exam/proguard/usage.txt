@@ -1,0 +1,432 @@
+demo.Pinyin4jAppletDemo
+demo.Pinyin4jAppletDemo$1
+demo.Pinyin4jAppletDemo$2
+demo.Pinyin4jAppletDemo$3
+org.tang.exam.BuildConfig
+org.tang.exam.Manifest
+org.tang.exam.Manifest$permission
+org.tang.exam.R:
+    10:10:public R()
+org.tang.exam.R$anim
+org.tang.exam.R$array
+org.tang.exam.R$attr
+org.tang.exam.R$bool
+org.tang.exam.R$color
+org.tang.exam.R$dimen
+org.tang.exam.R$drawable
+org.tang.exam.R$id
+org.tang.exam.R$integer
+org.tang.exam.R$layout
+org.tang.exam.R$menu
+org.tang.exam.R$string
+org.tang.exam.R$style
+org.tang.exam.R$styleable:
+    2346:2346:public R$styleable()
+org.tang.exam.Test
+org.tang.exam.activity.AttendanceActivity:
+    private static final java.lang.String TAG
+org.tang.exam.activity.AttendanceGdActivity:
+    private static final java.lang.String TAG
+org.tang.exam.activity.AttendanceRecordDetailActivity
+org.tang.exam.activity.CameraActivity:
+    protected static final java.lang.String TAG
+    66:72:private boolean checkCameraHardware(android.content.Context)
+org.tang.exam.activity.GuideActivity:
+    private static final java.lang.String TAG
+org.tang.exam.activity.LoginActivity:
+    private static final java.lang.String TAG
+org.tang.exam.activity.MainActivity:
+    private static final java.lang.String TAG
+org.tang.exam.activity.MapActivity:
+    static final java.lang.String TAG
+    135:140:public void showDialog()
+    186:190:public void getAddress(com.amap.api.services.core.LatLonPoint)
+org.tang.exam.activity.ScoreActivity:
+    private static final java.lang.String TAG
+org.tang.exam.activity.WelcomeActivity:
+    private static final int GO_HOME
+    private static final int GO_GUIDE
+    private static final int SPLASH_DELAY_MILLIS
+org.tang.exam.adapter.ChatMsgViewAdapter:
+    200:200:private void stop()
+org.tang.exam.adapter.ChatMsgViewAdapter$IMsgViewType
+org.tang.exam.adapter.UserListAdapter:
+    private static final java.lang.String TAG
+    50:50:public java.util.HashMap getIsSelected()
+    54:55:public void setIsSelected(java.util.HashMap)
+    93:93:public java.util.HashMap getSelectMap()
+    97:99:public void clearAll()
+    102:107:public void selectAll()
+    58:58:static synthetic java.util.ArrayList access$0(org.tang.exam.adapter.UserListAdapter)
+    45:45:static synthetic java.util.HashMap access$1(org.tang.exam.adapter.UserListAdapter)
+org.tang.exam.adapter.UserListAdapter$MyCheckedChangeListener
+org.tang.exam.adapter.UserListAdapter$ViewHolder:
+    200:200:public android.widget.ImageView getIvUserAvatar()
+    203:204:public void setIvUserAvatar(android.widget.ImageView)
+    206:206:public android.widget.TextView getTvUserName()
+    209:210:public void setTvUserName(android.widget.TextView)
+    212:212:public android.widget.TextView getTvRemark()
+    215:216:public void setTvRemark(android.widget.TextView)
+    221:222:public void setTvUnReadCount(android.widget.TextView)
+org.tang.exam.base.MyApplication:
+    9:9:public int getNewsCount()
+    13:14:public void plusNewsCount()
+    1:1:public static bridge synthetic org.tang.exam.base.BaseApplication getInstance()
+org.tang.exam.base.MyCustomExceptionHandler:
+    private static final java.lang.String TAG
+org.tang.exam.common.AppConfig:
+    private static final java.lang.String DB_NAME
+org.tang.exam.common.AppConstant
+org.tang.exam.common.AppConstant$Ack
+org.tang.exam.common.AppConstant$HomeworkQueryType
+org.tang.exam.common.AppConstant$MessageGroupType
+org.tang.exam.common.AppConstant$MessageObjectType
+org.tang.exam.common.AppConstant$MessageSendStatus
+org.tang.exam.common.AppConstant$MessageType
+org.tang.exam.common.AppConstant$NoticeQueryType
+org.tang.exam.common.AppConstant$NoticeType
+org.tang.exam.common.AppConstant$Sex
+org.tang.exam.common.AppConstant$UserType
+org.tang.exam.common.SyncRoster:
+    private static final java.lang.String TAG
+org.tang.exam.common.UserCache:
+    private static final java.lang.String TAG
+    private static final java.lang.String DB_NAME
+    67:67:public java.lang.String getPassword()
+    77:77:public java.lang.String getSessionKey()
+    96:96:public java.util.ArrayList getTags()
+org.tang.exam.db.AttendanceDBAdapter:
+    private static final java.lang.String TAG
+org.tang.exam.db.AttendanceGraphDBAdapter:
+    private static final java.lang.String TAG
+org.tang.exam.db.ChatMsgDBAdapter:
+    private static final java.lang.String TAG
+org.tang.exam.db.DBAdapter:
+    private static final java.lang.String TAG
+    private static final java.lang.String DATABASE_NAME
+    private static final int DATABASE_VERSION
+    private static final int MAX_NUMBER
+    31:32:public void setDb(android.database.sqlite.SQLiteDatabase)
+    34:38:public DBAdapter(android.content.Context,java.lang.String)
+    59:71:public void addMessage(org.tang.exam.entity.Message)
+org.tang.exam.db.DBScript
+org.tang.exam.db.UserInfoDBAdapter:
+    private static final java.lang.String TAG
+    51:66:public java.util.ArrayList getUserInfo()
+org.tang.exam.entity.AttendanceRecord:
+    private static final long serialVersionUID
+org.tang.exam.entity.AttendanceRecordGraph:
+    private static final long serialVersionUID
+org.tang.exam.entity.ChatMsgEntity:
+    17:17:public java.lang.String getId()
+    86:86:public java.lang.String getMsgState()
+org.tang.exam.entity.ClassInfo
+org.tang.exam.entity.Daily
+org.tang.exam.entity.Group
+org.tang.exam.entity.Homework
+org.tang.exam.entity.Message
+org.tang.exam.entity.Notice
+org.tang.exam.entity.Parent
+org.tang.exam.entity.ParentRoster:
+    private static final long serialVersionUID
+    22:22:public java.lang.String getChildUserId()
+    26:27:public void setChildUserId(java.lang.String)
+    34:36:public void setChildName(java.lang.String)
+    39:39:public java.lang.String getChildPinYin()
+    43:43:public java.lang.String getSchoolId()
+    47:48:public void setSchoolId(java.lang.String)
+    51:51:public java.lang.String getClassId()
+    55:56:public void setClassId(java.lang.String)
+    59:59:public java.lang.String getClassName()
+    63:64:public void setClassName(java.lang.String)
+org.tang.exam.entity.RolePaser:
+    10:10:public RolePaser()
+    31:43:public static java.util.ArrayList jsonToArray(java.lang.String)
+org.tang.exam.entity.SMS
+org.tang.exam.entity.SerializeHelper:
+    private static final java.lang.String TAG
+    private static final java.lang.String userFile
+    private static final java.lang.String classFile
+    private static final java.lang.String childFile
+    11:11:public SerializeHelper()
+org.tang.exam.entity.Student
+org.tang.exam.entity.StudentRoster:
+    private static final long serialVersionUID
+    private java.lang.String schoolId
+    private java.lang.String studentNo
+    private java.lang.String classId
+    private java.lang.String className
+    17:17:public java.lang.String getClassId()
+    21:22:public void setClassId(java.lang.String)
+    25:25:public java.lang.String getClassName()
+    29:30:public void setClassName(java.lang.String)
+    33:33:public java.lang.String getSchoolId()
+    37:38:public void setSchoolId(java.lang.String)
+    41:41:public java.lang.String getStudentNo()
+    45:46:public void setStudentNo(java.lang.String)
+org.tang.exam.entity.SystemUser
+org.tang.exam.entity.Teacher
+org.tang.exam.entity.TeacherRole
+org.tang.exam.entity.TeacherRoster:
+    private static final long serialVersionUID
+    private java.lang.String teacherId
+    private java.lang.String schoolId
+    private java.lang.String classId
+    private java.lang.String className
+    18:18:public java.lang.String getTeacherId()
+    22:23:public void setTeacherId(java.lang.String)
+    30:31:public void setRole(java.lang.String)
+    34:34:public java.lang.String getSchoolId()
+    38:39:public void setSchoolId(java.lang.String)
+    42:42:public java.lang.String getClassId()
+    46:47:public void setClassId(java.lang.String)
+    50:50:public java.lang.String getClassName()
+    54:55:public void setClassName(java.lang.String)
+org.tang.exam.entity.UserHelper:
+    9:9:public UserHelper()
+    12:15:public static int getDefaultImage(org.tang.exam.entity.UserInfo)
+    20:23:public static int getErrorImage(org.tang.exam.entity.UserInfo)
+org.tang.exam.entity.UserInfo:
+    private static final long serialVersionUID
+org.tang.exam.fragments.AttendanceGraphFragment:
+    private static final java.lang.String TAG
+    private android.widget.RelativeLayout layoutAttendance
+    84:84:public android.app.ProgressDialog getProgDialog()
+    88:89:public void setProgDialog(android.app.ProgressDialog)
+    95:101:public void showDialog()
+    107:111:public void dismissDialog()
+    116:117:public static org.tang.exam.fragments.AttendanceGraphFragment newInstance()
+org.tang.exam.fragments.AttendanceRecordListFragment:
+    private static final java.lang.String TAG
+    94:95:public static org.tang.exam.fragments.AttendanceRecordListFragment newInstance()
+org.tang.exam.fragments.OrgPeopleFragment:
+    private static final java.lang.String TAG
+org.tang.exam.rest.BaseResponse:
+    protected java.lang.String sessionKey
+    13:14:public void setMsgFlag(int)
+    17:17:public java.lang.String getSessionKey()
+    23:24:public void setSessionKey(java.lang.String)
+org.tang.exam.rest.MyStringRequest:
+    private static final java.lang.String TAG
+    private static final java.lang.String CONTENT_ENCODING
+    private static final int TIMEOUT_MS
+    46:47:public MyStringRequest(java.lang.String,com.android.volley.Response$Listener,com.android.volley.Response$ErrorListener)
+    51:53:public MyStringRequest(java.lang.String,java.util.Map,com.android.volley.Response$Listener,com.android.volley.Response$ErrorListener)
+org.tang.exam.rest.RequestController:
+    private static final java.lang.String TAG
+    43:45:public void addToRequestQueue(com.android.volley.Request)
+org.tang.exam.rest.attendance.QueryAttendanceRecordReq:
+    13:13:public java.lang.String getUserId()
+    21:21:public java.lang.String getCreateTime()
+org.tang.exam.rest.attendance.QueryAttendanceRecordResp:
+    20:21:public void setMsgFlag(int)
+    28:29:public void setSessionKey(java.lang.String)
+    38:39:public void setResponse(java.util.ArrayList)
+org.tang.exam.rest.attendance.SaveAttendanceRecordReq:
+    19:19:public java.lang.String getId()
+    27:27:public java.lang.String getUserId()
+    35:35:public java.lang.String getCreateTime()
+    43:43:public java.lang.String getAddress()
+    51:51:public java.lang.String getGps()
+    59:59:public java.lang.String getLatitude()
+    67:67:public java.lang.String getLongitude()
+org.tang.exam.rest.login.UserLoginParse:
+    private java.lang.String response
+    private int userType
+    35:36:public void setMsgFlag(int)
+    38:38:public java.lang.String getResponse()
+    41:42:public void setResponse(java.lang.String)
+    47:48:public void setUserInfo(org.tang.exam.entity.UserInfo)
+    50:50:public int getUserType()
+    53:54:public void setUserType(int)
+    61:62:public void setSessionKey(java.lang.String)
+org.tang.exam.rest.login.UserLoginReq:
+    13:13:public java.lang.String getUserName()
+    21:21:public java.lang.String getUserPwd()
+org.tang.exam.rest.push.ChatMsgDTO:
+    private java.lang.String id
+    private java.lang.String state
+    private java.lang.String sendTime
+    private java.lang.String pushuserId
+    private java.lang.String pushChannelId
+    private java.lang.String deviceType
+    24:24:public java.lang.String getId()
+    28:29:public void setId(java.lang.String)
+    35:36:public void setFromUserId(java.lang.String)
+    42:43:public void setToUserId(java.lang.String)
+    49:50:public void setContent(java.lang.String)
+    56:57:public void setCreateTime(java.lang.String)
+    59:59:public java.lang.String getState()
+    63:64:public void setState(java.lang.String)
+    66:66:public java.lang.String getSendTime()
+    70:71:public void setSendTime(java.lang.String)
+    74:74:public java.lang.String getPushuserId()
+    78:79:public void setPushuserId(java.lang.String)
+    82:82:public java.lang.String getPushChannelId()
+    86:87:public void setPushChannelId(java.lang.String)
+    90:90:public java.lang.String getDeviceType()
+    94:95:public void setDeviceType(java.lang.String)
+    102:103:public void setFromUserName(java.lang.String)
+    110:111:public void setToUserName(java.lang.String)
+    118:119:public void setMsgType(java.lang.String)
+org.tang.exam.rest.push.PushAccountReq
+org.tang.exam.rest.userInfo.ContactUserInfoReq:
+    12:12:public java.lang.String getOrgId()
+org.tang.exam.rest.userInfo.ContactUserInfoResp:
+    private int userType
+    private java.lang.String sessionKey
+    17:18:public void setMsgFlag(int)
+    25:26:public void setResponse(java.util.ArrayList)
+    29:29:public int getUserType()
+    33:34:public void setUserType(int)
+    37:37:public java.lang.String getSessionKey()
+    41:42:public void setSessionKey(java.lang.String)
+org.tang.exam.service.PushMessageReceiver:
+    62:62:public java.lang.String getPushUserId()
+    66:67:public void setPushUserId(java.lang.String)
+    70:70:public java.lang.String getPushChannelId()
+    74:75:public void setPushChannelId(java.lang.String)
+org.tang.exam.utils.AMapUtil:
+    public static final java.lang.String HtmlBlack
+    public static final java.lang.String HtmlGray
+    19:19:public AMapUtil()
+    24:28:public static java.lang.String checkEditText(android.widget.EditText)
+    33:33:public static android.text.Spanned stringToSpan(java.lang.String)
+    37:41:public static java.lang.String colorFont(java.lang.String,java.lang.String)
+    45:45:public static java.lang.String makeHtmlNewLine()
+    49:54:public static java.lang.String makeHtmlSpace(int)
+    58:81:public static java.lang.String getFriendlyLength(int)
+    85:85:public static boolean IsEmptyOrNullString(java.lang.String)
+    92:92:public static com.amap.api.services.core.LatLonPoint convertToLatLonPoint(com.amap.api.maps.model.LatLng)
+    106:111:public static java.util.ArrayList convertArrList(java.util.List)
+    118:120:public static java.lang.String convertToTime(long)
+org.tang.exam.utils.CameraPreview:
+    private static final java.lang.String TAG
+org.tang.exam.utils.ChString
+org.tang.exam.utils.DateTimeUtil:
+    private static final java.lang.String TAG
+    10:10:public DateTimeUtil()
+    22:25:public static java.lang.String getLongTime()
+    29:32:public static java.lang.String getToday00Time()
+    36:39:public static java.lang.String addHourTime(int)
+    43:54:public static boolean isBeforeHourTime(java.lang.String,int)
+org.tang.exam.utils.FragmentSwitcher:
+    10:10:public FragmentSwitcher()
+org.tang.exam.utils.IntentHelper
+org.tang.exam.utils.JSONHelper
+org.tang.exam.utils.LocationHelper
+org.tang.exam.utils.MapItem:
+    12:15:public MapItem(java.lang.String,java.lang.String)
+org.tang.exam.utils.MessageBox:
+    private static final java.lang.String TAG
+    12:12:public MessageBox()
+    16:19:public static void showNetworkError(android.content.Context)
+org.tang.exam.utils.MobileConstant
+org.tang.exam.utils.MyLocationManager:
+    private static final int MINTIME
+    private static final int MININSTANCE
+    75:75:public android.location.Location getMyLocation()
+org.tang.exam.utils.Page
+org.tang.exam.utils.PictureUtil:
+    private static final java.lang.String TAG
+    17:17:public PictureUtil()
+    22:42:public android.graphics.Bitmap returnBitMap(java.lang.String)
+    106:113:public static android.graphics.Bitmap getVideoThumbnail(java.lang.String,int,int,int)
+    144:150:public static java.lang.String getSDPath()
+org.tang.exam.utils.PinYinUtil:
+    11:11:public PinYinUtil()
+org.tang.exam.utils.PushUtils:
+    public static final java.lang.String TAG
+    public static final java.lang.String ACTION_BIND_SUCCESS
+    public static final java.lang.String PUSH_CHANNELID
+    public static final java.lang.String ACTION_NOTIFICATION_ENTRY
+    public static final java.lang.String RESPONSE_METHOD
+    public static final java.lang.String RESPONSE_CONTENT
+    public static final java.lang.String RESPONSE_ERRCODE
+    public static final java.lang.String ACTION_LOGIN
+    public static final java.lang.String ACTION_MESSAGE
+    public static final java.lang.String ACTION_RESPONSE
+    public static final java.lang.String ACTION_SHOW_MESSAGE
+    public static final java.lang.String EXTRA_ACCESS_TOKEN
+    public static final java.lang.String EXTRA_MESSAGE
+    public static final java.lang.String UNREAD_COUNT
+    public static final java.lang.String READ_COUNT
+    public static final java.lang.String ACTION_READ_COUNT
+    public static final java.lang.String ACTION_UNREAD_COUNT
+    public static final java.lang.String ACTION_UPDATE_COUNT
+    22:22:public PushUtils()
+    72:77:public static boolean hasBind(android.content.Context)
+    93:108:public static java.util.List getTagsList(java.lang.String)
+    113:114:public static java.lang.String getLogText(android.content.Context)
+org.tang.exam.utils.SoundMeter
+org.tang.exam.utils.SpinnerBinder
+org.tang.exam.utils.StringMatcher:
+    private static final char KOREAN_UNICODE_START
+    private static final char KOREAN_UNICODE_END
+    private static final char KOREAN_UNIT
+    19:19:public StringMatcher()
+org.tang.exam.utils.ToastUtil:
+    9:9:public ToastUtil()
+org.tang.exam.utils.URLChecker
+org.tang.exam.view.BadgeView:
+    public static final int POSITION_TOP_LEFT
+    public static final int POSITION_TOP_RIGHT
+    public static final int POSITION_BOTTOM_LEFT
+    public static final int POSITION_BOTTOM_RIGHT
+    public static final int POSITION_CENTER
+    private static final int DEFAULT_MARGIN_DIP
+    private static final int DEFAULT_LR_PADDING_DIP
+    private static final int DEFAULT_CORNER_RADIUS_DIP
+    private static final int DEFAULT_POSITION
+    private static final int DEFAULT_TEXT_COLOR
+    63:64:public BadgeView(android.content.Context)
+    67:68:public BadgeView(android.content.Context,android.util.AttributeSet)
+    93:94:public BadgeView(android.content.Context,android.widget.TabWidget,int)
+    97:98:public BadgeView(android.content.Context,android.util.AttributeSet,int)
+    192:193:public void show(boolean)
+    201:202:public void show(android.view.animation.Animation)
+    218:219:public void hide(boolean)
+    227:228:public void hide(android.view.animation.Animation)
+    235:236:public void toggle()
+    244:245:public void toggle(boolean)
+    254:255:public void toggle(android.view.animation.Animation,android.view.animation.Animation)
+    282:287:private void toggle(boolean,android.view.animation.Animation,android.view.animation.Animation)
+    296:309:public int increment(int)
+    319:319:public int decrement(int)
+    438:440:public void setBadgeMargin(int,int)
+org.tang.exam.view.DropDownListView:
+    public static final int HEADER_STATUS_CLICK_TO_LOAD
+    public static final int HEADER_STATUS_DROP_DOWN_TO_LOAD
+    public static final int HEADER_STATUS_RELEASE_TO_LOAD
+    public static final int HEADER_STATUS_LOADING
+    238:238:public boolean isDropDownStyle()
+    255:255:public boolean isOnBottomStyle()
+    272:272:public boolean isAutoLoadOnBottom()
+    290:290:public boolean isShowFooterProgressBar()
+    308:308:public boolean isShowFooterWhenNoMore()
+    500:504:public void onDropDownComplete(java.lang.CharSequence)
+    564:580:public void onBottomComplete()
+    619:619:public boolean isHasMore()
+org.tang.exam.view.IndexScroller:
+    private static final int STATE_HIDDEN
+    private static final int STATE_SHOWING
+    private static final int STATE_SHOWN
+    private static final int STATE_HIDING
+org.tang.exam.view.LoadingDialog
+org.tang.exam.view.RoundedDrawable:
+    public static final java.lang.String TAG
+    public static final int DEFAULT_BORDER_COLOR
+    304:304:public float getCornerRadius()
+    313:313:public float getBorderWidth()
+    323:323:public int getBorderColor()
+    327:327:public org.tang.exam.view.RoundedDrawable setBorderColor(int)
+    331:331:public android.content.res.ColorStateList getBorderColors()
+    341:341:public boolean isOval()
+    350:350:public android.widget.ImageView$ScaleType getScaleType()
+    365:365:public android.graphics.Bitmap toBitmap()
+org.tang.exam.view.RoundedImageView:
+    public static final java.lang.String TAG
+    public static final int DEFAULT_RADIUS
+    public static final int DEFAULT_BORDER_WIDTH
+    288:288:public boolean isOval()
+    299:299:public boolean isRoundBackground()

@@ -6,9 +6,16 @@ import org.tang.exam.R;
 import org.tang.exam.common.UserCache;
 import org.tang.exam.entity.ChatMsgEntity;
 import org.tang.exam.entity.UserInfo;
+import org.tang.exam.rest.ImageCacheManager;
 import org.tang.exam.utils.DateTimeUtil;
 
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.ImageLoader.ImageListener;
+
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.view.LayoutInflater;
@@ -16,6 +23,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ChatMsgViewAdapter extends BaseAdapter {
@@ -32,12 +40,22 @@ public class ChatMsgViewAdapter extends BaseAdapter {
 	private Context ctx;
 
 	private LayoutInflater mInflater;
+	
+	private String toUserPicUrl="";
+	private String fromUserPicUrl="";
+	
 //	private MediaPlayer mMediaPlayer = new MediaPlayer();
 
 	public ChatMsgViewAdapter(Context context, List<ChatMsgEntity> coll) {
 		ctx = context;
 		this.coll = coll;
 		mInflater = LayoutInflater.from(context);
+	}
+	
+	public ChatMsgViewAdapter(Context context, List<ChatMsgEntity> coll,String toUserPicUrl,String fromUserPicUrl) {
+		this(context,coll);
+		this.toUserPicUrl = toUserPicUrl;
+		this.fromUserPicUrl = fromUserPicUrl;		
 	}
 
 	public int getCount() {
@@ -72,10 +90,13 @@ public class ChatMsgViewAdapter extends BaseAdapter {
 
 		final ChatMsgEntity entity = coll.get(position);
 		boolean isComMsg = ("1").equals(entity.getMsgType());
-
+		UserInfo userInfo = UserCache.getInstance().getUserInfo();
 		ViewHolder viewHolder = null;
+		Bitmap bm = null;
 		if (convertView == null) {
-			UserInfo userInfo = UserCache.getInstance().getUserInfo();
+			
+			viewHolder = new ViewHolder();
+			
 			if (entity.getFromUserId().equals(userInfo.getUserId())) {
 				convertView = mInflater.inflate(
 						R.layout.chatting_item_msg_text_left, null);
@@ -83,28 +104,41 @@ public class ChatMsgViewAdapter extends BaseAdapter {
 				convertView = mInflater.inflate(
 						R.layout.chatting_item_msg_text_right, null);
 			}
-
-			viewHolder = new ViewHolder();
-			viewHolder.tvSendTime = (TextView) convertView
-					.findViewById(R.id.tv_sendtime);
+			
+			
+			viewHolder.tvSendTime = (TextView) convertView.findViewById(R.id.tv_sendtime);
 			viewHolder.tvUserName = (TextView) convertView
 					.findViewById(R.id.tv_username);
 			viewHolder.tvContent = (TextView) convertView
 					.findViewById(R.id.tv_chatcontent);
 			viewHolder.tvTime = (TextView) convertView
 					.findViewById(R.id.tv_time);
+			viewHolder.ivHeader = (ImageView) convertView
+					.findViewById(R.id.iv_userhead);
+			
 			viewHolder.isComMsg = isComMsg;
 
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
+		
 
+		
+//		Drawable db = new BitmapDrawable(bm);
+//		viewHolder.ivHeader.setBackgroundDrawable(db);
+		ImageListener listener = ImageLoader.getImageListener(viewHolder.ivHeader,
+				R.drawable.avatar_default_normal, R.drawable.avatar_default_normal);
+		if (entity.getFromUserId().equals(userInfo.getUserId())) {
+			 bm = ImageCacheManager.getInstance().getImageLoader().get(userInfo.getPicUrl(), listener).getBitmap();
+		} else {
+			 bm = ImageCacheManager.getInstance().getImageLoader().get(toUserPicUrl, listener).getBitmap();
+		}
 		viewHolder.tvSendTime.setText(DateTimeUtil.toStandardTime(entity.getCreateTime()));
 		viewHolder.tvContent.setText(entity.getMsgText());			
 		viewHolder.tvContent.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
 		viewHolder.tvTime.setText("");
-		
+		viewHolder.ivHeader.setImageBitmap(bm);
 //		if (entity.getMsgText().contains(".amr")) {
 //			viewHolder.tvContent.setText("");
 //			viewHolder.tvContent.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.chatto_voice_playing, 0);
@@ -132,6 +166,7 @@ public class ChatMsgViewAdapter extends BaseAdapter {
 		public TextView tvUserName;
 		public TextView tvContent;
 		public TextView tvTime;
+		public ImageView ivHeader;
 		public boolean isComMsg = true;
 	}
 

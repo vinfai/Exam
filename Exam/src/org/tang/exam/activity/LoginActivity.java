@@ -106,10 +106,7 @@ public class LoginActivity extends BaseActionBarActivity implements OnClickListe
 					@Override
 					public void onResponse(String response) {
 						Log.v(TAG, "Response: " + response);
-						
-						String responseTmp = response.replace("\\", "").replace("\"", "");  
-						
-						checkResponse(responseTmp);
+						checkResponse(response);
 					}
 				}, new Response.ErrorListener() {
 					@Override
