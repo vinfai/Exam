@@ -20583,6 +20583,51 @@ com.loopj.android.http.TextHttpResponseHandler: void onFailure(int,org.apache.ht
 com.loopj.android.http.TextHttpResponseHandler: void onSuccess(int,org.apache.http.Header[],java.lang.String)
 com.loopj.android.http.TextHttpResponseHandler: void onSuccess(int,org.apache.http.Header[],byte[])
 com.loopj.android.http.TextHttpResponseHandler: void onFailure(int,org.apache.http.Header[],byte[],java.lang.Throwable)
+demo.Pinyin4jAppletDemo
+demo.Pinyin4jAppletDemo: java.awt.Dimension APP_SIZE
+demo.Pinyin4jAppletDemo: long serialVersionUID
+demo.Pinyin4jAppletDemo: javax.swing.JPanel jContentPane
+demo.Pinyin4jAppletDemo: javax.swing.JTabbedPane jTabbedPane
+demo.Pinyin4jAppletDemo: javax.swing.JPanel formattedCharPanel
+demo.Pinyin4jAppletDemo: javax.swing.JPanel optionPanel
+demo.Pinyin4jAppletDemo: javax.swing.JButton convertButton
+demo.Pinyin4jAppletDemo: javax.swing.JPanel buttonPanel
+demo.Pinyin4jAppletDemo: javax.swing.JTextArea formattedOutputField
+demo.Pinyin4jAppletDemo: javax.swing.JComboBox toneTypesComboBox
+demo.Pinyin4jAppletDemo: javax.swing.JComboBox vCharTypesComboBox
+demo.Pinyin4jAppletDemo: javax.swing.JComboBox caseTypesComboBox
+demo.Pinyin4jAppletDemo: java.lang.String appName
+demo.Pinyin4jAppletDemo: java.lang.String[] caseTypes
+demo.Pinyin4jAppletDemo: java.lang.String[] vCharTypes
+demo.Pinyin4jAppletDemo: java.lang.String[] toneTypes
+demo.Pinyin4jAppletDemo: javax.swing.JLabel toneLabel
+demo.Pinyin4jAppletDemo: javax.swing.JLabel charLabel
+demo.Pinyin4jAppletDemo: javax.swing.JTextField charTextField
+demo.Pinyin4jAppletDemo: javax.swing.JPanel unformattedCharPanel
+demo.Pinyin4jAppletDemo: javax.swing.JLabel unformattedHanyuPinyinLabel
+demo.Pinyin4jAppletDemo: javax.swing.JTextArea unformattedHanyuPinyinTextArea
+demo.Pinyin4jAppletDemo: javax.swing.JPanel unformattedHanyuPinyinPanel
+demo.Pinyin4jAppletDemo: javax.swing.JPanel unformattedTongyongPinyinPanel
+demo.Pinyin4jAppletDemo: javax.swing.JLabel unformattedTongyongPinyinLabel
+demo.Pinyin4jAppletDemo: javax.swing.JTextArea unformattedTongyongPinyinTextArea
+demo.Pinyin4jAppletDemo: javax.swing.JPanel unformattedWadePinyinPanel
+demo.Pinyin4jAppletDemo: javax.swing.JLabel unformattedWadePinyinLabel
+demo.Pinyin4jAppletDemo: javax.swing.JTextArea unformattedWadePinyinTextArea
+demo.Pinyin4jAppletDemo: javax.swing.JPanel unformattedMPS2PinyinPanel
+demo.Pinyin4jAppletDemo: javax.swing.JLabel unformattedMPS2PinyinLabel
+demo.Pinyin4jAppletDemo: javax.swing.JTextArea unformattedMPS2PinyinTextArea
+demo.Pinyin4jAppletDemo: javax.swing.JPanel unformattedYalePinyinPanel
+demo.Pinyin4jAppletDemo: javax.swing.JLabel unformattedYalePinyinLabel
+demo.Pinyin4jAppletDemo: javax.swing.JTextArea unformattedYalePinyinTextArea
+demo.Pinyin4jAppletDemo: javax.swing.JPanel unformattedGwoyeuRomatzyhPanel
+demo.Pinyin4jAppletDemo: javax.swing.JLabel unformattedGwoyeuRomatzyhLabel
+demo.Pinyin4jAppletDemo: javax.swing.JTextArea unformattedGwoyeuRomatzyhTextArea
+demo.Pinyin4jAppletDemo: javax.swing.JScrollPane unformattedMPS2PinyinScrollPane
+demo.Pinyin4jAppletDemo: javax.swing.JScrollPane unformattedHanyuPinyinScrollPane
+demo.Pinyin4jAppletDemo: javax.swing.JScrollPane unformattedTongyongPinyinScrollPane
+demo.Pinyin4jAppletDemo: javax.swing.JScrollPane unformattedWadePinyinScrollPane
+demo.Pinyin4jAppletDemo: javax.swing.JScrollPane unformattedYalePinyinScrollPane
+demo.Pinyin4jAppletDemo: javax.swing.JScrollPane unformattedGwoyeuRomatzyhScrollPane
 net.sourceforge.pinyin4j.ChineseToPinyinResource
 net.sourceforge.pinyin4j.ChineseToPinyinResource: java.util.Properties unicodeToHanyuPinyinTable
 net.sourceforge.pinyin4j.ChineseToPinyinResource: void setUnicodeToHanyuPinyinTable(java.util.Properties)
@@ -22257,8 +22302,611 @@ org.tang.exam.base.BaseApplication
 org.tang.exam.base.BaseApplication: BaseApplication()
 org.tang.exam.base.MyApplication
 org.tang.exam.base.MyApplication: MyApplication()
+org.tang.exam.entity.AttendanceRecord
+org.tang.exam.entity.AttendanceRecord: long serialVersionUID
+org.tang.exam.entity.AttendanceRecord: java.lang.String id
+org.tang.exam.entity.AttendanceRecord: java.lang.String userId
+org.tang.exam.entity.AttendanceRecord: java.lang.String createTime
+org.tang.exam.entity.AttendanceRecord: java.lang.String address
+org.tang.exam.entity.AttendanceRecord: java.lang.String gps
+org.tang.exam.entity.AttendanceRecord: java.lang.String latitude
+org.tang.exam.entity.AttendanceRecord: java.lang.String longitude
+org.tang.exam.entity.AttendanceRecord: AttendanceRecord()
+org.tang.exam.entity.AttendanceRecord: java.lang.String getUserId()
+org.tang.exam.entity.AttendanceRecord: void setUserId(java.lang.String)
+org.tang.exam.entity.AttendanceRecord: java.lang.String getCreateTime()
+org.tang.exam.entity.AttendanceRecord: void setCreateTime(java.lang.String)
+org.tang.exam.entity.AttendanceRecord: java.lang.String getAddress()
+org.tang.exam.entity.AttendanceRecord: void setAddress(java.lang.String)
+org.tang.exam.entity.AttendanceRecord: java.lang.String getGps()
+org.tang.exam.entity.AttendanceRecord: void setGps(java.lang.String)
+org.tang.exam.entity.AttendanceRecord: java.lang.String getId()
+org.tang.exam.entity.AttendanceRecord: void setId(java.lang.String)
+org.tang.exam.entity.AttendanceRecord: java.lang.String getLatitude()
+org.tang.exam.entity.AttendanceRecord: void setLatitude(java.lang.String)
+org.tang.exam.entity.AttendanceRecord: java.lang.String getLongitude()
+org.tang.exam.entity.AttendanceRecord: void setLongitude(java.lang.String)
+org.tang.exam.entity.AttendanceRecordGraph
+org.tang.exam.entity.AttendanceRecordGraph: long serialVersionUID
+org.tang.exam.entity.AttendanceRecordGraph: java.lang.String id
+org.tang.exam.entity.AttendanceRecordGraph: java.lang.String userId
+org.tang.exam.entity.AttendanceRecordGraph: java.lang.String createTime
+org.tang.exam.entity.AttendanceRecordGraph: java.lang.String address
+org.tang.exam.entity.AttendanceRecordGraph: java.lang.String gps
+org.tang.exam.entity.AttendanceRecordGraph: java.lang.String latitude
+org.tang.exam.entity.AttendanceRecordGraph: java.lang.String longitude
+org.tang.exam.entity.AttendanceRecordGraph: java.lang.String photoUrl
+org.tang.exam.entity.AttendanceRecordGraph: AttendanceRecordGraph()
+org.tang.exam.entity.AttendanceRecordGraph: java.lang.String getUserId()
+org.tang.exam.entity.AttendanceRecordGraph: void setUserId(java.lang.String)
+org.tang.exam.entity.AttendanceRecordGraph: java.lang.String getCreateTime()
+org.tang.exam.entity.AttendanceRecordGraph: void setCreateTime(java.lang.String)
+org.tang.exam.entity.AttendanceRecordGraph: java.lang.String getAddress()
+org.tang.exam.entity.AttendanceRecordGraph: void setAddress(java.lang.String)
+org.tang.exam.entity.AttendanceRecordGraph: java.lang.String getGps()
+org.tang.exam.entity.AttendanceRecordGraph: void setGps(java.lang.String)
+org.tang.exam.entity.AttendanceRecordGraph: java.lang.String getId()
+org.tang.exam.entity.AttendanceRecordGraph: void setId(java.lang.String)
+org.tang.exam.entity.AttendanceRecordGraph: java.lang.String getLatitude()
+org.tang.exam.entity.AttendanceRecordGraph: void setLatitude(java.lang.String)
+org.tang.exam.entity.AttendanceRecordGraph: java.lang.String getLongitude()
+org.tang.exam.entity.AttendanceRecordGraph: void setLongitude(java.lang.String)
+org.tang.exam.entity.AttendanceRecordGraph: java.lang.String getPhotoUrl()
+org.tang.exam.entity.AttendanceRecordGraph: void setPhotoUrl(java.lang.String)
+org.tang.exam.entity.ChatMsgEntity
+org.tang.exam.entity.ChatMsgEntity: java.lang.String TAG
+org.tang.exam.entity.ChatMsgEntity: java.lang.String id
+org.tang.exam.entity.ChatMsgEntity: java.lang.String fromUserId
+org.tang.exam.entity.ChatMsgEntity: java.lang.String fromUserName
+org.tang.exam.entity.ChatMsgEntity: java.lang.String toUserName
+org.tang.exam.entity.ChatMsgEntity: java.lang.String createTime
+org.tang.exam.entity.ChatMsgEntity: java.lang.String msgText
+org.tang.exam.entity.ChatMsgEntity: java.lang.String toUserId
+org.tang.exam.entity.ChatMsgEntity: java.lang.String msgType
+org.tang.exam.entity.ChatMsgEntity: java.lang.String msgState
+org.tang.exam.entity.ChatMsgEntity: void <clinit>()
+org.tang.exam.entity.ChatMsgEntity: java.lang.String getId()
+org.tang.exam.entity.ChatMsgEntity: void setId(java.lang.String)
+org.tang.exam.entity.ChatMsgEntity: java.lang.String getCreateTime()
+org.tang.exam.entity.ChatMsgEntity: void setCreateTime(java.lang.String)
+org.tang.exam.entity.ChatMsgEntity: java.lang.String getMsgText()
+org.tang.exam.entity.ChatMsgEntity: void setMsgText(java.lang.String)
+org.tang.exam.entity.ChatMsgEntity: java.lang.String getMsgType()
+org.tang.exam.entity.ChatMsgEntity: void setMsgType(java.lang.String)
+org.tang.exam.entity.ChatMsgEntity: ChatMsgEntity()
+org.tang.exam.entity.ChatMsgEntity: java.lang.String getFromUserId()
+org.tang.exam.entity.ChatMsgEntity: void setFromUserId(java.lang.String)
+org.tang.exam.entity.ChatMsgEntity: java.lang.String getToUserId()
+org.tang.exam.entity.ChatMsgEntity: void setToUserId(java.lang.String)
+org.tang.exam.entity.ChatMsgEntity: java.lang.String getFromUserName()
+org.tang.exam.entity.ChatMsgEntity: void setFromUserName(java.lang.String)
+org.tang.exam.entity.ChatMsgEntity: java.lang.String getToUserName()
+org.tang.exam.entity.ChatMsgEntity: void setToUserName(java.lang.String)
+org.tang.exam.entity.ChatMsgEntity: java.lang.String getMsgState()
+org.tang.exam.entity.ChatMsgEntity: void setMsgState(java.lang.String)
+org.tang.exam.entity.ClassInfo
+org.tang.exam.entity.ClassInfo: long serialVersionUID
+org.tang.exam.entity.ClassInfo: java.lang.String schoolId
+org.tang.exam.entity.ClassInfo: java.lang.String classId
+org.tang.exam.entity.ClassInfo: java.lang.String className
+org.tang.exam.entity.ClassInfo: ClassInfo()
+org.tang.exam.entity.ClassInfo: java.lang.String getSchoolId()
+org.tang.exam.entity.ClassInfo: void setSchoolId(java.lang.String)
+org.tang.exam.entity.ClassInfo: java.lang.String getClassId()
+org.tang.exam.entity.ClassInfo: void setClassId(java.lang.String)
+org.tang.exam.entity.ClassInfo: java.lang.String getClassName()
+org.tang.exam.entity.ClassInfo: void setClassName(java.lang.String)
+org.tang.exam.entity.ClassInfo: java.lang.String toString()
+org.tang.exam.entity.Daily
+org.tang.exam.entity.Daily: long serialVersionUID
+org.tang.exam.entity.Daily: java.lang.String authorId
+org.tang.exam.entity.Daily: java.lang.String authorName
+org.tang.exam.entity.Daily: java.lang.String receiverId
+org.tang.exam.entity.Daily: java.lang.String receiverName
+org.tang.exam.entity.Daily: java.lang.String content
+org.tang.exam.entity.Daily: java.lang.String createTime
+org.tang.exam.entity.Daily: Daily()
+org.tang.exam.entity.Daily: java.lang.String getAuthorId()
+org.tang.exam.entity.Daily: void setAuthorId(java.lang.String)
+org.tang.exam.entity.Daily: java.lang.String getAuthorName()
+org.tang.exam.entity.Daily: void setAuthorName(java.lang.String)
+org.tang.exam.entity.Daily: java.lang.String getReceiverId()
+org.tang.exam.entity.Daily: void setReceiverId(java.lang.String)
+org.tang.exam.entity.Daily: java.lang.String getReceiverName()
+org.tang.exam.entity.Daily: void setReceiverName(java.lang.String)
+org.tang.exam.entity.Daily: java.lang.String getContent()
+org.tang.exam.entity.Daily: void setContent(java.lang.String)
+org.tang.exam.entity.Daily: java.lang.String getCreateTime()
+org.tang.exam.entity.Daily: void setCreateTime(java.lang.String)
+org.tang.exam.entity.Group
+org.tang.exam.entity.Group: long serialVersionUID
+org.tang.exam.entity.Group: java.lang.String groupName
+org.tang.exam.entity.Group: java.lang.String groupId
+org.tang.exam.entity.Group: int objectType
+org.tang.exam.entity.Group: int groupType
+org.tang.exam.entity.Group: Group()
+org.tang.exam.entity.Group: Group(java.lang.String,java.lang.String,int,int)
+org.tang.exam.entity.Group: java.lang.String getGroupName()
+org.tang.exam.entity.Group: void setGroupName(java.lang.String)
+org.tang.exam.entity.Group: java.lang.String getGroupId()
+org.tang.exam.entity.Group: void setGroupId(java.lang.String)
+org.tang.exam.entity.Group: int getObjectType()
+org.tang.exam.entity.Group: void setObjectType(int)
+org.tang.exam.entity.Group: int getGroupType()
+org.tang.exam.entity.Group: void setGroupType(int)
+org.tang.exam.entity.Homework
+org.tang.exam.entity.Homework: long serialVersionUID
+org.tang.exam.entity.Homework: java.lang.String authorId
+org.tang.exam.entity.Homework: java.lang.String authorName
+org.tang.exam.entity.Homework: java.lang.String subject
+org.tang.exam.entity.Homework: java.lang.String classId
+org.tang.exam.entity.Homework: java.lang.String content
+org.tang.exam.entity.Homework: java.lang.String createTime
+org.tang.exam.entity.Homework: Homework()
+org.tang.exam.entity.Homework: java.lang.String getAuthorId()
+org.tang.exam.entity.Homework: void setAuthorId(java.lang.String)
+org.tang.exam.entity.Homework: java.lang.String getAuthorName()
+org.tang.exam.entity.Homework: void setAuthorName(java.lang.String)
+org.tang.exam.entity.Homework: java.lang.String getSubject()
+org.tang.exam.entity.Homework: void setSubject(java.lang.String)
+org.tang.exam.entity.Homework: java.lang.String getClassId()
+org.tang.exam.entity.Homework: void setClassId(java.lang.String)
+org.tang.exam.entity.Homework: java.lang.String getContent()
+org.tang.exam.entity.Homework: void setContent(java.lang.String)
+org.tang.exam.entity.Homework: java.lang.String getCreateTime()
+org.tang.exam.entity.Homework: void setCreateTime(java.lang.String)
+org.tang.exam.entity.Message
+org.tang.exam.entity.Message: long serialVersionUID
+org.tang.exam.entity.Message: int msgId
+org.tang.exam.entity.Message: int msgType
+org.tang.exam.entity.Message: java.lang.String senderId
+org.tang.exam.entity.Message: java.lang.String receiverId
+org.tang.exam.entity.Message: int objectType
+org.tang.exam.entity.Message: int groupType
+org.tang.exam.entity.Message: java.lang.String content
+org.tang.exam.entity.Message: java.lang.String createTime
+org.tang.exam.entity.Message: int outFlag
+org.tang.exam.entity.Message: int readStatus
+org.tang.exam.entity.Message: int sendStatus
+org.tang.exam.entity.Message: Message()
+org.tang.exam.entity.Message: int getMsgId()
+org.tang.exam.entity.Message: void setMsgId(int)
+org.tang.exam.entity.Message: int getMsgType()
+org.tang.exam.entity.Message: void setMsgType(int)
+org.tang.exam.entity.Message: java.lang.String getSenderId()
+org.tang.exam.entity.Message: void setSenderId(java.lang.String)
+org.tang.exam.entity.Message: java.lang.String getReceiverId()
+org.tang.exam.entity.Message: void setReceiverId(java.lang.String)
+org.tang.exam.entity.Message: int getObjectType()
+org.tang.exam.entity.Message: void setObjectType(int)
+org.tang.exam.entity.Message: int getGroupType()
+org.tang.exam.entity.Message: void setGroupType(int)
+org.tang.exam.entity.Message: java.lang.String getContent()
+org.tang.exam.entity.Message: void setContent(java.lang.String)
+org.tang.exam.entity.Message: java.lang.String getCreateTime()
+org.tang.exam.entity.Message: void setCreateTime(java.lang.String)
+org.tang.exam.entity.Message: int getOutFlag()
+org.tang.exam.entity.Message: void setOutFlag(int)
+org.tang.exam.entity.Message: int getReadStatus()
+org.tang.exam.entity.Message: void setReadStatus(int)
+org.tang.exam.entity.Message: int getSendStatus()
+org.tang.exam.entity.Message: void setSendStatus(int)
+org.tang.exam.entity.Message: org.tang.exam.entity.Message fromJson(java.lang.String,int,int)
+org.tang.exam.entity.Notice
+org.tang.exam.entity.Notice: long serialVersionUID
+org.tang.exam.entity.Notice: java.lang.String authorId
+org.tang.exam.entity.Notice: java.lang.String authorName
+org.tang.exam.entity.Notice: int type
+org.tang.exam.entity.Notice: java.lang.String objectId
+org.tang.exam.entity.Notice: java.lang.String title
+org.tang.exam.entity.Notice: java.lang.String content
+org.tang.exam.entity.Notice: java.lang.String createTime
+org.tang.exam.entity.Notice: Notice()
+org.tang.exam.entity.Notice: java.lang.String getAuthorId()
+org.tang.exam.entity.Notice: void setAuthorId(java.lang.String)
+org.tang.exam.entity.Notice: java.lang.String getAuthorName()
+org.tang.exam.entity.Notice: void setAuthorName(java.lang.String)
+org.tang.exam.entity.Notice: int getType()
+org.tang.exam.entity.Notice: void setType(int)
+org.tang.exam.entity.Notice: java.lang.String getObjectId()
+org.tang.exam.entity.Notice: void setObjectId(java.lang.String)
+org.tang.exam.entity.Notice: java.lang.String getTitle()
+org.tang.exam.entity.Notice: void setTitle(java.lang.String)
+org.tang.exam.entity.Notice: java.lang.String getContent()
+org.tang.exam.entity.Notice: void setContent(java.lang.String)
+org.tang.exam.entity.Notice: java.lang.String getCreateTime()
+org.tang.exam.entity.Notice: void setCreateTime(java.lang.String)
+org.tang.exam.entity.Parent
+org.tang.exam.entity.Parent: long serialVersionUID
+org.tang.exam.entity.Parent: java.util.ArrayList childList
+org.tang.exam.entity.Parent: Parent()
+org.tang.exam.entity.Parent: java.util.ArrayList getChildList()
+org.tang.exam.entity.Parent: void setChildList(java.util.ArrayList)
+org.tang.exam.entity.Parent: void addOrderList(java.util.ArrayList)
+org.tang.exam.entity.Parent: void addOrderItem(org.tang.exam.entity.Student)
+org.tang.exam.entity.ParentRoster
+org.tang.exam.entity.ParentRoster: long serialVersionUID
+org.tang.exam.entity.ParentRoster: java.lang.String childUserId
+org.tang.exam.entity.ParentRoster: java.lang.String childName
+org.tang.exam.entity.ParentRoster: java.lang.String childPinYin
+org.tang.exam.entity.ParentRoster: java.lang.String schoolId
+org.tang.exam.entity.ParentRoster: java.lang.String classId
+org.tang.exam.entity.ParentRoster: java.lang.String className
+org.tang.exam.entity.ParentRoster: ParentRoster()
+org.tang.exam.entity.ParentRoster: java.lang.String getChildUserId()
+org.tang.exam.entity.ParentRoster: void setChildUserId(java.lang.String)
+org.tang.exam.entity.ParentRoster: java.lang.String getChildName()
+org.tang.exam.entity.ParentRoster: void setChildName(java.lang.String)
+org.tang.exam.entity.ParentRoster: java.lang.String getChildPinYin()
+org.tang.exam.entity.ParentRoster: java.lang.String getSchoolId()
+org.tang.exam.entity.ParentRoster: void setSchoolId(java.lang.String)
+org.tang.exam.entity.ParentRoster: java.lang.String getClassId()
+org.tang.exam.entity.ParentRoster: void setClassId(java.lang.String)
+org.tang.exam.entity.ParentRoster: java.lang.String getClassName()
+org.tang.exam.entity.ParentRoster: void setClassName(java.lang.String)
+org.tang.exam.entity.RolePaser
+org.tang.exam.entity.RolePaser: RolePaser()
+org.tang.exam.entity.RolePaser: java.lang.String jsonToString(java.lang.String)
+org.tang.exam.entity.RolePaser: java.util.ArrayList jsonToArray(java.lang.String)
+org.tang.exam.entity.SMS
+org.tang.exam.entity.SMS: long serialVersionUID
+org.tang.exam.entity.SMS: int smsId
+org.tang.exam.entity.SMS: java.lang.String userList
+org.tang.exam.entity.SMS: java.lang.String content
+org.tang.exam.entity.SMS: java.lang.String createTime
+org.tang.exam.entity.SMS: SMS()
+org.tang.exam.entity.SMS: int getSmsId()
+org.tang.exam.entity.SMS: void setSmsId(int)
+org.tang.exam.entity.SMS: java.lang.String getUserList()
+org.tang.exam.entity.SMS: void setUserList(java.lang.String)
+org.tang.exam.entity.SMS: java.lang.String getContent()
+org.tang.exam.entity.SMS: void setContent(java.lang.String)
+org.tang.exam.entity.SMS: java.lang.String getCreateTime()
+org.tang.exam.entity.SMS: void setCreateTime(java.lang.String)
+org.tang.exam.entity.SerializeHelper
+org.tang.exam.entity.SerializeHelper: java.lang.String TAG
+org.tang.exam.entity.SerializeHelper: java.lang.String userFile
+org.tang.exam.entity.SerializeHelper: java.lang.String classFile
+org.tang.exam.entity.SerializeHelper: java.lang.String childFile
+org.tang.exam.entity.SerializeHelper: SerializeHelper()
+org.tang.exam.entity.SerializeHelper: void saveUserInfo(android.content.Context,org.tang.exam.entity.UserInfo)
+org.tang.exam.entity.SerializeHelper: org.tang.exam.entity.UserInfo restoreUserInfo(android.content.Context)
+org.tang.exam.entity.Student
+org.tang.exam.entity.Student: long serialVersionUID
+org.tang.exam.entity.Student: java.lang.String schoolId
+org.tang.exam.entity.Student: java.lang.String studentNo
+org.tang.exam.entity.Student: java.lang.String classId
+org.tang.exam.entity.Student: java.lang.String className
+org.tang.exam.entity.Student: Student()
+org.tang.exam.entity.Student: java.lang.String getClassId()
+org.tang.exam.entity.Student: void setClassId(java.lang.String)
+org.tang.exam.entity.Student: java.lang.String getClassName()
+org.tang.exam.entity.Student: void setClassName(java.lang.String)
+org.tang.exam.entity.Student: java.lang.String getSchoolId()
+org.tang.exam.entity.Student: void setSchoolId(java.lang.String)
+org.tang.exam.entity.Student: java.lang.String getStudentNo()
+org.tang.exam.entity.Student: void setStudentNo(java.lang.String)
+org.tang.exam.entity.StudentRoster
+org.tang.exam.entity.StudentRoster: long serialVersionUID
+org.tang.exam.entity.StudentRoster: java.lang.String schoolId
+org.tang.exam.entity.StudentRoster: java.lang.String studentNo
+org.tang.exam.entity.StudentRoster: java.lang.String classId
+org.tang.exam.entity.StudentRoster: java.lang.String className
+org.tang.exam.entity.StudentRoster: StudentRoster()
+org.tang.exam.entity.StudentRoster: java.lang.String getClassId()
+org.tang.exam.entity.StudentRoster: void setClassId(java.lang.String)
+org.tang.exam.entity.StudentRoster: java.lang.String getClassName()
+org.tang.exam.entity.StudentRoster: void setClassName(java.lang.String)
+org.tang.exam.entity.StudentRoster: java.lang.String getSchoolId()
+org.tang.exam.entity.StudentRoster: void setSchoolId(java.lang.String)
+org.tang.exam.entity.StudentRoster: java.lang.String getStudentNo()
+org.tang.exam.entity.StudentRoster: void setStudentNo(java.lang.String)
+org.tang.exam.entity.SystemUser
+org.tang.exam.entity.SystemUser: long serialVersionUID
+org.tang.exam.entity.SystemUser: SystemUser()
+org.tang.exam.entity.Teacher
+org.tang.exam.entity.Teacher: long serialVersionUID
+org.tang.exam.entity.Teacher: java.lang.String teacherId
+org.tang.exam.entity.Teacher: java.lang.String schoolId
+org.tang.exam.entity.Teacher: java.util.ArrayList teacherRoleList
+org.tang.exam.entity.Teacher: Teacher()
+org.tang.exam.entity.Teacher: java.lang.String getSchoolId()
+org.tang.exam.entity.Teacher: void setSchoolId(java.lang.String)
+org.tang.exam.entity.Teacher: java.lang.String getTeacherId()
+org.tang.exam.entity.Teacher: void setTeacherId(java.lang.String)
+org.tang.exam.entity.Teacher: java.util.ArrayList getTeacherRoleList()
+org.tang.exam.entity.Teacher: void setTeacherRoleList(java.util.ArrayList)
+org.tang.exam.entity.Teacher: void addTeacherRoleList(java.util.ArrayList)
+org.tang.exam.entity.Teacher: void addTeacherRoleItem(org.tang.exam.entity.TeacherRole)
+org.tang.exam.entity.TeacherRole
+org.tang.exam.entity.TeacherRole: long serialVersionUID
+org.tang.exam.entity.TeacherRole: java.lang.String classId
+org.tang.exam.entity.TeacherRole: java.lang.String className
+org.tang.exam.entity.TeacherRole: java.lang.String role
+org.tang.exam.entity.TeacherRole: TeacherRole()
+org.tang.exam.entity.TeacherRole: java.lang.String getClassId()
+org.tang.exam.entity.TeacherRole: void setClassId(java.lang.String)
+org.tang.exam.entity.TeacherRole: java.lang.String getClassName()
+org.tang.exam.entity.TeacherRole: void setClassName(java.lang.String)
+org.tang.exam.entity.TeacherRole: java.lang.String getRole()
+org.tang.exam.entity.TeacherRole: void setRole(java.lang.String)
+org.tang.exam.entity.TeacherRoster
+org.tang.exam.entity.TeacherRoster: long serialVersionUID
+org.tang.exam.entity.TeacherRoster: java.lang.String teacherId
+org.tang.exam.entity.TeacherRoster: java.lang.String role
+org.tang.exam.entity.TeacherRoster: java.lang.String schoolId
+org.tang.exam.entity.TeacherRoster: java.lang.String classId
+org.tang.exam.entity.TeacherRoster: java.lang.String className
+org.tang.exam.entity.TeacherRoster: TeacherRoster()
+org.tang.exam.entity.TeacherRoster: java.lang.String getTeacherId()
+org.tang.exam.entity.TeacherRoster: void setTeacherId(java.lang.String)
+org.tang.exam.entity.TeacherRoster: java.lang.String getRole()
+org.tang.exam.entity.TeacherRoster: void setRole(java.lang.String)
+org.tang.exam.entity.TeacherRoster: java.lang.String getSchoolId()
+org.tang.exam.entity.TeacherRoster: void setSchoolId(java.lang.String)
+org.tang.exam.entity.TeacherRoster: java.lang.String getClassId()
+org.tang.exam.entity.TeacherRoster: void setClassId(java.lang.String)
+org.tang.exam.entity.TeacherRoster: java.lang.String getClassName()
+org.tang.exam.entity.TeacherRoster: void setClassName(java.lang.String)
+org.tang.exam.entity.UserComparator
+org.tang.exam.entity.UserComparator: UserComparator()
+org.tang.exam.entity.UserComparator: int compare(org.tang.exam.entity.UserInfo,org.tang.exam.entity.UserInfo)
+org.tang.exam.entity.UserComparator: int compare(java.lang.Object,java.lang.Object)
+org.tang.exam.entity.UserHelper
+org.tang.exam.entity.UserHelper: UserHelper()
+org.tang.exam.entity.UserHelper: int getDefaultImage(org.tang.exam.entity.UserInfo)
+org.tang.exam.entity.UserHelper: int getErrorImage(org.tang.exam.entity.UserInfo)
+org.tang.exam.entity.UserHelper: java.lang.String getRemark(org.tang.exam.entity.UserInfo)
+org.tang.exam.entity.UserInfo
+org.tang.exam.entity.UserInfo: long serialVersionUID
+org.tang.exam.entity.UserInfo: java.lang.String userId
+org.tang.exam.entity.UserInfo: java.lang.String userName
+org.tang.exam.entity.UserInfo: int sex
+org.tang.exam.entity.UserInfo: java.lang.String phone
+org.tang.exam.entity.UserInfo: java.lang.String picUrl
+org.tang.exam.entity.UserInfo: java.lang.String pinYin
+org.tang.exam.entity.UserInfo: java.lang.String initial
+org.tang.exam.entity.UserInfo: java.lang.String userType
+org.tang.exam.entity.UserInfo: java.lang.String orgId
+org.tang.exam.entity.UserInfo: java.lang.String departId
+org.tang.exam.entity.UserInfo: UserInfo()
+org.tang.exam.entity.UserInfo: java.lang.String getUserId()
+org.tang.exam.entity.UserInfo: void setUserId(java.lang.String)
+org.tang.exam.entity.UserInfo: java.lang.String getUserName()
+org.tang.exam.entity.UserInfo: void setUserName(java.lang.String)
+org.tang.exam.entity.UserInfo: int getSex()
+org.tang.exam.entity.UserInfo: void setSex(int)
+org.tang.exam.entity.UserInfo: java.lang.String getPhone()
+org.tang.exam.entity.UserInfo: void setPhone(java.lang.String)
+org.tang.exam.entity.UserInfo: java.lang.String getPicUrl()
+org.tang.exam.entity.UserInfo: void setPicUrl(java.lang.String)
+org.tang.exam.entity.UserInfo: java.lang.String getPinYin()
+org.tang.exam.entity.UserInfo: java.lang.String getInitial()
+org.tang.exam.entity.UserInfo: java.lang.String getUserType()
+org.tang.exam.entity.UserInfo: void setUserType(java.lang.String)
+org.tang.exam.entity.UserInfo: java.lang.String getOrgId()
+org.tang.exam.entity.UserInfo: void setOrgId(java.lang.String)
+org.tang.exam.entity.UserInfo: java.lang.String getDepartId()
+org.tang.exam.entity.UserInfo: void setDepartId(java.lang.String)
+org.tang.exam.rest.BaseRequest
+org.tang.exam.rest.BaseRequest: BaseRequest()
+org.tang.exam.rest.BaseRequest: java.lang.String getPath()
+org.tang.exam.rest.BaseRequest: java.util.HashMap toParamsMap()
+org.tang.exam.rest.BaseRequest: java.lang.String getAllUrl()
+org.tang.exam.rest.BaseResponse
+org.tang.exam.rest.BaseResponse: int msgFlag
+org.tang.exam.rest.BaseResponse: java.lang.String sessionKey
+org.tang.exam.rest.BaseResponse: BaseResponse()
+org.tang.exam.rest.BaseResponse: int getMsgFlag()
+org.tang.exam.rest.BaseResponse: void setMsgFlag(int)
+org.tang.exam.rest.BaseResponse: java.lang.String getSessionKey()
+org.tang.exam.rest.BaseResponse: void setSessionKey(java.lang.String)
+org.tang.exam.rest.ImageCacheManager
+org.tang.exam.rest.ImageCacheManager: org.tang.exam.rest.ImageCacheManager mInstance
+org.tang.exam.rest.ImageCacheManager: com.android.volley.toolbox.ImageLoader mImageLoader
+org.tang.exam.rest.ImageCacheManager: ImageCacheManager()
+org.tang.exam.rest.ImageCacheManager: org.tang.exam.rest.ImageCacheManager getInstance()
+org.tang.exam.rest.ImageCacheManager: com.android.volley.toolbox.ImageLoader getImageLoader()
+org.tang.exam.rest.ImageCacheManager$BitmapCache
+org.tang.exam.rest.ImageCacheManager$BitmapCache: android.support.v4.util.LruCache mCache
+org.tang.exam.rest.ImageCacheManager$BitmapCache: org.tang.exam.rest.ImageCacheManager this$0
+org.tang.exam.rest.ImageCacheManager$BitmapCache: ImageCacheManager$BitmapCache(org.tang.exam.rest.ImageCacheManager)
+org.tang.exam.rest.ImageCacheManager$BitmapCache: android.graphics.Bitmap getBitmap(java.lang.String)
+org.tang.exam.rest.ImageCacheManager$BitmapCache: void putBitmap(java.lang.String,android.graphics.Bitmap)
+org.tang.exam.rest.ImageCacheManager$BitmapCache$1
+org.tang.exam.rest.ImageCacheManager$BitmapCache$1: org.tang.exam.rest.ImageCacheManager$BitmapCache this$1
+org.tang.exam.rest.ImageCacheManager$BitmapCache$1: ImageCacheManager$BitmapCache$1(org.tang.exam.rest.ImageCacheManager$BitmapCache,int)
+org.tang.exam.rest.ImageCacheManager$BitmapCache$1: int sizeOf(java.lang.String,android.graphics.Bitmap)
+org.tang.exam.rest.ImageCacheManager$BitmapCache$1: int sizeOf(java.lang.Object,java.lang.Object)
+org.tang.exam.rest.MyStringRequest
+org.tang.exam.rest.MyStringRequest: java.lang.String TAG
+org.tang.exam.rest.MyStringRequest: java.lang.String CONTENT_ENCODING
+org.tang.exam.rest.MyStringRequest: int TIMEOUT_MS
+org.tang.exam.rest.MyStringRequest: java.util.Map mParams
+org.tang.exam.rest.MyStringRequest: MyStringRequest(int,java.lang.String,com.android.volley.Response$Listener,com.android.volley.Response$ErrorListener)
+org.tang.exam.rest.MyStringRequest: MyStringRequest(java.lang.String,com.android.volley.Response$Listener,com.android.volley.Response$ErrorListener)
+org.tang.exam.rest.MyStringRequest: MyStringRequest(java.lang.String,java.util.Map,com.android.volley.Response$Listener,com.android.volley.Response$ErrorListener)
+org.tang.exam.rest.MyStringRequest: com.android.volley.RetryPolicy getRetryPolicy()
+org.tang.exam.rest.MyStringRequest: java.lang.String getUrl()
+org.tang.exam.rest.MyStringRequest: java.util.Map getParams()
+org.tang.exam.rest.MyStringRequest: byte[] getBody()
+org.tang.exam.rest.MyStringRequest: void deliverResponse(java.lang.String)
+org.tang.exam.rest.MyStringRequest: com.android.volley.Response parseNetworkResponse(com.android.volley.NetworkResponse)
+org.tang.exam.rest.MyStringRequest: java.lang.String encodeParameters(java.lang.String)
+org.tang.exam.rest.RequestController
+org.tang.exam.rest.RequestController: java.lang.String TAG
+org.tang.exam.rest.RequestController: org.tang.exam.rest.RequestController mInstance
+org.tang.exam.rest.RequestController: com.android.volley.RequestQueue mRequestQueue
+org.tang.exam.rest.RequestController: RequestController()
+org.tang.exam.rest.RequestController: org.tang.exam.rest.RequestController getInstance()
+org.tang.exam.rest.RequestController: com.android.volley.RequestQueue getRequestQueue()
+org.tang.exam.rest.RequestController: void addToRequestQueue(com.android.volley.Request,java.lang.String)
+org.tang.exam.rest.RequestController: void addToRequestQueue(com.android.volley.Request)
+org.tang.exam.rest.RequestController: void cancelPendingRequests(java.lang.Object)
+org.tang.exam.rest.attendance.QueryAttendanceRecordReq
+org.tang.exam.rest.attendance.QueryAttendanceRecordReq: java.lang.String userId
+org.tang.exam.rest.attendance.QueryAttendanceRecordReq: java.lang.String createTime
+org.tang.exam.rest.attendance.QueryAttendanceRecordReq: QueryAttendanceRecordReq()
+org.tang.exam.rest.attendance.QueryAttendanceRecordReq: java.lang.String getUserId()
+org.tang.exam.rest.attendance.QueryAttendanceRecordReq: void setUserId(java.lang.String)
+org.tang.exam.rest.attendance.QueryAttendanceRecordReq: java.lang.String getCreateTime()
+org.tang.exam.rest.attendance.QueryAttendanceRecordReq: void setCreateTime(java.lang.String)
+org.tang.exam.rest.attendance.QueryAttendanceRecordReq: java.lang.String getPath()
+org.tang.exam.rest.attendance.QueryAttendanceRecordReq: java.util.HashMap toParamsMap()
+org.tang.exam.rest.attendance.QueryAttendanceRecordResp
+org.tang.exam.rest.attendance.QueryAttendanceRecordResp: int msgFlag
+org.tang.exam.rest.attendance.QueryAttendanceRecordResp: java.lang.String sessionKey
+org.tang.exam.rest.attendance.QueryAttendanceRecordResp: java.util.ArrayList response
+org.tang.exam.rest.attendance.QueryAttendanceRecordResp: int getMsgFlag()
+org.tang.exam.rest.attendance.QueryAttendanceRecordResp: void setMsgFlag(int)
+org.tang.exam.rest.attendance.QueryAttendanceRecordResp: java.lang.String getSessionKey()
+org.tang.exam.rest.attendance.QueryAttendanceRecordResp: void setSessionKey(java.lang.String)
+org.tang.exam.rest.attendance.QueryAttendanceRecordResp: java.util.ArrayList getResponse()
+org.tang.exam.rest.attendance.QueryAttendanceRecordResp: void setResponse(java.util.ArrayList)
+org.tang.exam.rest.attendance.QueryAttendanceRecordResp: QueryAttendanceRecordResp(java.lang.String)
+org.tang.exam.rest.attendance.QueryAttendanceRecordResp: void parseResponseData(java.lang.String)
+org.tang.exam.rest.attendance.QueryAttendanceRecordResp$1
+org.tang.exam.rest.attendance.QueryAttendanceRecordResp$1: org.tang.exam.rest.attendance.QueryAttendanceRecordResp this$0
+org.tang.exam.rest.attendance.QueryAttendanceRecordResp$1: QueryAttendanceRecordResp$1(org.tang.exam.rest.attendance.QueryAttendanceRecordResp)
+org.tang.exam.rest.attendance.SaveAttendanceRecordReq
+org.tang.exam.rest.attendance.SaveAttendanceRecordReq: java.lang.String id
+org.tang.exam.rest.attendance.SaveAttendanceRecordReq: java.lang.String userId
+org.tang.exam.rest.attendance.SaveAttendanceRecordReq: java.lang.String createTime
+org.tang.exam.rest.attendance.SaveAttendanceRecordReq: java.lang.String address
+org.tang.exam.rest.attendance.SaveAttendanceRecordReq: java.lang.String gps
+org.tang.exam.rest.attendance.SaveAttendanceRecordReq: java.lang.String latitude
+org.tang.exam.rest.attendance.SaveAttendanceRecordReq: java.lang.String longitude
+org.tang.exam.rest.attendance.SaveAttendanceRecordReq: SaveAttendanceRecordReq()
+org.tang.exam.rest.attendance.SaveAttendanceRecordReq: java.lang.String getId()
+org.tang.exam.rest.attendance.SaveAttendanceRecordReq: void setId(java.lang.String)
+org.tang.exam.rest.attendance.SaveAttendanceRecordReq: java.lang.String getUserId()
+org.tang.exam.rest.attendance.SaveAttendanceRecordReq: void setUserId(java.lang.String)
+org.tang.exam.rest.attendance.SaveAttendanceRecordReq: java.lang.String getCreateTime()
+org.tang.exam.rest.attendance.SaveAttendanceRecordReq: void setCreateTime(java.lang.String)
+org.tang.exam.rest.attendance.SaveAttendanceRecordReq: java.lang.String getAddress()
+org.tang.exam.rest.attendance.SaveAttendanceRecordReq: void setAddress(java.lang.String)
+org.tang.exam.rest.attendance.SaveAttendanceRecordReq: java.lang.String getGps()
+org.tang.exam.rest.attendance.SaveAttendanceRecordReq: void setGps(java.lang.String)
+org.tang.exam.rest.attendance.SaveAttendanceRecordReq: java.lang.String getLatitude()
+org.tang.exam.rest.attendance.SaveAttendanceRecordReq: void setLatitude(java.lang.String)
+org.tang.exam.rest.attendance.SaveAttendanceRecordReq: java.lang.String getLongitude()
+org.tang.exam.rest.attendance.SaveAttendanceRecordReq: void setLongitude(java.lang.String)
+org.tang.exam.rest.attendance.SaveAttendanceRecordReq: java.lang.String getPath()
+org.tang.exam.rest.attendance.SaveAttendanceRecordReq: java.util.HashMap toParamsMap()
+org.tang.exam.rest.login.UserLoginParse
+org.tang.exam.rest.login.UserLoginParse: int msgFlag
+org.tang.exam.rest.login.UserLoginParse: java.lang.String response
+org.tang.exam.rest.login.UserLoginParse: int userType
+org.tang.exam.rest.login.UserLoginParse: org.tang.exam.entity.UserInfo userInfo
+org.tang.exam.rest.login.UserLoginParse: java.lang.String sessionKey
+org.tang.exam.rest.login.UserLoginParse: UserLoginParse()
+org.tang.exam.rest.login.UserLoginParse: UserLoginParse(java.lang.String)
+org.tang.exam.rest.login.UserLoginParse: int getMsgFlag()
+org.tang.exam.rest.login.UserLoginParse: void setMsgFlag(int)
+org.tang.exam.rest.login.UserLoginParse: java.lang.String getResponse()
+org.tang.exam.rest.login.UserLoginParse: void setResponse(java.lang.String)
+org.tang.exam.rest.login.UserLoginParse: org.tang.exam.entity.UserInfo getUserInfo()
+org.tang.exam.rest.login.UserLoginParse: void setUserInfo(org.tang.exam.entity.UserInfo)
+org.tang.exam.rest.login.UserLoginParse: int getUserType()
+org.tang.exam.rest.login.UserLoginParse: void setUserType(int)
+org.tang.exam.rest.login.UserLoginParse: java.lang.String getSessionKey()
+org.tang.exam.rest.login.UserLoginParse: void setSessionKey(java.lang.String)
+org.tang.exam.rest.login.UserLoginReq
+org.tang.exam.rest.login.UserLoginReq: java.lang.String userName
+org.tang.exam.rest.login.UserLoginReq: java.lang.String userPwd
+org.tang.exam.rest.login.UserLoginReq: UserLoginReq()
+org.tang.exam.rest.login.UserLoginReq: java.lang.String getUserName()
+org.tang.exam.rest.login.UserLoginReq: void setUserName(java.lang.String)
+org.tang.exam.rest.login.UserLoginReq: java.lang.String getUserPwd()
+org.tang.exam.rest.login.UserLoginReq: void setUserPwd(java.lang.String)
+org.tang.exam.rest.login.UserLoginReq: java.lang.String getPath()
+org.tang.exam.rest.login.UserLoginReq: java.util.HashMap toParamsMap()
+org.tang.exam.rest.push.ChatMsgDTO
+org.tang.exam.rest.push.ChatMsgDTO: java.lang.String id
+org.tang.exam.rest.push.ChatMsgDTO: java.lang.String fromUserId
+org.tang.exam.rest.push.ChatMsgDTO: java.lang.String toUserId
+org.tang.exam.rest.push.ChatMsgDTO: java.lang.String content
+org.tang.exam.rest.push.ChatMsgDTO: java.lang.String createTime
+org.tang.exam.rest.push.ChatMsgDTO: java.lang.String state
+org.tang.exam.rest.push.ChatMsgDTO: java.lang.String sendTime
+org.tang.exam.rest.push.ChatMsgDTO: java.lang.String pushuserId
+org.tang.exam.rest.push.ChatMsgDTO: java.lang.String pushChannelId
+org.tang.exam.rest.push.ChatMsgDTO: java.lang.String deviceType
+org.tang.exam.rest.push.ChatMsgDTO: java.lang.String fromUserName
+org.tang.exam.rest.push.ChatMsgDTO: java.lang.String toUserName
+org.tang.exam.rest.push.ChatMsgDTO: java.lang.String msgType
+org.tang.exam.rest.push.ChatMsgDTO: ChatMsgDTO()
+org.tang.exam.rest.push.ChatMsgDTO: java.lang.String getId()
+org.tang.exam.rest.push.ChatMsgDTO: void setId(java.lang.String)
+org.tang.exam.rest.push.ChatMsgDTO: java.lang.String getFromUserId()
+org.tang.exam.rest.push.ChatMsgDTO: void setFromUserId(java.lang.String)
+org.tang.exam.rest.push.ChatMsgDTO: java.lang.String getToUserId()
+org.tang.exam.rest.push.ChatMsgDTO: void setToUserId(java.lang.String)
+org.tang.exam.rest.push.ChatMsgDTO: java.lang.String getContent()
+org.tang.exam.rest.push.ChatMsgDTO: void setContent(java.lang.String)
+org.tang.exam.rest.push.ChatMsgDTO: java.lang.String getCreateTime()
+org.tang.exam.rest.push.ChatMsgDTO: void setCreateTime(java.lang.String)
+org.tang.exam.rest.push.ChatMsgDTO: java.lang.String getState()
+org.tang.exam.rest.push.ChatMsgDTO: void setState(java.lang.String)
+org.tang.exam.rest.push.ChatMsgDTO: java.lang.String getSendTime()
+org.tang.exam.rest.push.ChatMsgDTO: void setSendTime(java.lang.String)
+org.tang.exam.rest.push.ChatMsgDTO: java.lang.String getPushuserId()
+org.tang.exam.rest.push.ChatMsgDTO: void setPushuserId(java.lang.String)
+org.tang.exam.rest.push.ChatMsgDTO: java.lang.String getPushChannelId()
+org.tang.exam.rest.push.ChatMsgDTO: void setPushChannelId(java.lang.String)
+org.tang.exam.rest.push.ChatMsgDTO: java.lang.String getDeviceType()
+org.tang.exam.rest.push.ChatMsgDTO: void setDeviceType(java.lang.String)
+org.tang.exam.rest.push.ChatMsgDTO: java.lang.String getFromUserName()
+org.tang.exam.rest.push.ChatMsgDTO: void setFromUserName(java.lang.String)
+org.tang.exam.rest.push.ChatMsgDTO: java.lang.String getToUserName()
+org.tang.exam.rest.push.ChatMsgDTO: void setToUserName(java.lang.String)
+org.tang.exam.rest.push.ChatMsgDTO: java.lang.String getMsgType()
+org.tang.exam.rest.push.ChatMsgDTO: void setMsgType(java.lang.String)
+org.tang.exam.rest.push.PushAccountReq
+org.tang.exam.rest.push.PushAccountReq: java.lang.String userId
+org.tang.exam.rest.push.PushAccountReq: java.lang.String sessionKey
+org.tang.exam.rest.push.PushAccountReq: java.lang.String pushUserId
+org.tang.exam.rest.push.PushAccountReq: java.lang.String pushChannelId
+org.tang.exam.rest.push.PushAccountReq: int deviceType
+org.tang.exam.rest.push.PushAccountReq: PushAccountReq()
+org.tang.exam.rest.push.PushAccountReq: java.lang.String getUserId()
+org.tang.exam.rest.push.PushAccountReq: void setUserId(java.lang.String)
+org.tang.exam.rest.push.PushAccountReq: java.lang.String getSessionKey()
+org.tang.exam.rest.push.PushAccountReq: void setSessionKey(java.lang.String)
+org.tang.exam.rest.push.PushAccountReq: java.lang.String getPushUserId()
+org.tang.exam.rest.push.PushAccountReq: void setPushUserId(java.lang.String)
+org.tang.exam.rest.push.PushAccountReq: java.lang.String getPushChannelId()
+org.tang.exam.rest.push.PushAccountReq: void setPushChannelId(java.lang.String)
+org.tang.exam.rest.push.PushAccountReq: int getDeviceType()
+org.tang.exam.rest.push.PushAccountReq: void setDeviceType(int)
+org.tang.exam.rest.push.PushAccountReq: java.lang.String getPath()
+org.tang.exam.rest.push.PushAccountReq: java.util.HashMap toParamsMap()
+org.tang.exam.rest.userInfo.ContactUserInfoReq
+org.tang.exam.rest.userInfo.ContactUserInfoReq: java.lang.String orgId
+org.tang.exam.rest.userInfo.ContactUserInfoReq: ContactUserInfoReq()
+org.tang.exam.rest.userInfo.ContactUserInfoReq: java.lang.String getOrgId()
+org.tang.exam.rest.userInfo.ContactUserInfoReq: void setOrgId(java.lang.String)
+org.tang.exam.rest.userInfo.ContactUserInfoReq: java.lang.String getPath()
+org.tang.exam.rest.userInfo.ContactUserInfoReq: java.util.HashMap toParamsMap()
+org.tang.exam.rest.userInfo.ContactUserInfoResp
+org.tang.exam.rest.userInfo.ContactUserInfoResp: int msgFlag
+org.tang.exam.rest.userInfo.ContactUserInfoResp: java.util.ArrayList response
+org.tang.exam.rest.userInfo.ContactUserInfoResp: int userType
+org.tang.exam.rest.userInfo.ContactUserInfoResp: java.lang.String sessionKey
+org.tang.exam.rest.userInfo.ContactUserInfoResp: ContactUserInfoResp()
+org.tang.exam.rest.userInfo.ContactUserInfoResp: int getMsgFlag()
+org.tang.exam.rest.userInfo.ContactUserInfoResp: void setMsgFlag(int)
+org.tang.exam.rest.userInfo.ContactUserInfoResp: java.util.ArrayList getResponse()
+org.tang.exam.rest.userInfo.ContactUserInfoResp: void setResponse(java.util.ArrayList)
+org.tang.exam.rest.userInfo.ContactUserInfoResp: int getUserType()
+org.tang.exam.rest.userInfo.ContactUserInfoResp: void setUserType(int)
+org.tang.exam.rest.userInfo.ContactUserInfoResp: java.lang.String getSessionKey()
+org.tang.exam.rest.userInfo.ContactUserInfoResp: void setSessionKey(java.lang.String)
 org.tang.exam.service.PushMessageReceiver
 org.tang.exam.service.PushMessageReceiver: PushMessageReceiver()
+org.tang.exam.view.BadgeView
+org.tang.exam.view.BadgeView: BadgeView(android.content.Context,android.util.AttributeSet)
+org.tang.exam.view.BadgeView: BadgeView(android.content.Context,android.util.AttributeSet,int)
 org.tang.exam.view.BadgeView: android.graphics.drawable.ShapeDrawable getDefaultBackground()
 org.tang.exam.view.BadgeView: android.view.View getTarget()
 org.tang.exam.view.BadgeView: int getBadgePosition()

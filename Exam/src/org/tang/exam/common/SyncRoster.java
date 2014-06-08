@@ -65,10 +65,12 @@ public class SyncRoster {
 						Log.d(TAG, "Response: " + response);
 						try {
 							UserCache userCache = UserCache.getInstance();
+							 Log.d(TAG, "userCache.getUserInfo().getUserName(): " + userCache.getUserInfo().getUserName());
 							 Gson gson = new Gson();  
 							 ContactUserInfoResp d =  gson.fromJson(response, ContactUserInfoResp.class);
-							
+							 Log.d(TAG, "ContactUserInfoResp: " + d.getSessionKey());
 							if (d.getMsgFlag()==AppConstant.contact_query_fail) {
+								Log.d(TAG, "d.getMsgFlag(): " + d.getMsgFlag());
 								taskListener.onFailure();
 								return;
 							}
@@ -79,6 +81,7 @@ public class SyncRoster {
 							}
 							taskListener.onSuccess();
 						} catch (Exception e) {
+							Log.d(TAG, "Exception: " + e);
 							taskListener.onFailure();
 						}
 					}
